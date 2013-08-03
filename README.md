@@ -1,2 +1,0 @@
-bizarro_pyramid
-===============
