@@ -1,0 +1,39 @@
+{% if 'flex' in league_info['roster'] %}
+  {% set flex = league_info['roster'] %}
+  {% set flex_num = 1 %}
+{% else %}
+  {% set flex = [] %}
+  {% set flex_num = 0 %}
+{% endif %}
+<fieldset id="roster">
+<legend>Roster</legend>
+  <fieldset id="base_pos">
+  <legend>base</legend>
+  <ul>
+  {% for pos, value in league_info['roster'].items() %}
+    {% if not pos == 'flex' %}
+    <li>
+      <label for="{{pos}}">{{pos.replace('ch', '')}}:</label>
+      <input id="{{pos}}" name="{{pos}}" value="{{value}}" type="number"/>
+    </li>
+    {% endif %}
+  {% endfor %}
+  </ul>
+  </fieldset>
+  <fieldset id="flex_pos">
+  <legend>flex</legend>
+  <label for="flex_num">num:</label>
+  <input type="number" value="{{flex_num}}" name="flex_num" id="flex_num"/>
+  <ul>
+  {% set positions = ['qb', 'rb', 'wr', 'te'] %}
+  {% for pos in positions %}
+    <li>
+    <input id="flex_{{pos}}" value="{{pos}}" name="flex" type="checkbox"
+    {% if pos in flex[0] %}checked{% endif %} />
+    <label for="flex_{{pos}}" class="check_label">{{pos}}</label>
+    </li>
+  {% endfor %}
+  </ul>
+  </fieldset>
+  
+</fieldset>

@@ -1,0 +1,24 @@
+{% extends "templates/base.jinja2" %}
+{% block title %}Teams{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="/static/css/teams/teams.css" />
+{% endblock %}
+{% block content %}
+<h1>Teams</h1>
+{% for conference, divisions in divisions|groupby('conference') %}
+    <div class='conference'>
+        <h2>{{conference[0]}}</h2>
+        {% for division in divisions %}
+            <h3>{{division}}</h3>
+            {% for team in division.teams %}
+            <ul class="division">
+                <li><a href="/{{sport}}/{{league}}/teams/{{team.abbr}}/">{{team.location}} {{team.name}}</a></li>
+                {% for team_link in team_links %}
+                <li><a href="/{{sport}}/{{league}}/teams/{{team.abbr}}/{{team_link}}/">{{team_link|replace('_',' ')}}</a></li>
+                {% endfor %}
+            </ul>
+            {% endfor %}
+        {% endfor %}
+    </div>
+{% endfor %}
+{% endblock %}

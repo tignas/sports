@@ -1,0 +1,35 @@
+{% extends "templates/teams/base.jinja2" %}
+{% block title %}Roster - {{team}}{% endblock %}
+{% block team_content %}
+<table>
+<thead>
+    <tr>
+        <th>Player</th>
+        <th>Position</th>
+        <th>Number</th>
+        <th>Height</th>
+        <th>Weight</th>
+        <th>Age</th>
+        <th>College</th>
+    </tr>
+</thead>
+<tbody>
+    {% for player in players %}
+    <tr>
+    <td><a href="/{{sport}}/{{league}}/players/player/{{player.id}}/{{player.person.names[0]|lower|replace(' ', '+')}}/">{{player.person.names[0]}}</a>
+    </td>
+    <td>{{player.position_string()}}</td>
+    <td>{{player.number[0]}}</td>
+    
+    <td>{{player.person.height_weight.feet_inches()}}</td>
+    
+    <td>{{player.person.height_weight.weight}}</td>
+    
+    <td></td>
+    <td>{{player.person.college[0]}}</td>
+    </tr>
+    
+    {% endfor %}
+</tbody>
+</table>
+{% endblock %}

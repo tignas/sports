@@ -1,0 +1,30 @@
+{% extends "templates/league/stats.jinja2" %}
+
+{% block stat_table %}
+<table>
+    <thead>
+        <tr>
+        {% for cat in base_cats %}
+            <th>{{cat}}</th>
+        {% endfor %}
+        {% for cat, abbr in cats %}
+            <th title="{{cat.replace('_', ' ')}}">{{abbr}}</td>
+        {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in players %}
+        <tr>
+            <td>{{loop.index}}</td>
+            <td><a href="{{p['Player'].url()}}">{{p['Player'].person}}</a></td>
+            <td><a href="{{p['Player'].team.url()}}">{{p.Player.team.abbr}}</a></td>
+            <td>{{p.Player.position_string()}}</td>
+            <td>{{p['gp']}}</td>
+            {% for stat in p['stats'] %}
+            <td>{{stat}}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

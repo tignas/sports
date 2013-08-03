@@ -1,0 +1,38 @@
+{% extends "templates/base.jinja2" %}
+{% block title %}
+{{game.away_team.abbr}}@{{game.home_team.abbr}}
+{% endblock %}
+{% block content %}
+<h1><a href="{{game.away_team.url()}}">{{game.away_team}}</a> @ <a href="{{game.home_team.url()}}">{{game.home_team}}</a></h1>
+<h2><a target="_blank" href="http://espn.go.com/nfl/boxscore?gameId={{game.espn_id.external_id}}">Espn Boxscore</a></h2>
+<h2>{{game.game_time.strftime('%B %d, %Y - %I:%M%p').replace(' 0', ' ')}}</h2>
+
+<h3>{{game.venue[0]}}</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Team</th>
+        {% for period in range(0, game.num_periods()) %}
+        <th>{{period + 1}}</th>
+        {% endfor %}
+        <th>Totol</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><a href="{{game.away_team.url()}}">{{game.away_team.abbr}}</a></td>            
+            {% for score in game.away_scores %}
+            <td>{{score.score}}</td>
+            {% endfor %}
+            <td>{{game.away_score}}</td>
+        </tr>
+        <tr>
+            <td><a href="{{game.home_team.url()}}">{{game.home_team.abbr}}</a></td>            
+            {% for score in game.home_scores %}
+            <td>{{score.score}}</td>
+            {% endfor %}
+            <td>{{game.home_score}}</td>
+        </tr>
+    </tbody>
+</table>
+

@@ -1,0 +1,10 @@
+{% extends "templates/league/base.jinja2" %}
+
+{% block league_content %}
+<ol>
+{% for team in rankings %}
+<li>{{team}}</li>
+{% endfor %}
+</ol>
+{% endblock %}
+

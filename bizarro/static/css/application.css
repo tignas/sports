@@ -1,0 +1,452 @@
+body {
+    background-image: url('/static/images/football.jpg');
+    width: 1150px;
+    padding: 5px 0;
+}
+#container {
+border: none;
+    background-color: rgba(239, 252, 188, 0.6);
+}
+#container *, #status, #chat, #draft_order, #draft_info, #results {
+    background-color: white;
+}
+th {
+font-weight: bold;
+}
+#status, #draft_order, #draft_info {
+    height: 50px;
+    margin-bottom: 10px;
+}
+#status {
+    width: 90px;
+    float: left;
+    margin-right: 10px;
+    padding: 0 5px 0 5px;
+    text-transform: uppercase;
+}
+#status * {
+    font-size: 15px;
+    text-align: center;
+}
+#round {
+    line-height: 0;
+    margin-top: 15px;
+   
+}
+#timer {
+    width: 100%;
+    margin-top: 10px;
+}
+#timer span {
+    font-size: 20px;
+}
+#draft_order {
+    padding: 0 5px 0 5px;
+    float: left;
+    width: 920px;
+    margin-right: 10px;
+}
+.draft_slot {
+    color: blue;
+}
+.drafter_name {
+    text-align: center;
+}
+.bx-window {
+    position: relative; 
+    overflow: hidden; 
+    float: left;
+}		
+#draft_order ul { 
+    margin-top: 10px;   
+    position: relative;
+    float: left;
+}
+#draft_order ul li {    
+    border: 1px solid purple;
+    width: 135px;
+    border-radius: 2px;
+    padding: 5px;
+}
+#draft_order ul a, a:visited {
+    text-decoration: none;
+    color: green;
+}
+#draft_order ul a:hover{
+}
+#draft_order * {
+    font-size: 20px;
+}
+.draft_order_slider {
+    float: left;
+}
+.bx-prev, .bx-next {
+    position: absolute;
+    margin-left: 5px; 
+}
+.bx-prev {
+    margin-top: 5px;
+}
+.bx-next {
+    margin-top: 25px;
+}
+.bx-next:hover img, .bx-prev:hover img{
+    opacity: 0.5;
+}
+.bx-window {
+}
+#draft_info {
+    padding: 0 5px 0 5px;
+    float: right;
+    width: 70px;
+}
+#draft_info dl {
+    margin-top: 0px;
+}
+#draft_info dt {
+    float: left;
+    margin-right: 10px;
+font-weight: bold;
+}
+#draft_info dd{
+}
+#draft_info * {
+    font-size: 10px;
+    line-height: 12px;
+} 
+
+#draft_button_container{
+    float: left;
+    margin-right: 20px;
+    width: 170px;
+    padding: 0px 10px 0 10px;
+    text-align: center;
+    margin-right: 10px;
+}
+#draft_button_container h2 {
+    font-size: 20px;
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+
+#draft_button_container label, #draft_button_container select {
+    font-size: 15px;
+    margin: 0 auto;
+}
+#draft_positions {
+    border: 1px solid gray;
+}
+#draft_button_container label {
+margin-right: 10px;
+}
+.draft_button {
+    margin: 0 auto;
+    margin-top: 30px;
+    height: 60px;
+    width: 150px;
+    background-color: green !important;
+}
+.draft_button:hover {
+    cursor: pointer;
+    background-color: blue !important;
+}
+#player_info {
+    width: 500px;
+    float: left;
+    margin-right: 10px;
+    overflow-y: scroll;
+}
+#selected_player {
+    font-size: 12px;
+    float: left;
+    width: 190px;
+    padding: 0 5px 0 5px;
+    overflow: hidden;
+    
+}
+#selected_player dl {
+    margin: 10px 0 0 5px;
+    float: left;
+}
+#selected_player dl dt {
+    clear: left;
+    float: left;
+    width: 50px;
+    margin-right: 10px;
+margin-bottom: 7px;
+font-weight: bold;
+}
+#selected_player dl dd {
+    float: left;
+    margin-left: 0;
+}
+#stat_tabs{
+    font-size: 10px;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+#stat_tabs table {
+    width: 460px;
+    border-collapse: separate;
+    border-spacing: 0px 4px;
+}
+#stat_tabs table th {
+    text-align: left;
+    width: 80px;
+    font-size: 12px;
+    background-color: grey;
+}
+#stat_tabs table td {
+    font-size: 11px;
+    padding: 2px;
+}
+#stat_tabs table tr {
+    padding: 5px;
+}
+#stat_tabs table tr.parent td {
+    background-color: #93D7A4;
+}
+#stat_tabs table tr.child td {
+    background-color: yellow;
+}
+#stat_tabs table tr.child td {
+    text-align: right;
+}
+.ui-state-default{
+    font-size: 11px;
+}
+
+#selected_player, #player_info, #draft_button_container{
+    height: 200px;
+    margin-bottom: 10px;
+}
+#player_tabs {
+    position: relative;
+    float: left;
+    margin-right: 10px;
+    width: 700px;
+}
+#player_tabs input{
+    width: 100px;
+}
+#stat_seasons {
+    float: right;
+}
+#player_tabs select {
+    border: 1px solid gray;
+    margin-left: 10px;
+}
+#player_tabs table {
+    font-size: 11px;
+}
+.dataTables_scrollHead, .dataTables_scrollBody {
+    float: left;
+}
+.dataTables_scrollHead {
+    padding-top: 10px !important;
+    border-top: 1px solid gray !important;
+}
+#player_tabs ul {
+    float: left;
+}
+#player_tabs ul, #stat_seasons{
+    height: 25px;
+    margin-top: 5px;
+}
+#player_tabs ul li {
+    float: left;
+    width: 150px;
+    text-align: center;
+    border: 1px solid gray;
+    border-radius: 5px 5px 0 0;
+    border-bottom: 0;
+    padding: 5px;
+}
+#player_tabs ul li a {
+    text-decoration: none;
+}
+
+#player_tabs table {
+display: table;
+
+}
+.dataTable {
+display: table;
+}
+#player_tabs table thead {
+
+}
+.player_tab.selected {
+}
+#player_tabs table tbody tr:active td {
+    cursor: move;
+}
+#player_tabs {
+}
+#watch_list {
+    font-size: 12px;
+    position: relative;
+    float: left;
+    width: 200px;
+    height: 268px;
+}
+#watch_list h2 {
+    font-size: 14px;
+    text-align: center;
+}
+#watch_list {
+}
+
+#watch_list table thead tr:first-child , #player_tabs table thead tr:first-child {
+    text-align: center;
+    font-weight: normal;
+    background-color: gray;
+}
+#watch_list table thead tr:last-child, #player_tabs table thead tr:last-child {
+    background-color: white;
+}
+#watch_list table tbody tr td, #player_tabs table tbody tr td{
+    background-color: #eee;
+    padding: 5px;
+}
+#watch_list table tbody tr:nth-child(even) td, #player_tabs table tbody tr:nth-child(even) td{
+    background-color: white;
+}
+#watch_list table tbody tr:hover td, #player_tabs table tbody tr:hover td{
+    background-color: yellow;
+    cursor: pointer;
+}
+#watch_list h2 {
+margin-top: 10px;
+margin-bottom: 10px;
+}
+#watch_list table {
+    margin: auto;
+    margin-top: 5px;
+}
+#watch_list table th {
+font-weight: bold;
+text-align: center;
+background-color: #eee;
+line-height: 20px;
+}
+#watch_list table td {
+text-align: left;
+}
+#watch_list .name {
+width: 117px;
+}
+#watch_list .team {
+width: 30px;
+}
+#watch_list .pos {
+width: 30px;
+}
+#watch_list .close {
+width: 18px;
+}
+.close_button {
+    background-color: orange !important;
+}
+#results {
+    position: relative;
+    float: right;
+    width: 200px;
+    font-size: 11px;
+    padding: 5px;
+    height: 468px;
+    overflow-y: auto;
+}
+#results label, #results select {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    height: 20px;
+}
+#results label{
+float: left;
+font-weight: bold;
+font-size: 18px;
+}
+#results select{
+    float: right;
+    margin-left: 15px;
+    width: 100px;
+    padding: 0;
+    border: 1px solid gray;
+}
+#results table{
+}
+#results table th {
+background-color: #eee;
+text-align: left;
+line-height: 20px;
+}
+
+#results table th:nth-child(2) {
+width: 100px;
+}
+#results table th:nth-child(3) {
+width: 40px;
+}
+#results table th:nth-child(4) {
+width: 25px;
+}
+#results table td {
+line-height: 20px;
+}
+#chat {
+    float: left;
+    margin-top: 10px;
+    width: 400px;
+    height: 175px;
+    padding: 10px;
+}
+#chat h2 {
+font-size: 20px;
+font-weight: bold;
+text-align: center;
+}
+#chat h3 {
+font-weight: bold;
+font-size: 13px;
+margin-bottom: 10px;
+}
+#chat_messages ul {
+margin-top: 5px;
+margin-left: 5%;
+float: left;
+width: 95%;
+list-style: square;
+}
+#chat_messages ul li {
+font-size: 14px;
+margin-bottom: 2px;
+}
+#chat h3:last-child {
+color: purple;
+margin-top: 20px;
+}
+#chat_messages {
+border: 1px solid black;
+height: 100px;
+width: 100%;
+margin-bottom: 20px;
+}
+#chat input{
+width: 75%;
+margin-right: 3%;
+}
+#chat button {
+font-size: 12px;
+width: 20%;
+}
+
+
+
+
+
+
+
+

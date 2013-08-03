@@ -1,0 +1,114 @@
+{% extends "templates/base.jinja2" %}
+{% block title %}shots{% endblock %}
+{% block head %}
+<script src="/static/vendor/d3.min.js" type="text/javascript"></script>
+<script src="/static/vendor/canvasXpress.js" type="text/javascript"></script>
+<script src="/static/js/shots.js" type="text/javascript"></script>
+<link rel="stylesheet" href="/static/css/shots.css"/>
+{% endblock %}
+{% block content %}
+<div id="option">
+<label for="period">Period</label>
+<select id="period">
+    <option value="-1">All</option>
+    {% for period, other in shot_cords|groupby('shot.period') %}
+    <option value="{{period}}">{{period}}</option>
+    {% endfor %}
+</select>
+</div>
+<div id="shot_chart">
+</div>
+<canvas id="canvas" width="1000" height="1000">
+</canvas>
+<script>
+$(document).ready(function() {
+var multiplier = 11;
+var shot_radius = 4;
+//draw_half_court(multiplier);
+//Shot data
+var shot_data = {{json_shots|safe}};
+var team_id = -1;
+var shooter_id = -1;
+var period = -1;
+shot_data = shot_data.filter(function(shot) {
+    if (shot.y > 50) {
+        shot.y = 94 - shot.y
+        shot.x = 50- shot.x
+    }
+    return shot;
+});
+var frequency_shots = {}
+for (shot in shot_data) {
+    shot = shot_data[shot]
+    var tag = '' + shot.x + ',' + shot.y;
+    if (!frequency_shots[tag]) {
+        frequency_shots[tag] = []
+    }
+    frequency_shots[tag].push(shot)
+}
+var shot_objects = []
+for (shot_cord in frequency_shots) {
+    var shots = frequency_shots[shot_cord]
+    var shot = {}
+    shot.x = shots[0].x
+    shot.y = shots[0].y
+    makes = 0
+    misses = 0
+    for (a in shots) {
+        if (shots[a].make) {
+            makes += 1;
+        } else {
+            misses += 1;
+        }
+    }
+    shot.makes = makes
+    shot.misses = misses
+    shot.shots = shots
+    shot.points = shot.shots[0].points
+    shot_objects.push(shot)
+}
+//initial data
+//draw_frequency_shots(shot_objects, multiplier);
+
+var variables = []
+var data = []
+for (shot in shot_objects) {
+    var shot = shot_objects[shot]
+    var frequency = shot.shots.length
+    variables.push('shot_loc_' + shot.x + '_' + shot.y)
+    var x = shot.x
+    var y = shot.y
+    var shot_info = [x, y, frequency]
+    data.push(shot_info)
+}
+console.log(data)
+var canvasx = new CanvasXpress("canvas", {
+                  "y": {
+                    "vars": variables,
+                    "smps": [
+                      "X",
+                      "Y",
+                      "Frequency"
+                    ],
+                    "desc": [
+                      "Intensity"
+                    ],
+                    "data": data
+                  }
+                }, {
+                  "graphType": "Scatter3D",
+                  "xAxis": [
+                    "Y"
+                  ],
+                  "yAxis": [
+                    "Frequency"
+                  ],
+                  "zAxis": [
+                    "X"
+                  ],
+                  "scatterType": "bar",
+                  "bar3DInverseWeight": 2
+                })
+});
+</script>
+{% endblock %}

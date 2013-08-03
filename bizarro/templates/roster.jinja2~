@@ -1,0 +1,39 @@
+{% extends "templates/base_team.jinja2" %}
+{% block title %}Roster - {{team}}{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="/static/css/teams/teams.css" />
+{% endblock %}
+{% block team_content %}
+<h1>Roster</h1>
+<table>
+<thead>
+    <tr>
+        <th>Player</th>
+        <th>Position</th>
+        <th>Number</th>
+        <th>Height</th>
+        <th>Weight</th>
+        <th>Age</th>
+        <th>College</th>
+    </tr>
+</thead>
+<tbody>
+    {% for player in players %}
+    <tr>
+    <td>{{player.player.person.name}}</td>
+    <td>
+        {% for position in player.player.positions %}
+            {{position.abbr|upper}}
+        {% endfor %}
+    </td>
+    <td>{{player.number.number}}</td>
+    <td>{{player.player.person.height_weight.height//12}}'
+    {{player.player.person.height_weight.height%12}}"</td>
+    <td>{{player.player.person.height_weight.weight}}</td>
+    <td></td>
+    <td>{{player.player.person.college.name}}</td>
+    </tr>
+    {% endfor %}
+</table>
+</tbody>
+{% endblock %}

@@ -1,0 +1,209 @@
+@import "side_nav";
+@import "colors";
+@import "fonts";
+
+$width: 1100px;
+
+body {
+    background-image: url('/static/images/turf.gif');
+}
+#wrap {            
+    width: $width;
+    margin: 0 auto;
+}
+#container {
+    float: left;
+    background-color: white;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: -10px;
+}
+#content, #top, header, footer {
+    width: $width;
+}
+a {
+    text-decoration: none;
+    color: $red_2;
+    &:hover {color: $green_3;}
+    &:visited {color: $red_2;}
+}
+p {
+    font-size: 14px;
+    font-family: serif;
+}
+#messages {
+    float:left;
+}
+#sports_nav {
+    float: left;
+    margin-top: 10px;
+    ul {
+        float: left;
+        li {
+            float: left;
+            margin-right: 25px;
+            a {
+                font-family: $sans_serif;
+                color: white;
+            }
+        }
+    }
+}
+#user_stuff {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    float: right;
+    font-size: 15px;
+    text-transform: lowercase;
+    p {    
+        font-family: $sans_serif;
+        a {
+            color: white;
+        }
+    }
+}
+header {
+    padding-top: 5px;
+    float: left;
+    border-bottom: 1px solid $green_2;
+    #logo, #nav {
+        margin-top: 5px;
+        line-height: 15px;        
+        margin-bottom: 5px;
+    }
+    #logo p{
+        font-size: 25px;
+        float: left;        
+        text-transform: lowerrcase;
+        margin-bottom: 10px;
+        font-weight: bold;
+        #bizarro {
+            color: $red_1;
+            font-family: $special_1;}
+        #sports {
+            font-family: Arimo;
+            color: darken($green_2, 10%);}
+    }
+    #nav {
+        margin-top: 10px;
+        line-height: 10px;
+        font-family: $sans_serif;
+        font-size: 18px;
+        text-transform: lowercase;
+        float: right;
+        ul li {
+            float: left;
+            margin-left: 75px;
+        a, a:visited {
+            color: $green_1;
+            }
+        a:hover {
+            color: $red_2;
+            }         
+        .active{
+            font-weight: bold;
+            border-bottom: 1px solid $green_1;
+            }        
+        }        
+    }
+}
+#content {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    clear: left;
+    h1 {
+        font-size: 24px;
+        font-family: $serif;
+        color: $green_1;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+    h2 {
+        font-size: 18px;
+        font-family: $sans_serif;
+        color: lighten($green_1, 20%);;
+        font-weight: bold;
+        margin-bottom: 12px;
+    }
+    h3 {
+        font-family: $serif;
+        font-size: 14px;
+        text-transform: capitalize;
+        margin-bottom: 5px;
+    }
+    p {
+        font-family: $serif;
+        a {
+            font-weight: bold;
+            color: $blue;
+        }
+        a:hover {
+            color: $green_2;
+        }
+    }
+    table {
+        font-family: $sans_serif;
+        margin-bottom: 20px;
+        th {      
+            font-size: 14px;
+            padding: 5px 10px;
+            border: 1px solid $green_1;
+            font-weight: bold;
+            background-color: lighten(#D8472C, 10%);
+            color: $black;            
+        }
+        td {
+            font-size: 13px;
+            padding: 5px 10px;
+            border: 1px dotted $green_1;
+            a {
+                color: $blue;
+            }
+            a:hover {
+                color: $green_2;
+            }
+        }
+        tr:nth-child(odd){
+            background-color: $pink;
+        }
+        tr:last-child{
+        }
+    }
+}
+#side_nav {
+    float: right;
+    clear: both;
+    ul {
+        li {
+            float: left;
+        }
+    }
+}
+footer {
+    float: left;
+    text-align: center;
+    margin-top: 5px;
+    font-size: 12px;
+    text-transform: lowercase;
+    font-family: $sans_serif;
+    ul {
+        margin-left: 10px;
+        }
+    ul li{ 
+        margin-right: 30px;
+        float: left;
+        a {
+            color: $pink;
+            }
+    }
+}
+input[type=number] {
+    width: 50px;
+}
+
+
+
+
+
+
+

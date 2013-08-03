@@ -1,0 +1,191 @@
+@import url(http://fonts.googleapis.com/css?family=Karla|Habibi|Arimo|Questrial|Princess+Sofia);
+
+$black: #070706;
+$blue: #293D66;
+$red_1: #A63E2A;
+$red_2: #BF432E;
+$red_3: #D8472C;
+$green_1: #1E260B;
+$green_2: #5A7321;    
+$green_3: #7AA622;
+$green_4: #A7BF70;    
+$pink: #EDE1D7;
+$serif: Habibi;
+$sans_serif: Questrial;
+$special_1: Princess Sofia;
+
+$width: 1100px;
+
+a {
+    text-decoration: none;
+    color: $red_2;
+    &:hover {color: $green_3;}
+    &:visited {color: $red_2;}
+}
+
+body {
+    padding: 20px;
+}
+
+
+h1 {
+    font-size: 24px;
+    font-family: $serif;
+    color: $green_1;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+h2 {
+    font-size: 18px;
+    font-family: $sans_serif;
+    color: lighten($green_1, 20%);
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+h3 {
+    font-family: $serif;
+    font-size: 14px;
+    text-transform: capitalize;
+    margin-bottom: 5px;
+}
+
+#players {
+    float: left;
+    table {
+        font-family: $sans_serif;
+        margin-bottom: 20px;
+        th {      
+            font-size: 14px;
+            padding: 5px 10px;
+            border: 1px solid $green_1;
+            font-weight: bold;
+            background-color: lighten(#D8472C, 10%);
+            color: $black;            
+        }
+        td {
+            font-size: 13px;
+            padding: 5px 10px;
+            border: 1px dotted $green_1;
+            a {
+                color: $blue;
+            }
+            a:hover {
+                color: $green_2;
+            }
+        }
+        tr:nth-child(odd){
+            background-color: $pink;
+        }
+        tr:last-child{
+        }
+    }
+}
+
+#options {
+    float: left;
+    padding-right: 20px;
+    margin-right: 20px;
+    border-right: 1px dotted $black;
+    font-family: $sans_serif;
+    font-size: 14px;
+    #source {
+        float: left;
+    }
+    input[type=submit] {
+        border: none;
+        background-color: $pink;
+        width: 150px;
+        padding: 3px;
+        border: 1px solid $green_2;
+        border-radius: 2px;
+        font-family: $sans_serif;
+        color: $blue;
+        font-weight: bold;
+        &:hover {
+            background-color: darken($pink, 5%);
+        }
+        &:active {
+            background-color: darken($pink, 20%);
+        }
+    }
+    fieldset {
+        margin-top: 10px;
+        padding-bottom: 5px;
+        border-bottom: 1px dotted $black;
+        ul {
+            li {
+                float: left;
+                clear: left;
+                margin: 3px 0;
+            }
+        }
+        legend {
+            font-family: $serif;
+            color: $green_2;
+            margin-bottom: 10px;
+        }
+        label {
+            font-family: $sans_serif;
+            font-size: 14px;
+            color: $blue;
+            text-align: right;
+            margin-right: 10px;
+            float: left;
+            width: 100px;
+            text-align: right;
+            margin-top: 3px;
+        }
+        fieldset {
+            border: none;
+            padding: 0;
+            margin: 0;
+            margin-left: 15px;
+            border-bottom: 1px dotted $green_4;
+            margin-bottom: 5px;
+            legend {
+                font-family: $serif;
+                font-size: 14px;
+                color: $black;
+                margin-bottom: 0px;
+                text-align: left;
+            }
+        }
+    }
+    #flex {
+        fieldset {
+            margin-bottom: 5px;
+        }
+        input[type=number] {
+            width: 30px;
+            margin: 0;
+        }
+        ul {
+            li {
+                margin: 0;
+            }
+        }
+    }
+}
+
+label #hello {
+    width: 250px;
+    text-align: left;
+    margin-left: 15px;
+    font-size: 100px;
+}
+
+input[type=number] {
+    width: 50px;
+    padding: 3px;
+    border: 1px dotted $black;
+    font-family: $sans_serif;
+    text-align: right;
+}
+input[type=checkbox] {
+    font-size: 100px;
+}
+
+
+
+
+

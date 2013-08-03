@@ -1,0 +1,103 @@
+1. Approximate Value
+Credits=(Points)+(Rebounds)+(Assists)+(Steal)+(Blocks)-(Field Goals Missed)-(Free Throws Missed)-(Turnovers)
+AV= (Credits(3/4) )/21
+
+2.Assist Percentage
+100*Assists/(((Minutes Played /(Team Minutes/5)) * Team Field Goals Made) - Field Goals Made)
+
+3. Diamond Rating
+Diamond Rating Formula=(Per Minute Rating)*40-(Per Minute Rating)*(Minutes Per Game)+[(Per Minute Rating)-(League's Per Minute Rating)]*40
+
+4. Game Score
+Game Score Formula =(Points)+0.4*(Field Goals Made)+0.7*(Offensive Rebounds)+0.3*(Defensive rebounds)+(Steals)+0.7*(Assists)+0.7*(Blocked Shots)- 0.7*(Field Goal Attempts)-0.4*(Free Throws Missed) - 0.4*(Personal Fouls)-(Turnovers)
+
+5. Individual Floor Percentage FormulaIndividual Floor Percentage Forumla=100*(Player's Scoring Possessions)/(Player's Total Possessions)
+
+6. NBA Efficiency Formula
+NBA Efficiency Formula = (Points)+(Rebounds)+(Steals)+(Assists)+(Blocked Shots)-(Turnovers)-(Missed Shots)
+
+7. Net Points
+Net Points=(Points Produced)-(Points Allowed)
+
+8. Points Allowed
+Points Allowed=[(DefensiveRating/100)*(.2*{(MinutesPlayed/(TeamMinutes/5)}*TeamPossession))]
+
+9. Players Non Scoring Possessions
+Non-Scoring Possessions Formula=(Player's Field Goal Attempts)-Player's Field Goal Made)+0.4*(Free Throw Attempts)+(Player's Turnovers)
+
+10. Scoring Possessions Formula
+Scoring Possessions Formula=(Field Goals Made) - 0.37*(Field Goals Made)*Q/R + 0.37*(Player Assists) + 0.5*(Free Throws Made)
+
+Q=5*(Player Minutes)*(Team Assist Total)/(Team Total Minutes)-(Player Assists) 
+R=5*(Player Minutes)*(Team Field Goals Made)/(Team Minutes)-(Player Assists)
+
+11. Players Total Possessions
+Player's Total Possessions Formula=(Player's Scoring Possessions)+(Player's Non-Scoring Possessions)=(Player Field Goal Attempts)-(Player Missed Shots)*(Team Offensive Rebounding Percentage)+0.37*(Player Assists)-0.37*(Field Goals Made)*Q/R+(Player Turnovers)+0.4*(Player Free Throw Attempts)
+Q=5*(Player Minutes)*(Team Assist Total)/(Team Total Minutes)-(Player Assists) 
+R=5*(Player Minutes)*(Team Field Goals Made)/(Team Minutes)-(Player Assists)
+
+12. Points Created
+Points Created= PTS + AST * (2-VBP) + (REB + STL + BLK) * VBP -(FGMiss + FTMiss + TOV) * VBP – 0.5 * VBP * PF 
+VBP = the value of ball possession is league’s average points per 100 possessions.
+
+13.Win Score
+PAWS=Position Adjusted Win Score=[(PAWS48/48)*Minutes]
+
+PAWS48 =PAWS per 48 minutes=[WS48 – Average WS48 at primary position played]
+
+WS48 =Win Score per 48 minutes
+
+14. Total Rebound Percentage
+Total Rebound Percentage=100*(Total Rebounds*(Team Minutes Played/5))/(Minutes Played*(Team Total Rebounds + Opponent Team's Total Rebounds))
+
+15. Seasons Left Formula
+Seasons Left Formula=27-0.75*(Age of The Player) 
+
+16. Steal PCT
+Steal Percentage=100*(Steals*(Team Minuted Played/5))/(Minuted Played*Opponent's Possessions)
+
+17. Tendex Formula
+The Tendex Formula=[(Points)+(Rebounds)+(Assists)+(Steals)+(Blocks)- (Missed Field Goal Attempts)-0.5*(Missed Free Throws)-(Turnovers)-(Fouls)]/(Player's Minutes)
+
+18. Touches
+Touches=Field Goal Attempts + Turnovers + (Free Throw Attempts / (Team's Free Throw Attempts/Opponents Personal Fouls)) + (Assists/0.17)
+
+%Pass = 100 * (AST / 0.17) / Touches. The percentage of a player's touches that ended with him passing to a teammate in an attacking position on the floor.
+%Shoot = 100 * FGA / Touches. The percentage of a player's touches that ended with him taking a shot and not being fouled in the act.
+%Fouled= 100 * (FTA / (Tm FTA / Opp PF)) / Touches. The percentage of a player's touches that ended with him drawing a foul.
+%TO = 100 * Turnovers / Touches. The percentage of a player's touches that ended with him turning the ball over.
+
+19. Trade Value
+Trade Value Formula=[(Approximate Value- 27-0.75*Age )^2( 27-0.75*Age +1)*Approximate Value]/190+(Approximate Value)*2/13
+
+20. TS PCT
+True Shooting Percentage Formula=(Player's Total Points)/[(2*(Player's Field Goal Attempts+ 0.44*Player's Free Throw Attempts)]
+
+21. Usage PCT
+Usage Percentage Formula=100*[(Team Minutes)/(5*(Player Minutes))]*[(Field Goal Attempts)+0.44*(Free Throw Attempts)+(Turnovers)/[(Team Field Goal Attempts)+0.44*(Team Free Throw Attempts)+Team Turnovers)]
+
+22. Versatility Index
+Versatility Index Formula=[(PPG)*(RPG)*APG)]^(0.333)
+
+23. Win Score Formula
+Win Score Formula=(Points)+(Rebounds)+(Steals)+(½Assists)+(½Blocked Shots)-(Field Goal Attempts)-(Turnovers)-½(Free Throw Attempts)-½Personal Fouls
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

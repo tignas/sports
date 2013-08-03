@@ -1,0 +1,28 @@
+{% extends "templates/league/base.jinja2" %}
+{% block extrahead %}
+    <link rel="stylesheet" href="/static/css/league/{{page}}.css"/>
+{% endblock %}
+
+{% block league_content %}
+{% for date, day_games in games %}
+<table>
+    <thead>
+        <tr>
+            <th>{{date}}</th>
+            <th>Score</th>
+            <th>Attendance</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for game in day_games %}
+        <tr>
+            <td><a href="{{game.url()}}">{{game.away_team.abbr}}@{{game.home_team.abbr}}</a></td>
+            <td>{{game.home_score}}-{{game.away_score}}</td>
+            <td>{{game.attendance or 0}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endfor %}
+{% endblock %}
+

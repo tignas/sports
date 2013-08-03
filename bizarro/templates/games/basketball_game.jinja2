@@ -1,0 +1,69 @@
+{% set stat_abbrs = ['MIN', 'FGM-A', 'FTM-A', '3PTM-A', 'OREB', 'DREB', 'REB', 
+                     'AST', 'STL', 'BLK', 'TO', 'PF', 'PTS', '+/-'] %}
+                     
+{% set total_cats = ['offensive_rebounds', 'defensive_rebounds', 'rebounds', 
+                     'assists', 'steals', 'blocks', 'turnovers', 
+                     'personal_fouls', 'points'] %}
+
+{% set stat_cats = total_cats + ['plus_minus'] %}
+
+{% for team in [game.away_team, game.home_team] %}
+    <h2>{{team}}</h2>
+    <table>
+        {% for player_type in ['starter', 'bench'] %}
+        <thead>
+            <tr>
+                <th>{{player_type}}</th>
+                {% for stat_abbr in stat_abbrs %}
+                <th>{{stat_abbr}}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for stat in stats[team][player_type] %}
+            <tr class='{{player_type}}'>
+                <td><a href="{{stat.player.url()}}">{{stat.player.person}}</a> - {{stat.player.position_string()}}</td>
+                <td>{{stat.minutes}}</td>
+                <td>{{stat.field_goals_made}}-{{stat.field_goals_attempted}}</td>
+                <td>{{stat.free_throws_made}}-{{stat.free_throws_attempted}}</td>
+                <td>{{stat.threes_made}}-{{stat.threes_attempted}}</td>
+                {% for stat_cat in stat_cats %}
+                <td>{{stat[stat_cat]}}</td>
+                {% endfor %} 
+            </tr>
+            {% endfor %}
+        </tbody>
+        {% endfor %}
+        <tbody>
+            {% for stat in stats[team]['dnp'] %}
+            <tr class='{{dnp}}'>
+                <td><a href="{{stat.player.url()}}">{{stat.player.person}}</a> - {{stat.player.position_string()}}</td>
+                <td colspan="14">DNP - {{stat.dnp.reason}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>     
+        <tfoot>
+            {% if team == team_stats[0].team %}
+                {% set team_stat = team_stats[0] %}
+            {% else %}
+                {% set team_stat = team_stats[1] %}
+            {% endif %}
+            <tr>                
+                <td><strong>Totals</td>
+                <td></td>
+                <td>{{team_stat.field_goals_made}}-{{team_stat.field_goals_attempted}}</td>
+                <td>{{team_stat.free_throws_made}}-{{team_stat.free_throws_attempted}}</td>
+                <td>{{team_stat.threes_made}}-{{team_stat.threes_attempted}}</td>
+                {% for total_cat in total_cats %}
+                <td>{{team_stat[total_cat]}}</td>
+                {% endfor %} 
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+{% endfor %}
+<ul>
+{% for official in officials %}
+    <li>{{official}}</li>
+{% endfor %}
+</ul>

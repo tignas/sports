@@ -1,0 +1,28 @@
+<table>
+<thead>
+    <tr>
+        <th>Date</th>
+        {% for full, abbr in prefix_map[stat_type] %}
+            <th title="{{full}}">{{abbr}}</td>
+        {% endfor %}
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td>Total</td>
+        {% for full, abbr in prefix_map[stat_type] %}
+        <td>{{totals['' + stat_type + '_' + abbr]}}</td>
+        {% endfor %}
+    </tr>
+    {% for stat in stats['games'] %}
+    <tr>
+        <td><a href="{{stat.game.url()}}">{{stat.game.game_time.strftime('%m/%d/%y')}}</a></td>
+        {% for full, abbr in prefix_map[stat_type] %}
+        <td>{{stat[full]}}</td>
+        {% endfor %}   
+    </tr>
+    {% endfor %}
+    {% set totals = stats['totals']._asdict() %}
+    
+</tbody>
+</table>

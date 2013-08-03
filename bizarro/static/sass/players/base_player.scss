@@ -1,0 +1,114 @@
+@import "../colors";
+@import "../fonts";
+@import "../side_nav";
+
+#player {
+    float: left;
+}
+#player_header {
+    float: left;
+    margin-bottom: 15px;
+    #player_pic {
+        float: left;
+        border: 1px solid $blue;
+        width: 120px;
+        height: 120px;
+        margin-right: 20px;
+    }
+    #player_info {
+        float: left;    
+    }    
+}
+
+#twitter {    
+    float: right;
+    height: 300px;
+    width: 500px;
+    border: 1px solid $blue;
+    overflow-y: scroll;
+    h1 {
+        border-bottom: 1px solid $green_1;
+        font-size: 25px;
+        img {
+            margin-top: 5px;
+            heigth: 25px;
+            width: 25px;
+            margin-right: 20px;
+        }
+    }
+    .tweet {
+        float: left;
+        width: 460px;
+        border-top: 1px dotted $green_2;
+        padding: 10px;
+        .avatar {
+            float: left;
+        }
+        .twitter_time {
+            float: right;
+        }
+        .twitter_user_info {
+            float: left;
+            margin-left: 10px;
+            .user_name {
+                font-size: 20px;
+                font-family: $sans_serif;
+                color: $blue;
+            }
+            .user_handle {
+            }
+        }
+        .twitter_text {
+            float: left;
+            clear: left;
+        }
+        .retweet, .reply, .favorite {
+            float: left;
+            font-size: 12px;
+            font-family: $sans_serif;
+            text-transform: lowercase;
+            margin-top: 10px;
+            height: 15px;
+            text-align: right;
+            padding-left: 20px;
+            color: $red_1;
+        }
+        .reply, .retweet {
+            margin-right: 45px;
+        }
+        .reply {
+            clear: left;
+            margin-left: 45px;
+            background-image: url('../../images/twitter/reply_1.png');
+            background-repeat: no-repeat;
+            background-position: 0 -3px;
+        }
+        .reply:hover {
+            background-image: url('../../images/twitter/reply_2.png');
+            background-repeat: no-repeat;
+            background-position: 0 -3px;
+        }
+        .retweet {            
+            background-image: url('../../images/twitter/retweet_1.png');            
+            background-repeat: no-repeat;
+            background-position: 0 -3px;
+        }
+        .retweet:hover {
+            background-image: url('../../images/twitter/retweet_2.png');            
+            background-repeat: no-repeat; 
+            background-position: 0 -3px;           
+        }
+        .favorite {
+            background-image: url('../../images/twitter/favorite_1.png');
+            background-repeat: no-repeat;
+            background-position: 0 -3px;            
+        }
+        .favorite:hover {
+            background-image: url('../../images/twitter/favorite_2.png');
+            background-repeat: no-repeat;
+            background-position: 0 -3px;         
+        }
+    }
+    
+    
+}

@@ -1,0 +1,41 @@
+1. Filter
+    a) equals
+            query.filter(User.name == 'ed')
+            
+    b) not equals
+            query.filter(User.name != 'ed')
+            
+    c) like
+        query.filter(User.name.like('%ed%'))
+    
+    d) in
+        query.filter(User.name.in_(['ed', 'wendy', 'jack']))
+
+        # works with query objects too:
+
+        query.filter(User.name.in_(session.query(User.name)
+                .filter(User.name.like('%ed%'))))
+                
+    e) NOT IN
+        query.filter(~User.name.in_(['ed', 'wendy', 'jack']))
+        
+    f) IS NULL
+        filter(User.name == None)
+    
+    g) IS NOT NULL
+        filter(User.name != None)
+    
+    h) AND
+        from sqlalchemy import and_
+        filter(and_(User.name == 'ed', User.fullname == 'Ed Jones'))
+
+        # or call filter()/filter_by() multiple times
+        
+        filter(User.name == 'ed').filter(User.fullname == 'Ed Jones')
+        
+    i) OR
+        from sqlalchemy import or_
+        filter(or_(User.name == 'ed', User.name == 'wendy'))
+        
+    j) match
+        query.filter(User.name.match('wendy'))

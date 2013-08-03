@@ -1,0 +1,8 @@
+[{"cat": "qb", "val": 1},
+{"cat": "rb", "val": 2},
+{"cat": "wr", "val": 3},
+{"cat": "te", "val": 1},
+{"cat": "pk", "val": 1},
+{"cat": "def", "val": 1},
+{"cat": "ben", "val": 7},
+{"cat": "flex", "val": ["rb", "wr", "te"]}]

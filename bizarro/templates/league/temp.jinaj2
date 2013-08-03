@@ -1,0 +1,128 @@
+{% set base_headers = ['name', 'pos', 'team'] %}
+{% set stat_headers = ['gp', 'min', 'fg/a', 'fg%', '3pt/a', '3pt%', 
+                       'ft/a', 'ft%', 'oreb', 'dreb', 'reb', 'ast', 
+                       'stl', 'blk', 'tos', 'pf', '+/-', 'pts'] %}
+<table class="player_table" id="per_season">
+<thead>
+    <tr>
+    {% for base_header in base_headers %}
+        <th>{{base_header}}</th>
+    {% endfor %}
+    {% for stat_header in stat_headers %}
+        <th>{{stat_header}}</th>
+    {% endfor %}
+    </tr>
+</thead>
+<tbody>
+    {% for stat, player, team in players %}
+    <tr>
+        <td><a href='{{player.url()}}'>{{player.person.names[0]}}</a></td>
+        <td>{{player.position_string()}}</td>
+        <td><a href='{{team.url()}}'>{{team.abbr}}</a></td>
+        <td>{{stat.games_played}}</td>
+        <td>{{stat.minutes}}</td>   
+        <td>{{stat.field_goals_made}}/{{stat.field_goals_attempted}}</td>
+        <td>{{stat.field_goal_pct()}}</td>
+        <td>{{stat.threes_made}}/{{stat.threes_attempted}}</td>
+        <td>{{stat.threes_pct()}}</td>
+        <td>{{stat.free_throws_made}}/{{stat.free_throws_attempted}}</td>
+        <td>{{stat.free_throw_pct()}}</td>
+        <td>{{stat.offensive_rebounds}}</td>
+        <td>{{stat.defensive_rebounds}}</td>
+        <td>{{stat.rebounds}}</td>
+        <td>{{stat.assists}}</td>
+        <td>{{stat.steals}}</td>
+        <td>{{stat.blocks}}</td>
+        <td>{{stat.turnovers}}</td>
+        <td>{{stat.personal_fouls}}</td>
+        <td>{{stat.plus_minus}}</td>
+        <td>{{stat.points}}</td>
+    </tr>
+    {% endfor %}    
+</tbody>
+</table>
+<table class="player_table" id="per_game">
+<thead>
+    <tr>
+    {% for base_header in base_headers %}
+        <th>{{base_header}}</th>
+    {% endfor %}
+    {% for stat_header in stat_headers %}
+        <th>{{stat_header}}</th>
+    {% endfor %}
+    </tr>
+</thead>
+<tbody>
+    {% for stat, player, team in players %}
+    <tr>
+        <td><a href='{{player.url()}}'>{{player.person.names[0]}}</a></td>
+        <td>{{player.position_string()}}</td>
+        <td><a href='{{team.url()}}'>{{team.abbr}}</a></td> 
+        <td>{{stat.games_played}}</td>
+        <td>{{stat.per_game(stat.minutes)}}</td>   
+        <td>{{stat.per_game(stat.field_goals_made)}}/
+            {{stat.per_game(stat.field_goals_attempted)}}</td>
+        <td>{{stat.field_goal_pct()}}</td>
+        <td>{{stat.per_game(stat.threes_made)}}/
+            {{stat.per_game(stat.threes_attempted)}}</td>
+        <td>{{stat.threes_pct()}}</td>
+        <td>{{stat.per_game(stat.free_throws_made)}}/
+            {{stat.per_game(stat.free_throws_attempted)}}</td>
+        <td>{{stat.free_throw_pct()}}</td>
+        <td>{{stat.per_game(stat.offensive_rebounds)}}</td>
+        <td>{{stat.per_game(stat.defensive_rebounds)}}</td>
+        <td>{{stat.per_game(stat.rebounds)}}</td>
+        <td>{{stat.per_game(stat.assists)}}</td>
+        <td>{{stat.per_game(stat.steals)}}</td>
+        <td>{{stat.per_game(stat.blocks)}}</td>
+        <td>{{stat.per_game(stat.turnovers)}}</td>
+        <td>{{stat.per_game(stat.personal_fouls)}}</td>
+        <td>{{stat.per_game(stat.plus_minus)}}</td>
+        <td>{{stat.per_game(stat.points)}}</td>
+    </tr>
+    {% endfor %}    
+</tbody>
+</table>
+
+<table class="player_table" id="per_36">
+<thead>
+    <tr>
+    {% for base_header in base_headers %}
+        <th>{{base_header}}</th>
+    {% endfor %}
+        <th>gp</th>
+    {% for stat_header in stat_headers[2:] %}
+        <th>{{stat_header}}</th>
+    {% endfor %}
+    </tr>
+</thead>
+<tbody>
+    {% for stat, player, team in players %}
+    <tr>
+        <td><a href='{{player.url()}}'>{{player.person.names[0]}}</a></td>
+        <td>{{player.position_string()}}</td>
+        <td><a href='{{team.url()}}'>{{team.abbr}}</a></td>  
+        <td>{{stat.games_played}}</td>  
+        <td>{{stat.per_36(stat.field_goals_made)}}/
+            {{stat.per_36(stat.field_goals_attempted)}}</td>
+        <td>{{stat.field_goal_pct()}}</td>
+        <td>{{stat.per_36(stat.threes_made)}}/
+            {{stat.per_36(stat.threes_attempted)}}</td>
+        <td>{{stat.threes_pct()}}</td>
+        <td>{{stat.per_36(stat.free_throws_made)}}/
+            {{stat.per_36(stat.free_throws_attempted)}}</td>
+        <td>{{stat.free_throw_pct()}}</td>
+        <td>{{stat.per_36(stat.offensive_rebounds)}}</td>
+        <td>{{stat.per_36(stat.defensive_rebounds)}}</td>
+        <td>{{stat.per_36(stat.rebounds)}}</td>
+        <td>{{stat.per_36(stat.assists)}}</td>
+        <td>{{stat.per_36(stat.steals)}}</td>
+        <td>{{stat.per_36(stat.blocks)}}</td>
+        <td>{{stat.per_36(stat.turnovers)}}</td>
+        <td>{{stat.per_36(stat.personal_fouls)}}</td>
+        <td>{{stat.per_36(stat.plus_minus)}}</td>
+        <td>{{stat.per_36(stat.points)}}</td>
+    </tr>
+    {% endfor %}    
+</tbody>
+</table>

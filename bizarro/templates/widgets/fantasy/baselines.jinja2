@@ -1,0 +1,16 @@
+<fieldset>
+<legend>Baselines:
+  <input type="checkbox" id="baseline_switch"/></legend>
+  <fieldset>
+  <legend>positions</legend>
+      <ul>
+        {% for pos, v in baselines.iteritems() %}
+        <li>
+          <label for="base_{{pos}}">{{pos}}:</label>
+          <input id="base_{{pos}}" class="baseline" type="number" 
+                 name="base_{{pos}}" value="{{v['baseline'] + 1}}" />
+        </li>
+      {% endfor %}
+      </ul>
+  </fieldset>
+</fieldset>

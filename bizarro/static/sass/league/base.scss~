@@ -1,0 +1,21 @@
+@import "../colors";
+@import "../fonts";
+#side_nav {
+    float: right;
+    padding-right: 0;
+    height: 100%;
+    ul {
+        li {
+            float: left;
+            text-align: right;
+            a {
+                font-family: $sans_serif;
+                color: $blue;
+            }
+            a.active {
+                color: darken($blue, 20%);
+                font-weight: bold;
+            }
+        }
+    }
+}

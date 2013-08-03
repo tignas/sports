@@ -1,0 +1,146 @@
+@import "fonts";
+@import "colors";
+
+#scoring_submit {
+  padding: 3px;
+  background-color: $pink;
+  border: 1px solid $green_2;
+  border-radius: 2px;
+  font-family: $sans_serif;
+  color: $blue;
+  font-weight: bold;
+  font-size: 12px;
+  float: left;
+  clear: both;
+  &:hover {
+    background-color: darken($pink, 5%);
+    cursor: pointer;
+  }
+  &:active {
+    background-color: darken($pink, 20%);
+  }
+}
+#options {
+  float: left;
+  border-right: 1px dotted $black;
+  margin-right: 25px;
+  padding-right: 25px; 
+  font-family: $sans_serif;
+  label[for=source_name] {
+    color: $blue;
+    font-size: 14px;
+  }
+  .export {
+    border: none;
+    text-decoration: none;
+    width: 100px;
+    text-align: left;
+    background-color: white;
+    margin-left: 25px;
+  }
+  #source_name {
+    color: $green_1;
+    font-size: 12px;
+  }
+  #source_list {
+    input {
+        margin-left: 15px;
+    }
+    ul {
+        ul {
+            margin-left: 10px;
+        }
+    }
+  }
+  input[type="checkbox"] {
+    margin-left: 40px;
+    &:hover {
+      border: 10px solid $black;
+    }
+  }
+  input[type="checkbox"] + label {
+    float: none;
+  }
+  fieldset {
+    float: left;
+    clear: left;
+    border-bottom: 1px dotted $black;
+    margin-top: 5px;
+    legend {
+      font-family: $serif;
+      color: $green_2;      
+      .toggle {
+        float: none;
+      }
+    }
+    ul {
+      li {
+        float: left;
+        clear: left;
+      }
+    }
+    label {
+      font-size: 14px;
+      font-family: $sans_serif;
+      color: $blue;
+      width: 55px;
+      float: left; 
+      text-align: right;
+      margin-left: 10px; 
+      margin-right: 5px; 
+      margin-top: 3px;
+    }
+    input {
+      float: left;
+    }
+    fieldset {
+      border: none;
+      legend {
+        font-family: $serif;
+        color: $black;
+        font-size: 14px;
+        margin-left: 5px;
+      }
+      label {
+        font-size: 14px;
+        width: 45px;
+      }
+    }
+  }
+  #flex {
+    font-size: 14px;
+    label {
+      float: left;
+    }
+    span {
+      font-family: $sans_serif;
+      color: $blue;
+      width: 45px;
+      margin-left: 10px;
+      text-align: right;
+      float: left;
+      clear: left;
+    }
+    ul {
+      float: left;
+    }
+  }
+  #baseline_switch {
+    float: none;
+    margin-left: 0;
+  }
+}
+.keeper {
+  display: none;
+}
+
+input[type=number] {
+  text-align: right;
+  padding-right: 2px;
+  width: 45px;
+}
+
+#player_table {
+  float: left;
+  margin-top: 20px;
+}

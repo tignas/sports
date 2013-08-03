@@ -1,0 +1,40 @@
+.conference {
+  float: left;
+  width: 480px;
+  padding-right: 5px; }
+  .conference h2 {
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 0; }
+  .conference h3 {
+    width: 100%;
+    float: left;
+    margin-left: 25px;
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: Habibi;
+    color: #a63e2a; }
+  .conference .division {
+    border: 1px dotted #7aa622; }
+  .conference ul {
+    width: 480px;
+    float: left;
+    clear: both;
+    padding: 5px 0; }
+    .conference ul li {
+      font-size: 14px;
+      font-family: questrial;
+      float: left;
+      padding: 0 5px;
+      border-right: 1px dotted #7aa622; }
+      .conference ul li a {
+        color: #293d66; }
+    .conference ul li:first-child {
+      width: 170px; }
+      .conference ul li:first-child a {
+        font-weight: bold;
+        color: #293d66; }
+    .conference ul li:last-child {
+      border-right: none; }

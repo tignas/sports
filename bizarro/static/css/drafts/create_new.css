@@ -1,0 +1,120 @@
+#container {
+height: 100%;
+}
+h1 {
+font-weight: bold;
+font-size: 25px;
+margin-bottom: 15px;
+}
+legend {
+margin-left: 15px;
+}
+fieldset {
+padding: 10px;
+border: 1px solid black;
+}
+#draft_details label{
+margin-right: 10px;
+}
+.small {
+width: 35px;
+}
+#roster_table {
+margin-bottom: 10px;
+border: 1px solid black;
+}
+
+#roster_table th {
+background-color: #eee;
+font-weight: bold;
+width: 50px;
+line-height: 30px;
+}
+#roster-table td {
+line-height: 25px;
+}
+.flex input{
+margin: 10px 0 5px 0;
+}
+.flex h2 {
+font-weight: bold;
+}
+#add_flex {
+margin-top: 10px;
+}
+#starter_field{
+float: left;
+margin-right: 20px;
+}
+#flex_field {
+float: left;
+margin-right: 20px;
+}
+#bench_field {
+float: left;
+}
+#player_table {
+float: left;
+margin-top: 50px;
+width: 300px;
+}
+#player_table h2 {
+float: left;
+}
+#player_list_toggle {
+float: right;
+}
+#player_list {
+width: 300px;
+}
+#player_search {
+float: left;
+padding: 10px;
+}
+#player_search {
+padding-right: 30px;
+}
+#player_search label {
+font-weight: bold;
+float: left;
+}
+#player_search input {
+margin: 0;
+padding: 0;
+margin-left: 15px;
+margin-bottom: 20px;
+height: 20px;
+}
+#player_table {
+border-left: 1px solid black;
+padding-left: 50px;
+}
+
+#player_search h2, #player_table h2 {
+font-weight: bold;
+font-size: 20px;
+margin-bottom: 10px;
+}
+#keepers, #player_list {
+border: 1px solid black;
+padding: 5px;
+}
+#keepers th, #player_list th{
+background-color: #eee;
+line-height: 30px;
+padding-right: 5px;
+padding-left: 5px;
+}
+#keepers td, #player_list td {
+padding-right: 10px;
+line-height: 25px;
+}
+#keepers th:first-child {
+width: 125px;
+}
+#keepers th:last-child {
+width: 10px;
+}
+#player_list td {
+line-height: 20px;
+}

@@ -1,0 +1,35 @@
+{% extends "templates/fantasy/base.jinja2 %}
+
+{% block fantasy_content %}
+{% set headers = ['player', 'pos', 'team', 'com', 'att', 'yd', 'td', 'int' 'att', 'yd', 'td', 'rec', 'yd', 'td']
+<table>
+    <thead>
+        <tr>
+            <th colspan="3"></th>
+            <th colspan="5">Passing</th>
+            <th colspan="3">Rushing</th>
+            <th colspan="3">Receiving</th>
+        </tr>
+        <tr>
+            {% for header in headers %}
+            <th>{{header}}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in projections.players %}
+        <tr>
+            <td><a href="{{p.player.url()}}">{{p.player}}</a></td>
+            <td>{{p.player.positions_string()}}</td>
+            <td>{{p.player.teams[0]}}</td>
+            <td>{{p.passing_completions}}</td>
+            <td>{{p.passing_attempts}}</td>
+            <td>{{p.passing_yards}}</td>
+            <td>{{p.passing_toucdowns}}</td>
+            <td>{{p.passing_interceptions}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

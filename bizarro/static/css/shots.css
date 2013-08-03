@@ -1,0 +1,10 @@
+@import url(http://fonts.googleapis.com/css?family=Karla|Habibi|Arimo|Questrial|Princess+Sofia);
+#shot_chart {
+  border: 1px solid #070706;
+  float: left;
+  margin-bottom: 20px; }
+
+#options {
+  float: left;
+  margin-bottom: 20px;
+  font-family: Questrial, Helvetica, Arial; }

@@ -1,0 +1,551 @@
+body {
+}
+#wrap {
+    width: 1150px;
+    margin: 5px auto;
+}
+#container {
+    float: left;
+    background-color: rgba(239, 252, 188, 0.3);
+    padding: 10px;
+}
+#container *, #status, #chat, #draft_order, #draft_info, #results {
+    background-color: white;
+}
+/** Top bar **/
+#status, #draft_order, #draft_info {
+    height: 50px;
+    margin-bottom: 10px;
+}
+#status {
+    width: 90px;
+    float: left;
+    margin-right: 10px;
+    padding: 0 5px 0 5px;
+    text-transform: uppercase;
+}
+#status * {
+    font-weight: normal;
+    font-size: 18px;
+    text-align: center;
+}
+#round {
+    color: #1E260B;
+    line-height: 0;
+    margin-top: 15px;   
+}
+#timer {
+    width: 100%;
+    margin-top: 10px;
+    color: #A63D2A;
+    font-weight: bold;
+    font-family: Questrial;
+    line-height: 20px;
+    z-index: 2;
+}
+#timer span {
+padding: 0 15px 0 15px;
+    font-size: 20px;
+    line-height: 5px;
+}
+/* Draft order */
+#draft_order {
+    padding: 0 5px 0 5px;
+    float: left;
+    width: 910px;
+    margin-right: 10px;
+}
+.draft_slot {
+    
+color: #1E260B;
+    font-family: questrial;
+}
+.drafter_name {
+    text-align: center;
+}
+.bx-window {
+    position: relative; 
+    overflow: hidden; 
+    float: left;
+}		
+#draft_order ul { 
+    margin-top: 10px;   
+    position: relative;
+    float: left;
+}
+#draft_order ul li {    
+    border: 1px solid #8C2E1C;
+    width: 135px;
+    border-radius: 2px;
+    padding: 5px;
+}
+#draft_order ul a, a:visited {
+    text-decoration: none;
+    color: #293D66;
+    font-family: habibi;
+}
+#draft_order ul a:hover{
+color: #44591B;
+}
+#draft_order * {
+    font-size: 18px;
+}
+.draft_order_slider {
+    float: left;
+}
+.bx-prev, .bx-next {
+    position: absolute;
+    margin-left: 8px; 
+}
+.bx-prev {
+    margin-top: 8px;
+}
+.bx-next {
+    margin-top: 25px;
+}
+.bx-next:hover img, .bx-prev:hover img{
+    opacity: 0.5;
+}
+.bx-window {
+}
+/*Draft into */
+#draft_info {
+    padding: 0 5px 0 5px;
+    float: right;
+    width: 80px;
+}
+#draft_info * {
+    color: #1E260B;
+}
+#draft_info dl {
+    margin-top: 0px;
+}
+#draft_info dt {
+    float: left;
+    margin-right: 10px;
+    font-family: questrial;
+}
+#draft_info dd{
+    font-family: habibi;
+}
+#draft_info * {
+    font-size: 12px;
+    line-height: 16px;
+    text-transform: lowercase;
+}
+/* Draft button */
+#draft_button_container{
+    float: left;
+    margin-right: 20px;
+    width: 170px;
+    text-align: center;
+    margin-right: 10px;
+    overflow: hidden;
+}
+#name {
+    margin-top: 5px;
+    height: 40px;   
+    color: #1E260B;
+}
+#draft_button_container h2 {
+    margin-top: 15px;
+    font-size: 16px;
+    font-family: habibi;
+    line-height: 40px;
+}
+#draft_button_container label, #draft_button_container select {
+    font-size: 14px;
+    margin: 10% auto;
+    font-family: questrial;
+    color: #1E260B;
+}
+#draft_positions {
+    border: 1px solid #1E260B;
+}
+#draft_button_container label {
+    margin-right: 10px;
+}
+.draft_button {
+    margin: 10px auto;
+    height: 60px;
+    width: 150px;
+    font-size: 18px;
+    font-family: questrial;
+    text-transform: uppercase;
+    background-color: #A53E2A !important;
+    border: none;
+    border-radius: 3px;
+}
+.draft_button:hover {
+    cursor: pointer;
+    background-color: #79A622 !important;
+}
+#player_info {
+    width: 520px;
+    float: left;
+    margin-right: 10px;
+    overflow-y: scroll;
+}
+/* stat tabs */
+#stat_tabs, #stat_tabs *{
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    font-family: questrial;
+}
+#stat_tabs ul {
+float: left;
+clear: both;
+}
+#stat_tabs table{
+float: left;
+}
+#stat_tabs li {
+    float: left;
+    border: 1px solid #293D66;
+    border-radius: 5px 5px 0 0;
+    padding: 2px 15px 2px 15px;
+}
+#stat_tabs li, #stat_tabs li a span{
+    background-color: white;
+}
+#stat_tabs .ui-tabs-selected, #stat_tabs .ui-tabs-selected span {
+    background-color: #A7BF73;
+}
+#stat_tabs .ui-tabs-selected {
+    margin: -1px 0 0 0px;
+    border-bottom: 2px solid #293D66;
+}
+#stat_tabs ul {
+    margin: 5px 0 0 5px;
+    margin-bottom: 0px;
+    padding: 0;
+}
+#stat_tabs table {
+    padding: 0;
+    margin: 0px 5px;
+    width: 460px;
+    border: 1px solid #293D66;
+    table-layout: fixed;
+}
+#stat_tabs table th {    
+background-color: #D8472C;
+color: #070706;
+padding: 2px;
+  font-size: 12px;
+}
+#stat_tabs table th, #stat_tabs table td {
+border: 1px dotted #293D66;
+}
+#stat_tabs table td {
+padding: 2px 0px 2px 2px;
+}
+#stat_tabs table tr {
+}
+#stat_tabs table tr.parent td {
+background-color: #EDE1D7;
+}
+#stat_tabs table tr.parent td:first-child {
+background-image: url('/static/images/asc.gif');
+background-repeat: no-repeat;
+background-position: right;
+}
+#stat_tabs table tr.parent.selected td:first-child {
+background-image: url('/static/images/desc.gif');
+background-repeat: no-repeat;
+background-position: right;
+}
+#stat_tabs table tr.child td {
+    text-align: center;
+}
+.ui-tabs .ui-tabs-panel { 
+    display: block; 
+    background: none; 
+}
+.ui-tabs .ui-tabs-hide { 
+    display: none !important; 
+}
+/*player info */
+#selected_player {
+    font-size: 14px;
+    float: left;
+    width: 190px;
+    padding: 0 5px 0 5px;
+    overflow: hidden;
+color: #1E260B;
+font-family: questrial;
+}
+#selected_player dl {
+    margin: 10px 0 0 5px;
+    float: left;
+}
+#selected_player dl dt {
+    clear: left;
+    float: left;
+    width: 50px;
+    margin-right: 20px;
+    margin-bottom: 7px;
+    font-weight: bold;
+}
+#selected_player dl dd {
+    float: left;
+    margin-left: 0;
+    font-family: habibi
+}
+#selected_player, #player_info, #draft_button_container{
+    height: 200px;
+    margin-bottom: 10px;
+}
+/*player tabs */
+#player_tabs {
+    position: relative;
+    float: left;
+    margin-right: 10px;
+    width: 700px;
+}
+#player_table tr.visible td {
+  background-color: #EDE1D7;
+}
+.dataTables_scrollHead, .dataTables_scrollBody {
+    float: left;
+}
+.dataTables_scrollHead {
+border: 0 !important;
+}
+#player_tabs ul {
+    float: left;
+}
+#player_tabs ul, #stat_seasons{
+  height: 30px;
+    margin-top: 5px;
+  margin-bottom: -3px;
+  padding: 0;
+  font-family: questrial;
+  
+}
+#stat_seasons{
+  font-family: habibi;
+float: right;
+  margin-right: 16px;
+}
+#player_tabs ul li {
+    float: left;
+    width: 150px;
+    text-align: center;
+    border: 1px solid gray;
+    border-radius: 5px 5px 0 0;
+    border-bottom: 0;
+    padding: 5px;
+}
+#player_tabs ul li a {
+    text-decoration: none;
+}
+
+.dataTables_scrollBody {
+  overflow-y: scroll !important;
+}
+#player_tabs th {
+margin: 0;
+padding: 3px 0;
+}
+#player_tabs table tr:first-child th{
+
+  background-color: #D8472C;
+}
+#player_tabs table th {
+background-color: #DE8170;
+}
+#player_tabs table select {
+padding: 0;
+  margin: 0;
+  border: none;
+}
+#player_tabs td {
+padding: 3px 1px;
+}
+#player_tabs table tr.visible:nth-child(even) td {
+background-color: #EDE1D7;
+}
+#player_tabs table tbody tr:active td {
+    cursor: move;
+}
+#player_table{
+  margin-top: -1px;
+}
+
+#watch_list {
+    font-size: 12px;
+    position: relative;
+    float: left;
+    width: 200px;
+    height: 268px;
+}
+#watch_list h2 {
+    font-size: 14px;
+    text-align: center;
+}
+#watch_list {
+}
+#watch_list table tbody tr:nth-child(odd) td{
+    background-color: #EDE1D7;
+}
+#watch_list table tbody tr:hover td, #player_tabs table tbody tr:hover td{
+    cursor: pointer;
+}
+#watch_list h2 {
+margin-top: 10px;
+margin-bottom: 10px;
+}
+#watch_list table {
+    margin: auto;
+    margin-top: 5px;
+}
+#watch_list table th {
+font-weight: bold;
+text-align: center;
+background-color: #D8472C;
+  padding: 3px 0;
+}
+#watch_list table td {
+text-align: left;
+  padding: 2px 0;
+}
+#watch_list table tr td:first-child {
+padding-left: 2px;
+}
+#watch_list .name {
+width: 117px;
+}
+#watch_list .team {
+width: 30px;
+}
+#watch_list .pos {
+width: 30px;
+}
+#watch_list .close {
+width: 18px;
+}
+#watch_list td:last-child {
+text-align: center;
+}
+.close_button {
+    background-color: #A0CE3F !important;
+}
+#results {
+    position: relative;
+    float: right;
+    width: 200px;
+    font-size: 11px;
+    padding: 5px;
+    height: 468px;
+    overflow-y: auto;
+}
+#results label, #results select {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    height: 20px;
+}
+#results label{
+float: left;
+font-weight: bold;
+font-size: 18px;
+}
+#results select{
+    float: right;
+    margin-left: 15px;
+    width: 100px;
+    padding: 0;
+    border: 1px solid gray;
+}
+#results table{
+  table-layout: fixed;
+}
+#results table th {
+background-color: #D8472C;
+text-align: left;
+  padding: 2px 0;
+}
+#results table td {
+padding: 3px 0;
+}
+#results table td:nth-child(1) {
+width: 25px;
+}
+#results table td:nth-child(2) {
+width: 125px;
+}
+#results table td:nth-child(3) {
+width: 30px;
+}
+#results table td:nth-child(4) {
+width: 18px;
+}
+#results table tr:nth-child(odd) td {
+background-color: #EDE1D7;
+}
+#chat {
+    float: left;
+    margin-top: 10px;
+    width: 400px;
+    height: 175px;
+    padding: 10px;
+}
+#chat h2 {
+font-size: 20px;
+font-weight: bold;
+text-align: center;
+}
+#chat h3 {
+font-weight: bold;
+font-size: 13px;
+margin-bottom: 10px;
+}
+#chat_messages ul {
+margin-top: 5px;
+  margin-left: 5px;
+float: left;
+width: 95%;
+}
+#chat_messages ul li {
+font-size: 14px;
+margin-bottom: 2px;
+}
+#chat h3:last-child {
+color: purple;
+margin-top: 20px;
+}
+#chat_messages {
+border: 1px solid black;
+height: 130px;
+width: 100%;
+margin-bottom: 20px;
+}
+#chat input{
+width: 75%;
+margin-right: 3%;
+  font-family: habibi;
+}
+#chat button {
+font-size: 12px;
+width: 20%;
+  font-family: questrial;
+}
+#chat ul li {
+font-family: habibi;
+  color: #293D66;
+}
+#chat ul li strong {
+font-weight: bold;
+  font-family: questrial;
+  color: #1E260B;
+}
+
+
+
+
+
+
+
+
+

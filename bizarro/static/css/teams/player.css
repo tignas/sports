@@ -1,0 +1,18 @@
+#player_pic {
+  width: 100px;
+  height: 100px;
+  border: 1px solid black;
+  float: left; }
+
+#player_data {
+  float: left; }
+  #player_data dl {
+    margin-left: 15px;
+    line-height: 20px; }
+    #player_data dl dt {
+      float: left;
+      margin-right: 5px; }
+    #player_data dl dd {
+      width: 200px; }
+      #player_data dl dd a {
+        color: #293d66; }

@@ -1,0 +1,9 @@
+<select id="position">
+  <option value="">All</option>
+  {% for pos in positions %}
+    <option value="{{pos}}">{{pos}}</option>
+  {% endfor %}
+  {% if 'flex' in league_info['roster'] %}
+    <option value="flex">flex</option>
+  {% endif %}
+</select>

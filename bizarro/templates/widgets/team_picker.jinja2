@@ -1,0 +1,6 @@
+<select id="team">
+    <option value="">All</option>
+    {% for team in teams %}
+    <option value="{{team.abbr}}">{{team.abbr}}</option>
+    {% endfor %}
+</select>

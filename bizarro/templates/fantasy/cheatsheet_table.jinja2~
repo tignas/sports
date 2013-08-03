@@ -1,0 +1,45 @@
+<table class="player_table">
+  <caption>{{pos}}</caption>
+  <thead>
+    <tr>
+    <th>Rk</th>
+    <th>Player</th>
+    <th>Team</th>
+    <th>Pts</th>
+    <th>Value</th>
+    {% if keepers %}
+    <th class="keeper">Keeper</th>
+    {% endif %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in ps %}
+    <tr
+    {% if keepers and 'Player' in p and p['Player'].id in keepers %}
+    class="keeper_row"
+    {% endif %}>
+    <td>{{p['rank']}}</td>
+    {% if p['Player'] %}
+    <td>{{p['Player'].person}}</td>
+    {% if p['Player'].team %}
+    <td>{{p['Player'].team.abbr}}</td>
+    {% else %}
+    <td>'FA'</td>
+    {% endif %}
+    {% else %}
+    <td>{{p['Team']}}</td>
+    <td>{{p['Team'].abbr}}</td>
+    {% endif %}
+    <td>{{p['fantasy_points']}}</td>
+    <td>{{p['value']}}</td>
+    {% if keepers %}
+    <td class="keeper">
+    {% if keepers and 'Player' in p and p['Player'].id in keepers %}
+      {{keepers[p['Player'].id]}}
+    {% endif %}
+    </td>
+    {% endif %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

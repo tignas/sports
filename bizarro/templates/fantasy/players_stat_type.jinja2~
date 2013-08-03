@@ -1,0 +1,30 @@
+{% extends "templates/fantasy/players_base.jinja2" %}
+
+{% block player_table %}
+<table>
+<thead>
+    <tr>
+        <th>Rk</th>
+        <th>Player</th>
+        <th>Team</th>
+        <th>Pos</th>
+        <th>Pts</th>
+    </tr>
+</thead>
+<tbody>
+{% for player in players %}
+    <tr>
+        <td></td>
+        {% if player['Player'] %}
+        <td><a href="{{player['Player'].url()}}">{{player['Player'].person}}</a></td>
+        <td><a href="{{player['Team'].url()}}">{{player['Team'].abbr}}</a></td>
+        <td>{{player['Player'].position_string()}}</td>
+        <td>{{player['points']}}</td>
+        {% else %}
+        <td>{{player}}</td>
+        {% endif %}
+    </tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

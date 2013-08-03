@@ -1,0 +1,9 @@
+{% extends "templates/base.jinja2" %}
+
+{% set links = ['stats', 'rankings'] %}
+
+<ul>
+{% for link in links %}
+<li><a href="{{link}}">{{link}}</a></li>
+{% endfor %}
+</ul>

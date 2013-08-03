@@ -1,0 +1,42 @@
+{% extends "templates/league/base.jinja2" %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+    <link rel="stylesheet" href="/static/css/league/{{page}}.css"/>
+    <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+{% endblock %}
+
+{% block league_content %}
+<div id="options">
+<input type="text" id="datepicker" value="{{date}}"/>
+
+{% if league.abbr == 'nfl' %}
+    {% include "templates/widgets/season_picker.jinja2" %}
+    {% include "templates/widgets/week_picker.jinja2" %}
+{% endif %}
+</div>
+
+<div id="scores">
+    {% include "templates/widgets/scores_full.jinja2" %}
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+$(document).ready(function () {
+var datepicker = $("#datepicker").datepicker({
+    changeYear: true,
+    onSelect: function (date){
+        var data = {
+            'date': date
+        };
+        var req = $.get( '', data, function(response) {
+            console.log(response);
+            $('#scores').html(response);
+        });
+    }});
+});
+</script>
+{% endblock %}
+

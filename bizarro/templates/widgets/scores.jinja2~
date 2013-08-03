@@ -1,0 +1,35 @@
+{% for game in games %}
+<table class="game">
+    <thead>
+    <tr>
+        <th>Final</th>
+        {% for period in game.periods() %}
+            <th>{{period}}</th>
+        {% endfor %}
+        <th>Total</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{game.away_team.abbr}}</td>                       
+            {% for score in game.away_scores %}
+                <td>{{score.score}}</td>
+            {% endfor %}          
+            <td class="total">{{game.away_score}}</td>
+        </tr>
+        <tr>
+            <td>{{game.home_team.abbr}}</td>            
+            {% for score in game.home_scores %}
+                <td>{{score.score}}</td>
+            {% endfor %}
+            <td class="total">{{game.home_score}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="game_links">
+{% for link in game_links %}
+    <li><a href="/{{sport}}/{{league}}/games/{{game.id}}/{{link}}/">{{link}}</a></li>
+{% endfor %}
+</ul>
+{% endfor %}

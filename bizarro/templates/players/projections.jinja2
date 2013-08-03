@@ -1,0 +1,49 @@
+{% extends "templates/players/base.jinja2" %}
+{% block extra_scripts %}
+<script type="text/javascript" src="/static/vendor/datatables/dataTables.js"></script>
+{% endblock %}
+{% block player_content %}
+<form>
+  <input type="submit" />
+  {% include "templates/widgets/game_type_picker.jinja2" %}
+</form>
+
+<table>
+  <caption>Projections</caption>
+  <thead>
+    <tr>
+      <th>Source</th>
+      <th>Updated</th>
+      {% for cat, abbr in abbrs %}
+      <th title="{{cat.name}}">{{abbr[abbr.find('_')+1:]}}</th>
+      {% endfor %}
+    </tr>
+    {% for proj in projs %}
+    <tr>
+      <td>{{proj.projection.source_name}}{% if proj.projection.writer %} {{proj.projection.writer}}{% endif %}</td>
+      <td>{{proj.projection.updated or 'today'}}</td>
+      {% for cat, abbr in abbrs %}
+      <td>{{proj[cat.name] or '-'}}</td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </thead>
+</table>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+$(document).ready(function () {
+
+$('.stat_table').dataTable({  
+  "bPaginate": false,
+  "bLengthChange": false,
+  "bInfo": false,
+  "bAutoWidth": false,
+  "sDom": 't',
+});
+
+});
+</script>
+{% endblock %}

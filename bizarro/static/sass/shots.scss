@@ -1,0 +1,13 @@
+@import "colors";
+@import "fonts";
+
+#shot_chart {
+    border: 1px solid $black;
+    float: left;
+    margin-bottom: 20px;
+}
+#options {
+    float: left;
+    margin-bottom: 20px;
+    font-family: $sans_serif;
+}

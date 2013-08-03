@@ -1,0 +1,29 @@
+@import url(http://fonts.googleapis.com/css?family=Karla|Habibi|Arimo|Questrial|Princess+Sofia);
+#graph_form {
+  float: left;
+  clear: left;
+  margin-bottom: 10px; }
+
+#graph {
+  float: left;
+  clear: left;
+  width: 800px;
+  height: 400px;
+  border: 1px solid #293d66; }
+  #graph svg {
+    margin-left: 35px;
+    margin-top: 15px;
+    padding: 20px; }
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges; }
+
+.axis text {
+  font-family: sans-serif;
+  font-size: 11px; }
+
+.hidden {
+  display: none; }

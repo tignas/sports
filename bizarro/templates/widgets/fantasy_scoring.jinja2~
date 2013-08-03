@@ -1,0 +1,7 @@
+<h2>Scoring</h2>
+<div id="scoring">
+{% for category, value in scoring.items() %}
+    <label id="{{category}}">{{category}}</label>
+    <input id="{{category}}" type="number" step="any" value="{{value}}" class="scoring" name="{{category}}"/>
+</div>
+{% endfor %}

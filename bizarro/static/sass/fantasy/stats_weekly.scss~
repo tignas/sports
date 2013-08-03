@@ -1,0 +1,4 @@
+#stat_table tbody tr td, #stat_table thead tr th {
+    padding: 4px;
+    font-size: 10px;
+}

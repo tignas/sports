@@ -1,0 +1,31 @@
+<div id="games">
+<table>
+    <thead>
+        <tr>
+            {% if league == 'nfl' %}
+            <th>Week</th>
+            {% endif %}
+            <th>Date</th>
+            <th>Opp</th>
+            <th>Result</th>
+            <th>Score</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for game in games|sort(attribute='game_time', reverse=True) %}
+        <tr class='game_row'>
+            <td>{{game.game_time.strftime('%m/%d/%y')}}
+            <td>
+                {% if game.away_team == team %}
+                @<a href="{{game.home_team.url()}}">{{game.home_team.abbr}}</a>
+                {% else %}
+                <a href="{{game.away_team.url()}}">{{game.away_team.abbr}}</a>
+                {% endif %}
+            </td>
+            <td>{% if game.winner() == team %}W{% else %}L{% endif %}</td>
+            <td><a href='{{game.url()}}'>{{game.home_score}}-{{game.away_score}}</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>

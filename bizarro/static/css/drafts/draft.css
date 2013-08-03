@@ -1,0 +1,14 @@
+ol {
+list-style-type: decimal;
+margin-left: 50px;
+}
+
+#sign_up_form label, #sign_up_form input{
+margin: 10px 5px 0px 5px;
+}
+#buttons input{
+margin-top: 15px;
+}
+#buttons a {
+margin-left: 15px;
+}

@@ -1,0 +1,37 @@
+{% for stat_type, season_stats in stats.items() %}
+<h1>{{stat_type}}</h1>
+    {% for season, stats in season_stats.items() %}
+    <h2>{{season}}</h2>
+    <table class="stat_table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                {% for full, abbr in stats['games'][0].abbr().items() %}
+                <th title="{{full}}">{{abbr}}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Total</td>
+                {% set totals = stats['totals']._asdict() %}
+                {% set prefix = stats['games'][0].stat_type %}
+                {% for full, abbr in stats['games'][0].abbr().items() %}
+                <td>{{totals[prefix + '_' + full]}}</td>
+                {% endfor %}
+            </tr>
+            {% for stat in stats['games'] %}
+            <tr>
+                <td><a href="{{stat.game.url()}}">
+                    {{stat.game.game_time.strftime('%m/%d/%y')}}</a></td>
+                {% for full, abbr in stat.abbr().items() %}
+                <td>{{stat}}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+    {% endfor %}
+{% endfor %}
+

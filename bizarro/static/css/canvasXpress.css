@@ -1,0 +1,1041 @@
+table.shorts {
+  margin: 2px 3px;
+  padding: 2px 3px;
+  border: 1px solid #fafafa;
+  border-collapse: collapse;
+  font-size: x-small
+}
+td.k {
+  text-align: center;
+  padding: 2px 5px;
+  margin: 2px 5px;
+  border: 1px solid #cccccc;
+}
+td.d {
+  padding: 2px 5px;
+  margin: 2px 5px;
+  border: 1px solid #cccccc;
+}
+th.d {
+  padding: 2px 5px;
+  margin: 2px 5px;
+  border: 1px solid #cccccc;
+}
+th.cxx, th.cxz, th.cxb, th.cxs, th.cxv, td.cxx, td.cxz, td.cxb, td.cxs, td.cxv {
+  background-image: url(http://www.canvasxpress.org/images/accordion.png);
+  background-repeat: repeat-x;
+  border: 1px solid #cccccc;
+  vertical-align: middle;
+}
+td.cxx, td.cxz, td.cxb, td.cxs, td.cxv {
+  background: #fefefe
+}
+td.cxy {
+  border: 1px solid #cccccc;
+  vertical-align: middle;
+  text-align: right;
+}
+div.cxc {
+  left: 0px;
+  top: 0px;
+  margin-left: 5px;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+/* Dragging div */
+div.CanvasXpressDrag {
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+  background-color: rgb(240,240,240);
+  position: absolute;
+}
+div.CanvasXpressTooltip {
+  border: 1px solid rgb(113,139,183);
+  border-radius: 5px;
+  background-color: rgb(240,240,240);
+  cursor: move;
+  color: rgb(34,34,34);
+  font: normal 11px arial, tahoma, sans-serif;
+  margin: 2px 3px;
+  overflow: hidden;
+  padding: 2px 3px;
+  position: absolute;
+  white-space: nowrap;
+}
+img.CanvasXpressTooltip {
+  cursor: default;
+  float: right;
+  height: 13px;
+  margin: 2px 3px 0px 0px;
+  width: 13px;
+  cursor: default;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -user-select: none;
+}
+span.CanvasXpressTooltip {
+  border: 1px solid rgb(113,139,183);
+  border-radius: 5px;
+  background-color: rgb(240,240,240);
+  cursor: move;
+  color: rgb(34,34,34);
+  font: normal 11px arial, tahoma, sans-serif;
+  margin: 2px 3px;
+  overflow: hidden;
+  padding: 2px 3px;
+  position: absolute;
+  white-space: nowrap;
+}
+/* DataTable */
+div.CanvasXpressDataTable {
+  border: 1px solid rgb(113,139,183);
+  border-radius: 5px;
+  background-color: rgb(240,240,240);
+  clear: both;
+  color: rgb(34,34,34);
+  font: normal 11px arial, tahoma, sans-serif;
+  overflow: hidden;
+  position: absolute;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -user-select: none;
+}
+div.CanvasXpressDataTableToolbar {
+  border: 0px;
+  border-radius: 5px 5px 0px 0px;
+  background-color: rgb(240,240,240);
+  color: rgb(34,34,34);
+  cursor: move;
+  font: normal 11px arial, tahoma, sans-serif;
+  height: 18px;
+  left: 0px;
+  line-height: 100%;
+  position: absolute;
+  top: 0px;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -user-select: none;
+}
+img.CanvasXpressDataTableToolbarImage {
+  cursor: default;
+  float: right;
+  height: 13px;
+  margin: 2px 3px 0px 0px;
+  width: 13px;
+  cursor: default;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -user-select: none;
+}
+div.CanvasXpressDataTableContainer {
+  background-color: rgb(240,240,240);
+  border-radius: 0px 0px 5px 5px;
+  color: rgb(34,34,34);
+  display: block;
+  font: normal 11px arial, tahoma, sans-serif;
+  left: 0px;
+  line-height: 100%;
+  position: absolute;
+  top: 20px;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -user-select: none;
+}
+div.CanvasXpressDataTableVertical {
+  background-color: rgb(240,240,240);
+  overflow: auto;
+  position: absolute;
+  right: 2px;
+  top: 2px;
+  width: 18px;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -user-select: none;
+}
+div.CanvasXpressDataTableHorizontal {
+  background-color: rgb(240,240,240);
+  bottom: 2px;
+  height: 18px;
+  left: 2px;
+  overflow: auto;
+  position: absolute;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -user-select: none;
+}
+div.CanvasXpressDataTableResizer {
+  background-color: rgb(240,240,240);
+  background-image: url(http://www.canvasxpress.org/images/resize_w.png);
+  background-repeat: no-repeat;
+  cursor: se-resize;
+  bottom: 1px;
+  height: 15px;
+  position: absolute;
+  right: 1px;
+  width: 15px;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -user-select: none;
+}
+table.CanvasXpressDataTable {
+  border: 0px;
+  border-spacing: 1px;
+  color: rgb(34,34,34);
+  font: normal 11px arial, tahoma, sans-serif;
+  left: 1px;
+  line-height: 20px;
+  position: absolute;
+  table-layout: fixed;
+  top: 1px;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -user-select: none;
+}
+div.CanvasXpressDataTableMask {
+  border: 0px;
+  left: 1px;
+  position: absolute;
+  top: 1px;
+  overflow: hidden;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -user-select: none;
+}
+th.CanvasXpressTableCellHead {
+  background-image: url(http://www.canvasxpress.org/images/accordion.png);
+  background-repeat: repeat-x;
+  border-left: 1px solid #ffffff;
+  border-top: 1px solid #ffffff;
+  color: rgb(34,34,34);
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 20px;
+  padding: 0px;
+  text-align: left;
+  vertical-align: middle;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -user-select: none;
+}
+th.CanvasXpressTableCellHeadActive {
+  background-image: url(http://www.canvasxpress.org/images/accordion_active.png);
+  background-repeat: repeat-x;
+  border-left: 1px solid #ffffff;
+  border-top: 1px solid #ffffff;
+  color: rgb(34,34,34);
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 20px;
+  padding: 0px;
+  text-align: left;
+  vertical-align: middle;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -user-select: none;
+}
+td.CanvasXpressTableCell {
+  background-color: #ffffff;
+  border: 0px;
+  color: rgb(34,34,34);
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 20px;
+  padding: 0px;
+  vertical-align: middle;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -user-select: none;
+}
+td.CanvasXpressTableCellActive {
+  background-color: #dfe8f6;
+  border: 0px;
+  color: rgb(34,34,34);
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 20px;
+  padding: 0px;
+  vertical-align: middle;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -user-select: none;
+}
+div.CanvasXpressTableCell {
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 20px;
+  margin: 2px 2px 1px 5px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+div.CanvasXpressTableCellSortAsc {
+  background: url(http://www.canvasxpress.org/images/sort_asc.gif) no-repeat right 6px;
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 20px;
+  margin: 2px 2px 1px 5px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+div.CanvasXpressTableCellSortDesc {
+  background: url(http://www.canvasxpress.org/images/sort_desc.gif) no-repeat right 6px;
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 20px;
+  margin: 2px 2px 1px 5px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+/* Configurator */
+div.CanvasXpressConfigurator {
+  background-color: rgb(240,240,240);
+  border-radius: 5px;
+  border: 1px solid rgb(113,139,183);
+  box-shadow: rgba(154,154,154,0.2) 3px 3px;
+  color: rgb(34,34,34);
+  cursor: default;
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 16px;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -user-select: none;
+}
+span.CanvasXpressConfigurator {
+  cursor: default;
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 16px;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -user-select: none;
+}
+textarea.CanvasXpressConfigurator {
+  background-color: rgb(240,240,240);
+  border-radius: 5px;
+  border: 1px solid rgb(113,139,183);
+  box-shadow: rgba(154,154,154,0.2) 3px 3px;
+  color: rgb(34,34,34);
+  cursor: default;
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 16px;
+}
+img.CanvasXpressConfigurator {
+  cursor: default;
+  float: right;
+  height: 13px;
+  margin-left: 2px;
+  width: 13px;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -user-select: none;
+}
+select.CanvasXpressConfigurator {
+  background-color: rgb(255,255,255);
+  border: 1px solid rgb(113,139,183);
+  color: rgb(34,34,34);
+  cursor: default;
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 16px;
+  padding-left: 3px;
+}
+input.CanvasXpressConfigurator {
+  background-color: rgb(255,255,255);
+  border: 1px solid rgb(113,139,183);
+  color: rgb(34,34,34);
+  cursor: default;
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 16px;
+  padding-left: 3px;
+}
+div.CanvasXpressConfiguratorOptions {
+  cursor: default;
+  font: normal 11px arial, tahoma, sans-serif;
+  height: 100px;
+  line-height: 16px;
+  margin-top: 8px;
+  overflow: auto;
+  width: 180px;
+}
+div.CanvasXpressConfiguratorFilter {
+  background-color: rgb(240,240,240);
+  border-radius: 5px;
+  border: 1px solid rgb(113,139,183);
+  box-shadow: rgba(154,154,154,0.2) 3px 3px;
+  color: rgb(34,34,34);
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 16px;
+}
+select.CanvasXpressConfiguratorFilter {
+  border: 1px solid rgb(113,139,183);
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 16px;
+}
+input.CanvasXpressConfiguratorFilter {
+  border: 1px solid rgb(113,139,183);
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 16px;
+}
+div.CanvasXpressConfiguratorColor {
+  border: 1px solid rgb(113,139,183);
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 16px;
+}
+/* Acordions */
+div.accordionHead {
+  margin-top: 2px;
+  height: 16px;
+  overflow: hidden;
+  float: left;
+  cursor: pointer;
+  vertical-align: middle;
+  text-align: left;
+  display: table-cell;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -user-select: none;
+}
+div.accordionContent {
+  overflow: auto;
+}
+div.hoverable:hover {
+  background-color: #dfe8f6
+}
+/* Viewport */
+div.CanvasXpressContainer {
+  position: relative;
+  float: left;
+}
+div.CanvasXpressHandler {
+  position: relative;
+  float: left;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+div.CanvasXpressWrapper {
+  position: relative;
+  float: left;
+  line-height: 100%;
+}
+/*
+ * Datafilter
+ */
+div.CanvasXpressDataFilter {
+  color: rgb(34,34,34);
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 100%;
+  margin: 0px;
+  padding: 0px;
+  position: absolute;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -user-select: none;
+}
+div.CanvasXpressDataFilterToolbar {
+  background-image: url(http://www.canvasxpress.org/images/accordion.png);
+  background-repeat: repeat-x;
+  border: 1px solid rgb(113,139,183);
+  border-radius: 5px;
+  color: rgb(34,34,34);
+  cursor: move;
+  font: normal 11px arial, tahoma, sans-serif;
+  height: 18px;
+  left: 0px;
+  line-height: 100%;
+  margin: 0px;
+  padding: 2px;
+  position: absolute;
+  top: 0px;
+}
+span.CanvasXpressDataFilterToolbarText {
+  font: normal 11px arial, tahoma, sans-serif;
+  left: 8px;
+  line-height: 100%;
+  position: relative;
+  top: 5px;
+}
+img.CanvasXpressDataFilterToolbarImage {
+  cursor: default;
+  width: 13px;
+  height: 13px;
+  margin-top: 2px;
+  margin-right: 2px;
+  float: right;
+}
+span.CanvasXpressDataFilterText {
+  background-image: url(http://www.canvasxpress.org/images/arrowright.png);
+  background-repeat: no-repeat;
+  background-position: -3px;
+  font: normal 11px arial, tahoma, sans-serif;
+  left: 8px;
+  line-height: 100%;
+  position: relative;
+  top: 5px;
+}
+span.CanvasXpressDataFilterTextActive {
+  background-image: url(http://www.canvasxpress.org/images/arrowdown.png);
+  background-repeat: no-repeat;
+  background-position: -3px;
+  font: normal 11px arial, tahoma, sans-serif;
+  left: 8px;
+  line-height: 100%;
+  position: relative;
+  top: 5px;
+}
+div.CanvasXpressDataFilterContainer {
+  border: 0px;
+  left: 0px;
+  margin: 0px;
+  padding: 0px;
+  position: absolute;
+  top: 24px;
+}
+div.CanvasXpressDataFilterContainerHoverable {
+  border: 1px solid rgb(113,139,183);
+  margin: 2px;
+  margin-bottom: 4px;
+}
+div.CanvasXpressDataFilterContainerHoverable:hover {
+  background-color: #dfe8f6
+}
+div.CanvasXpressDataFilterContainerNumeric {
+  background-color: #ffffff;
+  border: 1px solid rgb(113,139,183);
+  clear: both;
+  height: 14px;
+  margin: 2px;
+}
+div.CanvasXpressDataFilterContainerMin {
+  background-image: url(http://www.canvasxpress.org/images/move_right.png);
+  background-repeat: no-repeat;
+  float: left;
+  height: 14px;
+  position: relative;
+  width: 14px;
+  z-index: 10002;
+}
+div.CanvasXpressDataFilterContainerMax {
+  background-image: url(http://www.canvasxpress.org/images/move_left.png);
+  background-repeat: no-repeat;
+  float: left;
+  height: 14px;
+  position: relative;
+  width: 14px;
+  z-index: 10002;
+}
+div.CanvasXpressDataFilterContainerRange {
+  background-color: rgb(113,139,183);
+  float: left;
+  height: 14px;
+  left: 0px;
+  position: relative;
+  z-index: 10001;
+}
+select.CanvasXpressDataFilterContainerString {
+  background-color: rgb(255,255,255);
+  font: normal 11px arial, tahoma, sans-serif;
+  margin-left: 3px;
+  margin-bottom: 3px;
+}
+div.CanvasXpressDataFilterHead {
+  background-image: url(http://www.canvasxpress.org/images/accordion.png);
+  background-repeat: repeat-x;
+  border: 1px solid rgb(113,139,183);
+  border-radius: 5px 5px 5px 5px;
+  color: rgb(34,34,34);
+  cursor: pointer;
+  float: left;
+  height: 18px;
+  margin-top: 2px;
+  overflow: hidden;
+  padding: 2px;
+  text-align: left;
+  vertical-align: middle;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -user-select: none;
+}
+div.CanvasXpressDataFilterHeadActive {
+  background-color: rgb(240,240,240);
+  background-image: url(http://www.canvasxpress.org/images/accordion_active.png);
+  background-repeat: repeat-x;
+  border: 1px solid rgb(113,139,183);
+  border-radius: 5px 5px 0px 0px;
+  color: rgb(34,34,34);
+  cursor: pointer;
+  float: left;
+  height: 18px;
+  margin-top: 2px;
+  overflow: hidden;
+  padding: 2px;
+  text-align: left;
+  vertical-align: middle;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -user-select: none;
+}
+div.CanvasXpressDataFilterContent {
+  background-color: rgb(255,255,255);
+  border: 1px solid rgb(113,139,183);
+  border-radius: 0px 0px 5px 5px;
+  border-top: 0px;
+  color: rgb(113,139,183);
+  overflow: auto;
+  padding: 2px;
+}
+/*
+ *  Menus
+ */
+div.CanvasXpressLink {
+  background-color: rgb(240,240,240);
+  background-image: url(http://www.canvasxpress.org/images/menu.gif);
+  background-repeat: repeat-y;
+  border: 1px solid rgb(113,139,183);
+  border-radius: 3px;
+  box-shadow: rgba(154,154,154,0.2) 3px 3px;
+  color: rgb(34,34,34);
+  cursor: default;
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 100%;
+  margin: 0px;
+  padding: 0px;
+  position: absolute;
+  -moz-box-shadow: rgba(154,154,154,0.2) 3px 3px;
+}
+div.CanvasXpressMenu {
+  background-color: rgb(240,240,240);
+  background-image: url(http://www.canvasxpress.org/images/menu.gif);
+  background-repeat: repeat-y;
+  border: 1px solid rgb(113,139,183);
+  border-radius: 3px;
+  box-shadow: rgba(154,154,154,0.2) 3px 3px;
+  color: rgb(34,34,34);
+  cursor: default;
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 100%;
+  margin: 0px;
+  padding: 0px;
+  position: absolute;
+  -moz-box-shadow: rgba(154,154,154,0.2) 3px 3px;
+}
+ul.CanvasXpressList {
+  background: transparent;
+  border: 0px none;
+  cursor: default;
+  list-style: none;
+  margin: 0px;
+  overflow: hidden;
+  padding: 2px;
+}
+li.CanvasXpressListItemSep {
+  cursor: default;
+  display: block;
+  font: normal 11px arial, tahoma, sans-serif;
+  font-size: 1px;
+  line-height: 1px;
+  list-style: none;
+  margin: 0px;
+  padding: 1px;
+  white-space: nowrap;
+}
+li.CanvasXpressListItem {
+  cursor: default;
+  display: block;
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 100%;
+  list-style: none;
+  margin: 0px;
+  padding: 1px;
+  white-space: nowrap;
+}
+li.CanvasXpressListItemActive {
+  background-color: rgb(219,236,244);
+  background-image: url(http://www.canvasxpress.org/images/item-over.gif);
+  background-repeat: repeat-x;
+  background-position: left bottom;
+  border-color: rgb(170,204,246);
+  border-style: solid;
+  border-width: 1px 0px;
+  cursor: default;
+  display: block;
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 100%;
+  list-style: none;
+  margin: 0px 1px;
+  padding: 0px;
+  white-space: nowrap;
+}
+a.CanvasXpressListItemA {
+  color: rgb(34,34,34);
+  cursor: pointer;
+  display: block;
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 16px;
+  list-style: none;
+  outline-style: none;
+  outline-width: 0px;
+  padding: 3px 21px 3px 27px;
+  position: relative;
+  text-decoration: none;
+  white-space: nowrap;
+}
+a.CanvasXpressListItemAArrow {
+  background: url(http://www.canvasxpress.org/images/menu-parent.gif) no-repeat scroll right 50% transparent;
+  color: rgb(34,34,34);
+  cursor: pointer;
+  display: block;
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 16px;
+  list-style: none;
+  outline-style: none;
+  outline-width: 0px;
+  padding: 3px 21px 3px 27px;
+  position: relative;
+  text-decoration: none;
+  white-space: nowrap;
+}
+a.CanvasXpressListItemAActive {
+  border-color: rgb(170,204,246);
+  border-style: solid;
+  border-width: 0px 1px;
+  color: rgb(34,34,34);
+  cursor: pointer;
+  display: block;
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 16px;
+  list-style: none;
+  outline-style: none;
+  outline-width: 0px;
+  margin: 0px -1px;
+  padding: 3px 21px 3px 27px;
+  position: relative;
+  text-decoration: none !important;
+  white-space: nowrap;
+}
+a.CanvasXpressListItemAArrowActive {
+  background: url(http://www.canvasxpress.org/images/menu-parent.gif) no-repeat scroll right 50% transparent;
+  border-color: rgb(170,204,246);
+  border-style: solid;
+  border-width: 0px 1px;
+  color: rgb(34,34,34);
+  cursor: pointer;
+  display: block;
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 16px;
+  list-style: none;
+  margin: 0px -1px;
+  outline-style: none;
+  outline-width: 0px;
+  padding: 3px 21px 3px 27px;
+  position: relative;
+  text-decoration: none !important;
+  white-space: nowrap;
+}
+img.CanvasXpressListIcon {
+  background-position: center;
+  border: 0px none;
+  color: rgb(34,34,34);
+  cursor: pointer;
+  font: normal 11px arial, tahoma, sans-serif;
+  height: 16px;
+  left: 3px;
+  line-height: 16px;
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  position: absolute;
+  top: 3px;
+  vertical-align: top;
+  width: 16px;
+  white-space: nowrap;
+}
+span.CanvasXpressListItemText {
+  color: rgb(34,34,34);
+  cursor: pointer;
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 16px;
+  list-style: none;
+  margin-right: 50px;
+  white-space: nowrap;
+}
+span.CanvasXpressListItemTextShort {
+  color: rgb(34,34,34);
+  cursor: pointer;
+  font: italic 9px arial, tahoma, sans-serif;
+  line-height: 16px;
+  list-style: none;
+  position: absolute;
+  right: 4px;
+  white-space: nowrap;
+}
+span.CanvasXpressListItemTextSep {
+  background-color: rgb(224,224,224);
+  border-bottom: 1px solid;
+  border-bottom-color: rgb(255,255,255);
+  cursor: default;
+  display: block;
+  font: normal 11px arial, tahoma, sans-serif;
+  font-size: 1px;
+  line-height: 1px;
+  list-style: none;
+  margin: 2px 3px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+/*
+ * Toolbar
+ */
+img.CanvasXpressToolbarHelp {
+  cursor: default;
+  float: right;
+  height: 13px;
+  margin-left: 2px;
+  width: 13px;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -user-select: none;
+}
+div.CanvasXpressToolbarHelp {
+  background-color: rgb(240,240,240);
+  border-radius: 5px;
+  border: 1px solid rgb(113,139,183);
+  box-shadow: rgba(154,154,154,0.2) 3px 3px;
+  color: rgb(34,34,34);
+  cursor: default;
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 16px;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -user-select: none;
+}
+p.CanvasXpressToolbarHelp {
+  cursor: default;
+  font: normal 11px arial, tahoma, sans-serif;
+  line-height: 16px;
+  margin: 0px;
+  padding: 5px 5px 5px 20px;
+}
+/*
+ * Canvas
+ */
+canvas.CanvasXpress {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  -user-select: none;
+}
+/*--Page & Body Elements--*/
+body {background:#1d222b; padding:0 4px; margin:0 auto 0 auto; text-align:center; font-family:Arial, Verdana, Century Gothic; color:#666; height:100%; font-size:12px; line-height:14px;}
+
+a {outline:none;}
+a:link {color:#00A1CF; text-decoration:none;}
+a:visited {color:#00A1CF; text-decoration:none}
+a:active {color:#00A1CF;text-decoration:none;}
+a:hover { color:#666; text-decoration:none;}
+a img  {border:0;}
+
+p {font-size:13px; line-height:1.5em; text-align:left; margin:0 0 20px 0; padding:0;}
+p.desc {color:#666;}
+em {color:#00A1CF; font-weight:bold; font-style:normal;}
+label {cursor:pointer;} 
+td {margin:0; padding:0; border-collapse:collapse; vertical-align:middle;}	
+ul, li, ol, dl, dd, h1, h2, h3, h4, h5, h6, form, fieldset, img {margin: 0; padding: 0; list-style: none; border: 0; font-weight: normal; font-size: 1em; }
+hr {background-color:#ddd; border:0; height:2px; margin:10px 0; width:100%;}
+.clear {clear:both; height:0; overflow: hidden; font-size:0; line-height:0; background:none; border:none; display:block;}
+.nodisp {display:none;}
+.infoTip {padding:10px 10px 10px 24px; background:url(/images/icons/information.gif) no-repeat 4px center; color:#999; font-size:14px;}
+.success {background:#f7f7f7; border:1px solid #ddd; font-size:12px; font-weight:bold; color:#8ABF17; padding:5px; margin:8px 0 8px 0; text-align:left;}
+.content ul.errors {font-size:11px; border:1px solid #ddd; background:#f7f7f7; padding:7px 7px 7px 20px; text-align:left; margin:6px 0 0 0;}
+.content ul.errors strong {display:block; color:#e54d2f;}
+.content ul.errors li {font-size:12px;}
+
+/*Rounded Corners*/
+/*5px - All*/ .rnd, .nav li a, .chooseGraph, pre  {-moz-border-radius:5px; -webkit-border-radius:5px;}
+/*5px - Top*/ .rndTop, #dialog-top {-moz-border-radius-topleft:5px; -moz-border-radius-topright:5px; -webkit-border-top-left-radius:5px; -webkit-border-top-right-radius:5px; -moz-border-radius-bottomleft:0; -moz-border-radius-bottomright:0; -webkit-border-bottom-left-radius:0; -webkit-border-bottom-right-radius:0;}
+/*5px - Bottom*/ .rndBot {-moz-border-radius-bottomleft:5px; -moz-border-radius-bottomright:5px; -webkit-border-bottom-left-radius:5px; -webkit-border-bottom-right-radius:5px; -moz-border-radius-topleft:0; -moz-border-radius-topright:0; -webkit-border-top-left-radius:0; -webkit-border-top-right-radius:0;}
+/*3px - All*/ .rnd3 {-moz-border-radius:3px; -webkit-border-radius:3px;}
+/*3px - Top*/ .rndTop3 {-moz-border-radius-topleft:5px; -moz-border-radius-topright:5px; -webkit-border-top-left-radius:5px; -webkit-border-top-right-radius:5px;}
+
+/*fbmap*/  input.button, input.button:active, input.button.bfg {background:url(../images/fb_map.gif); background-repeat:repeat-x;}
+
+/*Input*/
+input {font-family:Arial, Verdana, Century Gothic;}
+input.field {background:#fff url(../images/field_bg.gif) repeat-x top; border:1px solid #d0d0d0; margin:0 5px 8px 5px; font-size:13px; padding:0.3em 0.4em;}
+input.field:focus {border:1px solid #83AABF}
+
+input.button {outline:none; background-color:#e4e4e4; color:#4181BA; background-position:0 -176px; font-size:13px; font-weight:bold; cursor:pointer; border:1px solid #c0c0c0; padding:0.3em 0.4em; _padding:0.2em 0.4em 0.2em 0.4em;overflow:visible; margin:0;}
+input.button.strip {background-color:#dedede; background-image:none; border:0; padding:}
+input.button.med {padding:0.2em 0.4em;}
+input.button:active {border-top-color:#999; border-left-color:#999;}
+input.button:hover {border-top-color:#999; border-left-color:#999; background-position:0 -226px;}
+input.button:focus {outline:none;}
+input.button.okay {color:#70a400;}
+input.button.alert  {color:#e9442e;}
+input.button.neutral {color:#444;}
+input.button.action  {color:#ec9d05;}
+input.button.default {color:#666; font-size:11px; padding:0.1em 4px 0.1em 3px;}
+input.button.slim {padding:0.2em 0.3em 0.2em 0.3em; font-size:10px;} 
+input.button.med {padding:0.2em 0.3em 0.1em 0.3em; font-size:12px;} 
+input.button.inactive {background:#d9d9d9; cursor:default;}
+input.button.export {float:right; margin-top:12px; margin-left:10px; font-size:11px;}
+
+/*BFG Buttons*/
+input.button.bfg {background-color:#dedede; background-position:0 -118px; border:1px solid #c3c3c3;}
+input.button.bfg:hover {background:#dbdbdb; border-top:1px solid #b0b0b0; border-left:1px solid #b0b0b0;}
+input.button.bfg:active {background:#dbdbdb;}
+
+.textarea {font-family:Arial, Verdana, Century Gothic; background:#fff url(../images/field_bg.gif) repeat-x top; border:1px solid #d0d0d0; font-size:13px; margin:5px 15px 5px 0; padding:5px; width:99%;}
+.textarea:focus {border:1px solid #83AABF}	
+.textarea.formtextarea {color:#a4504b; margin-top:0;}
+
+/*Select*/
+select {padding:0.2em 0 0.3em 0.2em; margin:0; background:#fff url(../images/field_bg.gif) repeat-x top; border:1px solid #d0d0d0; color:#a4504b; font-size:13px;}
+select:focus {border:1px solid #83AABF}
+select.default {padding:0.1em 0em 0.2em 0.1em; border:1px solid #ddd; margin:0 6px 0 0; font-size:11px;}
+select.headselect {position:absolute; top:8px; left:200px;}
+optgroup {color:#888; text-transform:lowercase; font-style:normal;}
+
+.inactive , input.field.inactive, select.inactive, input.textarea.inactive {background:#e9e9e9;}
+
+/*Headers*/
+h1 {font-size:2em; font-weight:bold; line-height:normal; color:#00A1CF; padding:0 0 3px 0; margin:0 0 5px 0; text-align:left;}
+h2 {font-size:1.5em; font-weight:bold; line-height:normal; color:#00A1CF; padding:0 0 3px 0; margin:0 0 5px 0; text-align:left;}
+h3 {font-size:20px; font-weight:400; line-height:normal; color:#444; padding:0 0 3px 0; margin:0 0 5px 0; text-align:left;}
+h4 {font-size:20px; font-weight:400; line-height:normal; color:#444; padding:0 0 3px 0; margin:0 0 5px 0; text-align:left;}
+
+/*Page*/
+.page {width:928px; margin:0 auto; padding:0;}
+.wrap {background:url(../images/bg.gif) repeat-y;}
+.header {height:370px; background:url(../images/header.jpg) no-repeat 0 0; position:relative;}
+.header .share {position:absolute; top:75px; right:14px;}
+.header .donate {position:absolute; top:73px; right:154px;}
+.logo {display:block; position:absolute; top:32px; left:63px; height:116px; width:229px; text-indent:-9999px;}
+.inner {}
+.content {padding:0 35px 25px 25px; text-align:left;}
+.content p {padding-right:20px;}
+.footer {height:41px; background-color:#ddd; text-align:left; line-height:3.7em; text-indent:17px; border-top:1px solid #ccc; font-size:11px;}
+.footer span {display:block; text-indent:12px;}
+
+/*SP adjustments*/
+.pageSP .wrap {background:url(../images/bg_sp.gif) repeat-y;}
+.pageSP .header {height:370px; background:url(../images/header_sp.jpg) no-repeat 0 0; position:relative;}
+.pageSP .content {width:576px; float:right; padding:0 25px 25px 0; text-align:left;}
+.pageSP .sp {display:block;}
+
+.mod {float:left; margin-right:40px; width:250px;}
+.mod.nm {margin-right:0;}
+
+/*Nav*/
+.nav {position:absolute; left:315px; top:14px;}
+.nav li {display:block; float:left; background-position:right -101px; padding-right:2px; height:39px; overflow:hidden;}
+.nav li a {display:block; float:left; color:#f0f0f0; font-size:13px; line-height:2.3em; padding:0 20px}
+.nav li a:hover { background-color:#ADDF00; color:#333;}
+.nav li.current a {background-color:#00A1CF; color:#fff;}
+
+/*SP*/
+.sp {width:250px; display:none; float:left; margin-left:54px; padding-bottom:50px; position:relative;}
+.sp h3 {padding-left:10px; font-size:16px;}
+.sp ul {width:250px;}
+.sp ul li {border-bottom:1px solid #ddd;}
+.sp ul li a {display:block; background:url(../images/arrow.gif) no-repeat 10px center; padding-left:20px; text-align:left; font-size:12px; line-height:2.0em; color:#666;}
+.sp ul li a:hover, .sp ul li a.current { background-color:#e0e0e0;}
+.sp .searchBox {position:absolute; left:10px; top:-40px;}
+.sp .share h3 {padding-left:0;} 
+.sp .share {margin:20px 0 0 0; border-top:2px solid #ccc; padding:20px 0 0 20px; text-align:left;}
+.sp .donate {margin:20px 0 0 0; border-top:2px solid #ccc; padding:20px 0 0 20px; text-align:left;}
+
+/*Select*/
+select {padding:0.2em 0 0.3em 0.2em; margin:0; background:#fff url(../images/field_bg.gif) repeat-x top; border:1px solid #d0d0d0; color:#4181BA; font-size:13px;}
+select:focus {background-color:#fff;}
+select.default {padding:0.1em 0em 0.2em 0.1em; border:1px solid #ddd; margin:0 6px 0 0; font-size:11px;}
+select.headselect {position:absolute; top:8px; left:200px;}
+optgroup {color:#888; text-transform:lowercase; font-style:normal;}
+
+/*FB Buttons*/
+a.fb, a.fg, a.fgr {padding:5px 10px; color:#333; display:block; font-size:13px; float:left; background-image:url(../images/fb_map.gif); background-repeat:repeat-x; background-position:0 0;}
+a.fb span, a.fg span, a.fgr span {color:#666; line-height:1.5em; font-weight:bold;}
+a.fb.rbL span, a.fg.rbL span, a.fgr.rbL span a.fb.fbL span, a.fgL span, a.fgr.fgrL span {font-size:14px;}
+a.fb.sm, a.fg.sm, a.fgr.sm {font-size:11px; padding:3px 5px;}
+
+/*FB*/
+a.fb {background-color:#d6e3f1; border:1px solid #bacfe7;}
+a.fb:hover {color:#00A1CF; border-top:1px solid #88b6da; border-left:1px solid #88b6da; border-bottom:1px solid #a0c2dc; border-right:1px solid #a0c2dc;}
+a.fb:active {background:#D6E3F1;}
+
+/*FG*/
+a.fg {background-color:#cae18d; background-position:0 -60px; border:1px solid #a5c955;}
+a.fg:hover {color:#00A1CF; border-top:1px solid #83aa2d; border-left:1px solid #83aa2d;}
+a.fg:active {background:#CAE18D;}
+
+/*FGR*/
+a.fgr {background-color:#dedede; background-position:0 -118px; border:1px solid #c3c3c3;}
+a.fgr:hover {color:#00A1CF; border-top:1px solid #b3b3b3; border-left:1px solid #b3b3b3;}
+a.fgr:active {background:#dbdbdb;}
+
+/* These are standard sIFR styles... do not modify */
+.sIFR-flash {visibility:visible !important; margin:0;}
+.sIFR-replaced {visibility:visible !important;}
+span.sIFR-alternate {position:absolute; left:0; top:0; width:0; height:0; display:block; overflow:hidden;}
+/* Hide Adblock Object tab:the text should show up just fine, not poorly with a tab laid over it. */
+.sIFR-flash + div[adblocktab=true] {display:none !important;}
+/* These "decoy" styles are used to hide the browser text before it is replaced... the negative-letter spacing in this case is used to make the browser text metrics match up with the sIFR text metrics since the sIFR text in this example is so much narrower... your own settings may vary... any weird sizing issues you may run into are usually fixed by tweaking these decoy styles */
+.sIFR-hasFlash h1 {visibility:hidden;}
+.sIFR-hasFlash h5#pullquote {letter-spacing:-4px; visibility:hidden; font-size:24px;}
+
+/*Examples Styling*/
+div.example {margin: 20px 0; padding: 20px;}
+.canvasBlock {float:left; margin-right:7px; padding-right:7px; border-right:2px solid #f0f0f0;}
+div br {clear: both;}
+pre {padding: 10px; border: 2px dashed #ccc; margin:0;  margin-bottom:20px;background: #f0f0f0; overflow:auto; width:840px;} 
+.code {text-align:left; font-size:11px;}
+.subtitle {font-weight:bold; border-top:1px solid #f0f0f0; display:block; font-size:14px; padding:10px 0 0 0;}
+
+/*Examples Section*/
+#examples {position:relative;}
+.chooseGraph {position:absolute; top:-40px; left:0px; background-color:#e9e9e9; border:1px solid #ccc; padding:10px;}
+
+/*Contact*/
+#contact form {float:left; width:350px; margin-right:20px; padding-right:20px; border-right:2px solid #f0f0f0;}
+
+/*Download*/
+ul.downloadFiles {width:400px; margin-bottom:30px;}
+ul.downloadFiles li {font-size:17px; line-height:2.0em; border-bottom:1px solid #f0f0f0;}
+

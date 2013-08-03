@@ -1,0 +1,10 @@
+<h2>Scores</h2>
+    <input type="text" id="datepicker" value="{{date}}"/>
+    <ul>
+    {% for score in scores %}
+        <li>
+            <span class="away">{{score.away_team.abbr}} {{score.away_score}}</span> <span class="home">{{score.home_team.abbr}} {{score.home_score}}</span>
+        </li>
+    {% endfor %}
+    </ul>
+</div>

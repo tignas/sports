@@ -1,0 +1,42 @@
+{% extends "templates/fantasy/players_base.jinja2" %}
+
+{% block player_table %}
+<table id="player_table">
+<thead>
+    <tr>
+        <th></th>
+        <th>Player</th>
+        <th>Pos</th>
+        <th>Team</th>
+    </tr>
+    <tr>
+        <th>Rk</th>
+        <th><input id="player_search" name="player_search" /></th>
+        <th>{% include "templates/widgets/position_picker.jinja2" %}</th>
+        <th>{% include "templates/widgets/team_picker.jinja2" %}</th>
+        <th>GP</th>
+        <th>Pts</th>
+        <th>PPG</th>
+        <th>Value</th>
+    </tr>
+</thead>
+<tbody>
+{% for player in players %}
+    <tr>
+        <td></td>
+        {% if player['Player'] %}
+        <td><a href="{{player['Player'].url()}}">{{player['Player'].person}}</a></td>
+        <td>{{player['Player'].position_string()}}</td>
+        <td><a href="{{player['Player'].team.url()}}">{{player['Player'].team.abbr}}</a></td>
+        <td>{{player['gp']}}</td>
+        <td>{{player['fantasy_points']}}</td>
+        {% set ppg = player['fantasy_points']/player['gp'] %}
+        <td>{{ppg|round(2)}}</td>
+        {% set value = player['alpha']*ppd %}
+        <td>{{value|round(2)}}</td>
+        {% endif %}
+    </tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

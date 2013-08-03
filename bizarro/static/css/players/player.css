@@ -1,0 +1,12 @@
+@import url(http://fonts.googleapis.com/css?family=Karla|Habibi|Arimo|Questrial|Princess+Sofia);
+#player_data dl {
+  float: left;
+  margin-left: 15px;
+  line-height: 20px; }
+  #player_data dl dt {
+    float: left;
+    margin-right: 5px; }
+  #player_data dl dd {
+    width: 200px; }
+    #player_data dl dd a {
+      color: #293d66; }

@@ -1,0 +1,32 @@
+{% set offense = league_info['scoring'].pop('offense') %}
+<fieldset id="scoring">
+<legend>Scoring</legend>
+{% for category, value in offense.iteritems() %}
+    <fieldset>
+    <legend>{{category}}</legend>
+    <ul>
+    {% for cat, val in value.iteritems() %}
+    <li>
+      <label id="{{category}}_{{cat}}">{{cat.replace('attempts', 'att').replace('completions', 'comp').replace('touchdown', 'td').replace('yard', 'yd').replace('interception', 'int').replace('reception', 'rec')}}:</label>
+      <input id="{{category}}_{{cat}}" type="number" step="any" value="{{val}}" 
+             class="scoring" name="{{category}}_{{cat}}"/>
+    </li>
+    {% endfor %}
+    </ul>
+    </fieldset>
+{% endfor %}
+{% for scoring_type, values in league_info['scoring'].items() %}
+  <fieldset id=="{{scoring_type}}>
+  <legend>{{scoring_type}}</legend>
+  <ul>
+  {% for category, value in values.iteritems() %}
+    <li>
+      <label id="{{category}}">{{category.replace('_', ' ').replace('attempts', 'att').replace('completions', 'comp').replace('touchdowns', 'tds').replace('yards', 'yds').replace('interceptions', 'int').replace('fumbles recovered', 'fum').replace(' made', 'm').replace(' miss', 'm')}}:</label>
+      <input id="{{category}}" type="number" step="any" value="{{value}}" 
+           class="scoring" name="{{category}}"/>
+    </li>
+  {% endfor %}
+  </ul>
+  </fieldset>
+{% endfor %}
+</fieldset>

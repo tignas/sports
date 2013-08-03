@@ -1,0 +1,129 @@
+{% extends "templates/teams/base.jinja2" %}
+{% block title %}{{page}} - {{team}}{% endblock %}
+{% block extra_head %} 
+<script src="/static/vendor/d3.min.js" type="text/javascript"></script>
+<script src="/static/vendor/canvasXpress.js" type="text/javascript"></script>
+<script src="/static/js/shots.js" type="text/javascript"></script>
+<style>
+    svg {
+        border: 1px solid black;
+        margin-left: 50px;
+        z-index: -5;
+    }
+    .shot_text {
+        z-index: 100;
+    }
+</style>
+{% endblock %}
+{% block team_content %}
+
+<div id="shot_chart">
+</div>
+<canvas id="canvas" width="1000" height="1000">
+</canvas>
+<script>
+$(document).ready(function() {
+var multiplier = 10;
+var shot_radius = 4;
+draw_court(multiplier, shot_radius);
+//Shot data
+var shot_data = {{json_shots|safe}};
+var team_id = -1;
+var shooter_id = -1;
+var period = -1;
+
+var filter_data = function(team_id, shooter_id, period) {
+    var filtered_data = shot_data;
+    if (team_id > 0) {
+        var filtered_data = filtered_data.filter(function(shot) {
+            if (shot.team_id==team_id) {
+                return shot;
+            }
+        });
+    }
+    if (shooter_id > 0) {
+        var filtered_data = filtered_data.filter(function(shot) {
+            if (shot.shooter_id==shooter_id) {
+                return shot;
+            }
+        });
+    }
+    if (period > 0) {
+        var filtered_data = filtered_data.filter(function(shot) {
+            if (shot.period==period) {
+                return shot;
+            }
+        });
+    }
+    return filtered_data
+};
+
+$('#team').on('change', function() {
+    team_id = $(this).val();
+    var filtered_data = filter_data(team_id, shooter_id, period);
+    draw_shots(filtered_data, multiplier, shot_radius);
+});
+$('#shooters').on('change', function() {
+    shooter_id = $(this).val();
+    var filtered_data = filter_data(team_id, shooter_id, period);
+    draw_shots(filtered_data, multiplier, shot_radius);
+});
+$('#period').on('change', function() {
+    period = $(this).val();
+    var filtered_data = filter_data(team_id, shooter_id, period);
+    draw_shots(filtered_data, multiplier, shot_radius);
+});
+
+//initial data
+draw_shots(shot_data, multiplier, shot_radius);
+aggregate_shot_data = {}
+for (shot in shot_data) {
+    var shot = shot_data[shot]
+    var cord_string = '' + shot.x + ',' + shot.y
+    if (!aggregate_shot_data[cord_string]) {
+        aggregate_shot_data[cord_string] = []
+    }
+    aggregate_shot_data[cord_string].push(shot)
+}
+var variables = []
+var data = []
+for (cords in aggregate_shot_data) {
+    var shots = aggregate_shot_data[cords]
+    variables.push('shot_loc' + shot)
+    var frequency = shots.length
+    cords = cords.split(',')
+    var x = parseInt(cords[0])
+    var y = parseInt(cords[1])
+    var shot_info = [x, y, frequency]
+    data.push(shot_info)
+}
+var canvasx = new CanvasXpress("canvas", {
+                  "y": {
+                    "vars": variables,
+                    "smps": [
+                      "X",
+                      "Y",
+                      "Frequency"
+                    ],
+                    "desc": [
+                      "Intensity"
+                    ],
+                    "data": data
+                  }
+                }, {
+                  "graphType": "Scatter3D",
+                  "xAxis": [
+                    "Y"
+                  ],
+                  "yAxis": [
+                    "Frequency"
+                  ],
+                  "zAxis": [
+                    "X"
+                  ],
+                  "scatterType": "bar",
+                  "bar3DInverseWeight": 2
+                })
+});
+</script>
+{% endblock %}

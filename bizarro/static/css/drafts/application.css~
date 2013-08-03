@@ -1,0 +1,113 @@
+h2 {
+    font-size: 12px;
+}
+* {
+font-size: 10px;
+}
+#round {
+border: 1px solid blue;
+float: left;
+}
+#timer {
+border: 1px solid orange;
+float: left;
+}
+#draft_order {
+border: 1px solid purple;
+float: right;
+}
+#selected_player {
+border: 1px solid red;
+}
+#chat {
+border: 1px solid green;
+}
+
+#draft_info {
+border: 1px solid orange;
+}
+/* Draft order */
+
+#player_tabs {
+border: 1px solid black;
+}
+
+/* Available Players + Watchlist */
+
+#watch_list a, a:visited, #available_players a, a:visited{
+    text-decoration: none;
+    color: black;
+    pointer-events: none;
+}
+#watch_list table thead tr:first-child , #available_players table thead tr:first-child {
+    text-align: center;
+    font-weight: normal;
+    background-color: gray;
+}
+#watch_list table thead tr:last-child, #available_players table thead tr:last-child {
+    background-color: white;
+}
+#watch_list table tbody tr td, #available_players table tbody tr td{
+    background-color: #eee;
+    padding: 5px;
+}
+#watch_list table tbody tr:nth-child(even) td, #available_players table tbody tr:nth-child(even) td{
+    background-color: white;
+}
+#watch_list table, #available_players table {
+    border-spacing: 0;
+}
+#watch_list table tbody tr:hover td, #available_players table tbody tr:hover td{
+    background-color: yellow;
+    cursor: pointer;
+}
+#available_players table tbody tr:active td {
+    cursor: move;
+}
+.draft_slot {
+    clear: both;
+    color: blue;
+    text-align: center;
+    width: 100%;
+}
+.drafter_name {
+    text-align: center;
+    width: 100%;
+}
+.bx-window {
+    position: relative; 
+    overflow: hidden; 
+    width: 1000 px;
+}		
+#draft_order ul {    
+    position: relative;
+    width: 1000000px;
+    left: 0px;
+}
+#draft_order ul li {    
+    background-color: #eee;
+    border: 1px solid purple;
+    width: 150px;
+    border-radius: 2px;
+    padding: 5px;
+}
+#draft_order ul a, a:visited {
+    text-decoration: none;
+    color: green;
+}
+#draft_order ul a:hover{
+}
+.bx-prev, .bx-next {
+    color: transparent;
+    height: 31px;
+    floaat: left;
+    margin-top: 15px;
+    margin-left: 20px;
+    overflow: hidden;
+}
+.bx-prev {
+    margin-right: 25px;
+}
+.bx-next:hover img, .bx-prev:hover img{
+    margin-top: -31px;
+}

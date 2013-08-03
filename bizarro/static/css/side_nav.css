@@ -1,0 +1,16 @@
+@import url(http://fonts.googleapis.com/css?family=Karla|Habibi|Arimo|Questrial|Princess+Sofia);
+#side_nav {
+  margin-bottom: 5px;
+  float: right; }
+  #side_nav ul {
+    float: left; }
+    #side_nav ul li {
+      font-size: 14px;
+      float: left;
+      margin-right: 25px; }
+      #side_nav ul li a {
+        font-family: Questrial, Helvetica, Arial;
+        color: #293d66; }
+      #side_nav ul li a.active {
+        color: #0c111d;
+        font-weight: bold; }

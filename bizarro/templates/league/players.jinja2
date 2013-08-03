@@ -1,0 +1,72 @@
+{% extends "templates/league/base.jinja2" %}
+{% block head %}
+<script type="text/javascript" src="/static/vendor/datatables/dataTables.js"></script>
+{% endblock %}
+{% block league_content %}
+<form>
+  <input type="submit" />
+  {% include "templates/widgets/season_picker.jinja2" %}
+</form>
+
+<table id="player_table">
+  <thead>
+    <tr>
+      <th>
+        <input type="search" id="player_search" 
+          placeholder="player search"name="player_search"/>
+      </th>
+      <th>Pos</th>
+      <th>Team</th>
+      <th>Height</th>
+      <th>Weight</th>
+      <th>College</th>
+      <th>Age</th>
+      <th>Experience</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for player in players %}
+    <tr>
+      <td><a href="{{player.url()}}">{{player.person}}</a></td>
+      <td>{{player.position_string()}}</td>
+      <td><a href="{{player.team.url()}}">{{player.team.abbr}}</a></td>
+      <td>{{player.person.height_weight.feet_inches()}}</td>
+      <td>{{player.person.height_weight.weight}}</td>
+      <td>{{player.person.college[0]}}</td>
+      <td>{{player.age}}</td>
+      <td>{{player.experience}}</td>
+    </tr>
+    {% endfor %}
+  <tbody>
+</table>
+{% endblock %}
+
+{% block javascript %}
+<script>
+$(document).ready(function () {
+
+var initialize_table = function () { 
+  var player_table = $('#player_table').dataTable({ 
+    "bPaginate": false,
+    "bLengthChange": false,
+    "bInfo": false,
+    "bAutoWidth": false,
+    "aoColumnDefs":[
+      {"bSortable": false, "aTargets":[0, 1, 2]}
+      ],
+    "sDom": 't',
+  });
+  return player_table;
+};
+
+player_table = initialize_table();
+
+
+$('#player_search').live('keyup', function () {
+  player_table.fnFilter($(this).val(), 0);
+});
+
+});
+</script>
+{% endblock %}
+

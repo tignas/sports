@@ -1,0 +1,19 @@
+#main_img {
+  width: 600px;
+  border: 1px solid #070706;
+  float: left; }
+  #main_img img {
+    margin: auto; }
+
+#articles {
+  width: 200px;
+  height: 700px;
+  float: right;
+  border: 1px solid #070706;
+  padding: 10px; }
+  #headlines h2 {
+    text-align: center;
+    margin-top: 5px; }
+  #headlines ul {
+    border: 1px solid black;
+    list-style: square; }

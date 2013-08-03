@@ -1,0 +1,111 @@
+@import url(http://fonts.googleapis.com/css?family=Karla|Habibi|Arimo|Questrial|Princess+Sofia);
+#scoring_submit {
+  padding: 3px;
+  background-color: #ede1d7;
+  border: 1px solid #5a7321;
+  border-radius: 2px;
+  font-family: Questrial, Helvetica, Arial;
+  color: #293d66;
+  font-weight: bold;
+  font-size: 12px;
+  float: left;
+  clear: both; }
+  #scoring_submit:hover {
+    background-color: #e5d4c5;
+    cursor: pointer; }
+  #scoring_submit:active {
+    background-color: #cdac91; }
+
+#options {
+  float: left;
+  border-right: 1px dotted #070706;
+  margin-right: 25px;
+  padding-right: 25px;
+  font-family: Questrial, Helvetica, Arial; }
+  #options label[for=source_name] {
+    color: #293d66;
+    font-size: 14px; }
+  #options .export {
+    border: none;
+    text-decoration: none;
+    width: 100px;
+    text-align: left;
+    background-color: white;
+    margin-left: 25px; }
+  #options #source_name {
+    color: #1e260b;
+    font-size: 12px; }
+  #options #source_list input {
+    margin-left: 15px; }
+  #options #source_list ul ul {
+    margin-left: 10px; }
+  #options input[type="checkbox"] {
+    margin-left: 40px; }
+    #options input[type="checkbox"]:hover {
+      border: 10px solid #070706; }
+  #options input[type="checkbox"] + label {
+    float: none; }
+  #options fieldset {
+    float: left;
+    clear: left;
+    border-bottom: 1px dotted #070706;
+    margin-top: 5px; }
+    #options fieldset legend {
+      font-family: Habibi, Garamond;
+      color: #5a7321; }
+      #options fieldset legend .toggle {
+        float: none; }
+    #options fieldset ul li {
+      float: left;
+      clear: left; }
+    #options fieldset label {
+      font-size: 14px;
+      font-family: Questrial, Helvetica, Arial;
+      color: #293d66;
+      width: 55px;
+      float: left;
+      text-align: right;
+      margin-left: 10px;
+      margin-right: 5px;
+      margin-top: 3px; }
+    #options fieldset input {
+      float: left; }
+    #options fieldset fieldset {
+      border: none; }
+      #options fieldset fieldset legend {
+        font-family: Habibi, Garamond;
+        color: #070706;
+        font-size: 14px;
+        margin-left: 5px; }
+      #options fieldset fieldset label {
+        font-size: 14px;
+        width: 45px; }
+  #options #flex {
+    font-size: 14px; }
+    #options #flex label {
+      float: left; }
+    #options #flex span {
+      font-family: Questrial, Helvetica, Arial;
+      color: #293d66;
+      width: 45px;
+      margin-left: 10px;
+      text-align: right;
+      float: left;
+      clear: left; }
+    #options #flex ul {
+      float: left; }
+  #options #baseline_switch {
+    float: none;
+    margin-left: 0; }
+
+.keeper {
+  display: none; }
+
+input[type=number] {
+  text-align: right;
+  padding-right: 2px;
+  width: 45px; }
+
+#player_table {
+  float: left;
+  margin-top: 20px; }

@@ -1,0 +1,30 @@
+{% extends "templates/base.jinja2" %}
+{% block title %}Fantasy {{page}} {% endblock %}
+
+{% block head %}
+ <link rel="stylesheet" href="/static/css/fantasy/base.css"/>
+ <link rel="stylesheet" href="/static/css/fantasy/{{page}}.css"/>
+{% block extra_head %}{% endblock %}
+{% endblock %}
+
+{% block breadcrumbs %}
+/ {{league}} / fantasy / {{page}}
+{% endblock %}
+
+{% block content %}
+  {% set links = ['home', 'players', 'rankings', 'stats', 'projections'] %}
+  <div id="side_nav">
+    <ul>
+    {% for link in links -%}
+      <li><a href='/{{sport}}/{{league}}/fantasy/{{link}}/'
+          {% if link == page %}
+          class='active'
+          {% endif %}
+          >{{link}}</a>
+    {%- endfor %}
+    </ul>
+  </div>
+{% block fantasy_content %}
+{% endblock %}
+
+{% endblock %}

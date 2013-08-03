@@ -1,0 +1,39 @@
+{% extends "templates/base.jinja2" %}
+{% block title %}
+  {{league}} - {{page}}
+{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="/static/css/league/base.css"/>
+  {% block extrahead %}
+  {% endblock %}
+{% endblock %}
+
+{% block breadcrumbs %}
+  <a href="/{{sport}}/{{league}}/"> / {{league}} / {{page}}{% block extra_bread %}{% endblock %}</a>
+{% endblock %}
+
+{% block content %}
+<div id="side_nav">
+  <ul>   
+  {% for link in league.links() -%}
+    {% if link == page %}
+      {% set class='active' %}
+    {% else %}
+      {% set class='inactive' %}
+    {% endif %}
+    <li>
+      <a class="{{class}}" href="/{{sport}}/{{league}}/{{link}}/">{{link}}</a>
+    </li>
+  {%- endfor %}
+  </ul>
+</div>
+
+{% block page %}
+<h2>{{page}}</h2>
+{% endblock %}
+
+{% block league_content %}
+{% endblock %}
+
+{% endblock %}

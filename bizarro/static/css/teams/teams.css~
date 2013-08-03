@@ -1,0 +1,46 @@
+#NFC {
+  float: left;
+  border-right: 1px dotted #7aa622; }
+
+#AFC {
+  float: right; }
+
+#NFC, #AFC {
+  width: 510px; }
+  #NFC h2, #AFC h2 {
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 0; }
+  #NFC h3, #AFC h3 {
+    width: 100%;
+    float: left;
+    margin-left: 25px;
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: Habibi;
+    color: #a63e2a;
+    text-transform: capitalize; }
+  #NFC .division, #AFC .division {
+    border: 1px dotted #7aa622; }
+  #NFC ul, #AFC ul {
+    width: 480px;
+    float: left;
+    clear: both;
+    padding: 5px 0; }
+    #NFC ul li, #AFC ul li {
+      font-size: 14px;
+      font-family: questrial;
+      float: left;
+      padding: 0 5px;
+      border-right: 1px dotted #7aa622; }
+      #NFC ul li a, #AFC ul li a {
+        color: #293d66; }
+    #NFC ul li:first-child, #AFC ul li:first-child {
+      width: 170px; }
+      #NFC ul li:first-child a, #AFC ul li:first-child a {
+        font-weight: bold;
+        color: #293d66; }
+    #NFC ul li:last-child, #AFC ul li:last-child {
+      border-right: none; }

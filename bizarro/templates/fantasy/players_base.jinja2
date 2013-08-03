@@ -1,0 +1,70 @@
+{% extends "templates/fantasy/base.jinja2" %}
+{% block extra_head %}
+<script type="text/javascript" src="/static/vendor/datatables/dataTables.js"></script>
+<script src="/static/vendor/d3.min.js" type="text/javascript"></script>
+{% endblock %}
+{% block fantasy_content %}
+<div id="options">
+  <h1>Options</h1>
+  <form id="options_form">
+  <input type="submit" id="scoring_submit" value="update options"/>
+  <fieldset>
+  {% include "templates/widgets/season_picker.jinja2" %}
+  </fieldset>
+  {% include "templates/widgets/fantasy/league_info.jinja2" %}
+  {% include "templates/widgets/fantasy/scoring.jinja2" %}
+  {% include "templates/widgets/fantasy/roster.jinja2" %}
+  {% include "templates/widgets/fantasy/baselines.jinja2" %}
+  </form>
+</div>
+
+<div id="player_table_div">
+{% block player_table %}
+{% endblock %}
+</div>
+{% endblock %}
+{% block javascript %}
+<script>
+$(document).ready(function () {
+
+var initialize_table = function () { 
+  var player_table = $('#player_table').dataTable({ 
+    "bPaginate": false,
+    "bLengthChange": false,
+    "bInfo": false,
+    "bAutoWidth": false,
+    "aaSorting": [[7, "desc" ], [1, "asc"]],
+    "aoColumnDefs":[
+      {"bSortable": false, "aTargets":[0, 1, 2, 3]}
+      ],
+    "sDom": 't',
+    "fnDrawCallback": function ( oSettings ) {
+      var that = this;
+      if ( oSettings.bSorted || oSettings.bFiltered ) {      
+            this.$('td:first-child', {"filter":"applied"})
+        .each( function (i){
+            that.fnUpdate( i+1, this.parentNode, 0, false, false );
+        });
+      };
+  },
+    });
+    return player_table;
+};
+
+player_table = initialize_table();
+
+$('#player_search').live('keyup', function () {
+    player_table.fnFilter($(this).val(), 1);
+});
+
+$('#position').live('change', function () {
+    player_table.fnFilter( $(this).val(), 2);
+});
+
+$('#team').live('change', function () {
+    player_table.fnFilter( $(this).val(), 3);
+});
+
+});
+</script>
+{% endblock %}

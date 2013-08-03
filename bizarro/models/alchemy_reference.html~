@@ -1,0 +1,85 @@
+<html>
+<head>
+<style>
+    body {
+        margin-left: 35px;
+    }
+    h1 {
+        color: black;
+        font-size: 26;
+    }
+    h2 {
+        color: blue;
+        font-size: 18;
+        line-height: 20px;
+    }
+    p {
+        margin-left: 20px;
+        border-bottom: 1px dotted #eee;
+    }
+    .or {
+        padding: 10px !important;
+        font-style: italic;
+        color: red;
+    }
+    .import {
+        color: green;
+    }
+    
+    
+   
+</style>
+</head>
+<body>
+
+<h1>Filter</h1>
+    <h2>equals</h2>
+    <p>
+        query.filter(User.name == 'ed')</p>
+            
+    <h2>not equals</h2>
+    <p>
+        query.filter(User.name != 'ed')</p>
+            
+    <h2>like</h2>
+    <p>
+        query.filter(User.name.like('%ed%'))</p>
+    
+    <h2>in</h2>
+    <p>
+        query.filter(User.name.in_(['ed', 'wendy', 'jack'])) <br />
+
+        <span class='or'># works with query objects too:</span> <br />
+
+        query.filter(User.name.in_(session.query(User.name)
+                .filter(User.name.like('%ed%'))))</p>
+                
+    <h2>NOT IN</h2>
+    <p>
+        query.filter(~User.name.in_(['ed', 'wendy', 'jack']))</p>
+        
+    <h2>IS NULL</h2>
+    <p>
+        filter(User.name == None)</p>
+    
+    <h2>IS NOT NULL</h2>
+    <p>
+        filter(User.name != None)</p>
+    
+    <h2>AND</h2>
+    <p>
+        <span class='import'>from sqlalchemy import and_ </span> <br />
+        filter(and_(User.name == 'ed', User.fullname == 'Ed Jones')) <br />
+        <span class='or'># or call filter()/filter_by() multiple times</span> <br />
+        
+        filter(User.name == 'ed').filter(User.fullname == 'Ed Jones')</p>
+        
+    <h2>OR</h2>
+    <p>
+        <span class='import'>from sqlalchemy import or_ </span> <br />
+        filter(or_(User.name == 'ed', User.name == 'wendy'))</p>
+        
+    <h2>match</h2>
+        <p>query.filter(User.name.match('wendy'))</p>
+</body>
+</html>

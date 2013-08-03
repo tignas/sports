@@ -1,0 +1,17 @@
+{% extends "templates/league/base.jinja2" %}
+{% block extrahead %}
+    <link rel="stylesheet" href="/static/css/league/{{page}}.css"/>
+{% endblock %}
+
+{% block league_content %}
+
+<form>
+<input type="submit"/>
+{% include "templates/widgets/season_picker.jinja2" %}
+{% include "templates/widgets/game_type_picker.jinja2" %}
+</form>
+
+{% block schedule %}
+{% endblock %}
+{% endblock %}
+

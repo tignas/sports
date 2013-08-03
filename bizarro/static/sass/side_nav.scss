@@ -1,0 +1,23 @@
+@import "colors";
+@import "fonts";
+
+#side_nav {
+    margin-bottom: 5px;
+    float: right;
+    ul {
+        float: left;
+        li {
+            font-size: 14px;
+            float: left;
+            margin-right: 25px;
+            a {
+                font-family: $sans_serif;
+                color: $blue;
+            }
+            a.active {
+                color: darken($blue, 20%);
+                font-weight: bold;
+            }
+        }
+    }
+}

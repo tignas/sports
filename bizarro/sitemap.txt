@@ -1,0 +1,38 @@
+Home
+Sport (nba/nfl/mlb/nhl)
+- home page
+    - scores
+        - standings
+        - rankings
+        - schedule
+        - game
+            - play by play
+            - shots
+            - boxscore
+            - conversation
+            - media
+    - players
+        - stats
+        - rankings
+        - comparison
+        - player
+            - stats
+            - profile
+            - rankings
+            - injury
+            - media
+            - photos
+            - accolades
+            - shopping
+            - shots
+    - teams
+        - standings
+        - rankings
+        - schedule
+        - team
+            - schedule
+            - roster
+            - news
+            - stats
+            - shots
+    - news

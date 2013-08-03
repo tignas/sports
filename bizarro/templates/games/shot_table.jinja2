@@ -1,0 +1,36 @@
+<!--
+<table>
+    <thead>
+        <tr>
+            <th>Period</th>
+            <th>Time of game</th>
+            <th>X</th>
+            <th>Y</th>
+            <th>Make</th>
+            <th>Length</th>
+            <th>Shot Type</th>
+            <th>Shooter</th>
+            <th>Score</th>
+            <th>Team</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for shot_cord in shot_cords %}
+    {% set shot=shot_cord.shot %}
+        <tr>
+            <td>{{shot.period_string()}}</td>
+            <td>{{shot.time_of_game.strftime('%H:%M')}}</td>
+            <td>{{shot_cord.x}}</td>
+            <td>{{shot_cord.y}}</td>
+            <td>{{shot.made()}}</td>
+            <td>{{shot_cord.length}}</td>
+            <td>{{shot.shot_type}}</td>
+            <td>{{shot.shooter.person}}</td>
+            <td>{{shot.score()}}</td>
+            <td>{{shot.team}}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+-->
+

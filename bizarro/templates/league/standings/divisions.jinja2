@@ -1,0 +1,30 @@
+{% extends "templates/league/standings/base.jinja2" %}
+
+{% block standings %}
+{% for conference, divisions in teams.items() %}
+<table>
+<caption>{{conference}}</caption>
+  {% for division, teams in divisions.items() %}
+  <thead>
+    <tr>
+      <th>{{division}}</th>
+      <th>Home</th>
+      <th>Away</th>
+      <th>Overall</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for team in teams %}
+    <tr>
+      <td><a href="{{team['Team'].url()}}">{{team['Team'].full_name}}</a></td>
+      <td>{{team['home_wins']}}-{{team['home_loss']}}</td>
+      <td>{{team['away_wins']}}-{{team['away_loss']}}</td>
+      <td>{{team['home_wins']+team['away_wins']}}-{{team['home_loss']+team['away_loss']}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  {% endfor %}
+</table>
+{% endfor %}
+{% endblock %}
+

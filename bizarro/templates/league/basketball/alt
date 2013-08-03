@@ -1,0 +1,47 @@
+{% set base_headers = ['player', 'pos', 'team'] %}
+
+<table class="player_table">
+<thead>
+    <tr>
+        <th colspan="3"></th>
+        {% for model in models %}
+            {% set length = model_abbr_map[model]['abbr']|length %}
+            {% if model_abbr_map[model]['prefix'] == 'return' %}
+                <th colspan="4">Kick Return</th>
+                <th colspan="4">Punt Return</th>
+            {% else %}
+                <th colspan="{{length}}">{{model_abbr_map[model]['prefix']}}</td>
+            {% endif %}
+        {% endfor %}
+    </tr>
+    <tr>
+    {% for base_header in base_headers %}
+        <th>{{base_header}}</th>
+    {% endfor %}
+    {% for model in models %}
+        {% for full, abbr in model_abbr_map[model]['abbr'] %}
+            <th title="{{full}}">{{abbr}}</td>
+        {% endfor %}
+    {% endfor %}
+    </tr>
+</thead>
+<tbody>
+    {% for player in players %}
+    {% set player = player._asdict() %}
+    <tr>
+        <td><a href="{{player['Player'].url()}}">{{player['Player'].person}}</a></td>
+        <td><a href="{{player['Team'].url()}}">{{player['Team'].abbr}}</a></td>
+        <td>{{player['Player'].position_string()}}</td>
+        {% for model in models %}
+            {% for full, abbr in model_abbr_map[model]['abbr'] %}
+                {% if player[model_abbr_map[model]['prefix']+'_'+abbr] %}
+                    <td>{{player[model_abbr_map[model]['prefix']+'_'+abbr]}}</td>
+                {% else %}
+                    <td>0</td>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </td>
+    {% endfor %}
+</tbody>
+</table>

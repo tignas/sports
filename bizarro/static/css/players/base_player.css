@@ -1,0 +1,104 @@
+@import url(http://fonts.googleapis.com/css?family=Karla|Habibi|Arimo|Questrial|Princess+Sofia);
+@import url(http://fonts.googleapis.com/css?family=Karla|Habibi|Arimo|Questrial|Princess+Sofia);
+#side_nav {
+  margin-bottom: 5px;
+  float: right; }
+  #side_nav ul {
+    float: left; }
+    #side_nav ul li {
+      font-size: 14px;
+      float: left;
+      margin-right: 25px; }
+      #side_nav ul li a {
+        font-family: Questrial, Helvetica, Arial;
+        color: #293d66; }
+      #side_nav ul li a.active {
+        color: #0c111d;
+        font-weight: bold; }
+
+#player {
+  float: left; }
+
+#player_header {
+  float: left;
+  margin-bottom: 15px; }
+  #player_header #player_pic {
+    float: left;
+    border: 1px solid #293d66;
+    width: 120px;
+    height: 120px;
+    margin-right: 20px; }
+  #player_header #player_info {
+    float: left; }
+
+#twitter {
+  float: right;
+  height: 300px;
+  width: 500px;
+  border: 1px solid #293d66;
+  overflow-y: scroll; }
+  #twitter h1 {
+    border-bottom: 1px solid #1e260b;
+    font-size: 25px; }
+    #twitter h1 img {
+      margin-top: 5px;
+      heigth: 25px;
+      width: 25px;
+      margin-right: 20px; }
+  #twitter .tweet {
+    float: left;
+    width: 460px;
+    border-top: 1px dotted #5a7321;
+    padding: 10px; }
+    #twitter .tweet .avatar {
+      float: left; }
+    #twitter .tweet .twitter_time {
+      float: right; }
+    #twitter .tweet .twitter_user_info {
+      float: left;
+      margin-left: 10px; }
+      #twitter .tweet .twitter_user_info .user_name {
+        font-size: 20px;
+        font-family: Questrial, Helvetica, Arial;
+        color: #293d66; }
+    #twitter .tweet .twitter_text {
+      float: left;
+      clear: left; }
+    #twitter .tweet .retweet, #twitter .tweet .reply, #twitter .tweet .favorite {
+      float: left;
+      font-size: 12px;
+      font-family: Questrial, Helvetica, Arial;
+      text-transform: lowercase;
+      margin-top: 10px;
+      height: 15px;
+      text-align: right;
+      padding-left: 20px;
+      color: #a63e2a; }
+    #twitter .tweet .reply, #twitter .tweet .retweet {
+      margin-right: 45px; }
+    #twitter .tweet .reply {
+      clear: left;
+      margin-left: 45px;
+      background-image: url("../../images/twitter/reply_1.png");
+      background-repeat: no-repeat;
+      background-position: 0 -3px; }
+    #twitter .tweet .reply:hover {
+      background-image: url("../../images/twitter/reply_2.png");
+      background-repeat: no-repeat;
+      background-position: 0 -3px; }
+    #twitter .tweet .retweet {
+      background-image: url("../../images/twitter/retweet_1.png");
+      background-repeat: no-repeat;
+      background-position: 0 -3px; }
+    #twitter .tweet .retweet:hover {
+      background-image: url("../../images/twitter/retweet_2.png");
+      background-repeat: no-repeat;
+      background-position: 0 -3px; }
+    #twitter .tweet .favorite {
+      background-image: url("../../images/twitter/favorite_1.png");
+      background-repeat: no-repeat;
+      background-position: 0 -3px; }
+    #twitter .tweet .favorite:hover {
+      background-image: url("../../images/twitter/favorite_2.png");
+      background-repeat: no-repeat;
+      background-position: 0 -3px; }

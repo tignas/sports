@@ -1,0 +1,70 @@
+{% extends "templates/teams/base.jinja2" %}
+{% block team_content %}
+<table>    
+    <thead>
+        <tr>
+            <th>Game</th>
+            <th>Min</th>
+            <th>FG/A</th>
+            <th>3PT/A</th>
+            <th>FT/A</th>
+            <th>OREB</th>
+            <th>DREB</th>
+            <th>REB</th>
+            <th>AST</th>
+            <th>STL</th>
+            <th>BLK</th>
+            <th>TOS</th>
+            <th>PF</th>
+            <th>+/-</th>
+            <th>PTS</th>
+            <th>TS%</th>
+            <th>eFG%</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for player, stat in stats.items() %}
+        <tr>
+            <td><a href="/basketball/nba/players/player/{{player.id}}/{{player.person.names[0]|lower|replace(' ', '+')}}/">{{player.person.names[0]}}</a></td>
+            <td>{{stat.minutes}}</td>   
+            <td>{{stat.field_goals_made}}/{{stat.field_goals_attempted}}</td>
+            <td>{{stat.threes_made}}/{{stat.threes_attempted}}</td>
+            <td>{{stat.free_throws_made}}/{{stat.free_throws_attempted}}</td>
+            <td>{{stat.offensive_rebounds}}</td>
+            <td>{{stat.defensive_rebounds}}</td>
+            <td>{{stat.rebounds}}</td>
+            <td>{{stat.assists}}</td>
+            <td>{{stat.steals}}</td>
+            <td>{{stat.blocks}}</td>
+            <td>{{stat.turnovers}}</td>
+            <td>{{stat.personal_fouls}}</td>
+            <td>{{stat.plus_minus}}</td>
+            <td>{{stat.points}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<h3>Advanced Stats</h3>
+<table>    
+    <thead>
+        <tr>
+            <th>Game</th>
+            <th>TS%</th>
+            <th>eFG%</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for player, stat in stats.items() %}
+        <tr>            
+            {% if stat.minutes %}
+            <td><a href="/basketball/nba/players/player/{{player.id}}/{{player.person.names[0]|lower|replace(' ', '+')}}/">{{player.person.names[0]}}</a></td>
+            <td>{{((stat.points/(2*(stat.field_goals_attempted+0.44*stat.free_throws_attempted)))*100)|round(2)}}</td>
+            <td>{{(((stat.field_goals_made+0.5*stat.threes_made)/stat.field_goals_attempted)*100)|round(2)}}</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+

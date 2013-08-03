@@ -1,0 +1,10 @@
+{% set game_types = {'pre': 'preseason', 'reg': 'regular', 'post': 'postseason'} %}
+<select id="game_type" name="game_type">
+    {% for abbr, game_type_option in game_types.items() %}
+        <option value="{{abbr}}"
+        {% if abbr.lower()==game_type%}
+        selected="selected"
+        {% endif %}
+        >{{game_type_option|title}}</option>
+    {% endfor %}
+</select>

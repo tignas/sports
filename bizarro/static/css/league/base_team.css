@@ -1,0 +1,18 @@
+#side_nav {
+  float: left;
+  padding: 5px 0;
+  padding-right: 0;
+  height: 100%;
+  margin-right: 15px;
+  padding-top: 35px;
+  border-right: 1px dotted #5a7321; }
+  #side_nav ul li {
+    margin-right: 15px;
+    margin-bottom: 10px;
+    text-align: right; }
+    #side_nav ul li a {
+      font-family: Questrial;
+      color: #293d66; }
+    #side_nav ul li a.active {
+      color: #0c111d;
+      font-weight: bold; }

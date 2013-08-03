@@ -1,0 +1,154 @@
+{% extends "templates/fantasy/base.jinja2" %}
+
+{% block extra_head %}
+<script src="/static/vendor/datatables/dataTables.js"></script>
+<script src="/static/vendor/d3.min.js"></script>
+<script src="/static/js/fantasy/projections.js"></script>
+{% endblock %}
+
+{% block fantasy_content %}
+<div id="options">
+  <h1>Options</h1>
+  <form id="options_form">
+  <input type="submit" id="scoring_submit" value="update options"/>
+  <fieldset>
+  <legend>Export</legend>
+    <ul>
+        <li>
+          <input type="submit" value="cheatsheet" 
+             formaction="cheatsheet/" class="export" />
+         </li>
+         <li>
+          <input type="submit" value="excel" 
+             formaction="cheatsheet/xls/" class="export" />
+        </li>
+    </ul>
+  </fieldset>
+  {% include "templates/widgets/fantasy/league_info.jinja2" %}
+  {% set scoring = league_info['scoring'] %}
+  {% include "templates/widgets/fantasy/scoring.jinja2" %}
+  {% set roster = league_info['roster'] %}
+  {% include "templates/widgets/fantasy/roster.jinja2" %}
+  {% include "templates/widgets/fantasy/baselines.jinja2" %}
+  <fieldset id="source_list">
+  <legend>Source</legend>
+  <ul>
+  {% for source_name, proj in projs.iteritems() %}
+  {% if proj[0].writer %}
+    <li>
+      <input type="checkbox" disabled class="dummy_box" />
+      <label>{{source_name}}</label>
+      <ul class="writer_list">
+        {% for p in proj %}
+          <li>
+            <input type="checkbox" id="proj_{{p.id}}" 
+                   name="proj" value="{{p.id}}" 
+                   {% if p.id in proj_ids %}checked{% endif %}/>
+            <label for="proj_{{p.id}}">{{p.writer}}</label>
+          </li>
+        {% endfor %}
+      </ul>
+    </li>
+  {% else %}
+  {% set proj = proj[0] %}
+  <li>
+    <input type="checkbox" value="{{proj.id}}" id="proj_{{proj.id}}" 
+            name="proj" value="{{proj.id}}" 
+            {% if proj.id in proj_ids %}checked{% endif %} />
+    <label for="proj_{{proj.id}}">{{source_name}}</label>
+  </li>
+  {% endif %}
+  {% endfor %}
+  </ul>
+  </fieldset>
+  </form>
+</div>
+
+<label for="keeper_switch">keepers:</label>
+<input id="keeper_switch" type="checkbox" />
+
+<table id="player_table">
+<caption>Players</caption>
+<thead>
+  <th>Rk</th>
+  <th><input id="player_search" name="player_search" placeholder="Player Search"></th>
+  <th>{% include "templates/widgets/fantasy/position_picker.jinja2" %}</th>
+  <th>{% include "templates/widgets/team_picker.jinja2" %}</th>
+  <th>Pts</th>
+  <th>Value</th>
+  <th class="keeper">Keeper</th>
+  </tr>
+</thead>
+<tbody>
+  {% for p in players %}
+  <tr 
+      {% if keepers and 'Player' in p and p['Player'].id in keepers %}
+      class="keeper_row"
+      {% endif %}>
+  <td></td>
+  {% if p['Player'] %}
+  <td><a href="{{p['Player'].url()}}">{{p['Player'].person}}</a></td>
+  <td>{{p['position']}}{{p['rank']}}</td>
+  {% if p['Player'].team %}
+  <td>
+  <a href="{{p['Player'].team.url()}}">{{p['Player'].team.abbr}}</a>
+  </td>
+  {% else %}
+  <td>'FA'</td>
+  {% endif %}
+  {% else %}
+  <td><a href="{{p['Team'].url()}}">{{p['Team']}}</a></td>
+  <td>d/st</td>
+  <td><a href="{{p['Team'].url()}}">{{p['Team'].abbr}}</a></td>
+  {% endif %}
+  <td>{{p['fantasy_points']}}</td>
+  <td>{{p['value']}}</td>
+  <td class="keeper">
+  {% if p['Player'] %}
+  <input type="number" data-player-id="{{p['Player'].id}}" 
+    form="options_form" 
+    {% if keepers and p['Player'].id in keepers %}
+    value="{{keepers[p['Player'].id]}}"
+    name="keeper_{{p['Player'].id}}"
+    {% endif %} />
+  {% else %}
+  <input type="number" data-team-id="{{p['Team'].id}}" 
+  form="options_form" />
+  {% endif %}
+  </td>
+  </tr>
+  {% endfor %}
+</tbody>
+</table>
+{% endblock %}
+
+{% block javascript %}
+<script>
+$(document).ready(function () {
+
+{% if 'baselines' in league_info %}
+  $('#baseline_switch').attr('checked', true);
+  $('.baseline').attr('disabled', false);
+{% endif %}
+
+{% if keepers %}
+$('.keeper').show();
+  $('#keeper_switch').attr('checked', 'true').attr('name', 'keeper');
+{% endif %}
+
+{% if flex %}
+  var flex = {{flex|safe}};
+{% endif %}
+
+$('#position').live('change', function () {
+    if ($(this).val() == 'flex') {
+        var regexp = flex.join('|');
+    } else {
+        var regexp = $(this).val();
+    }
+    player_table.fnFilter(regexp, 2, true, false);
+});
+
+});
+</script>
+{% endblock %}

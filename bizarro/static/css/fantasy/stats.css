@@ -1,0 +1,20 @@
+#options {
+  width: 150px; }
+  #options input {
+    width: 50px; }
+
+#chart {
+  float: right;
+  margin-left: 200px; }
+  #chart svg {
+    border: 1px solid blue; }
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges; }
+
+.axis text {
+  font-family: sans-serif;
+  font-size: 11px; }

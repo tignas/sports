@@ -1,0 +1,8 @@
+[{"pos": "qb", "val": 1},
+{"pos": "rb", "val": 2},
+{"pos": "wr", "val": 3},
+{"pos": "te", "val": 1},
+{"pos": "pk", "val": 1},
+{"pos": "def", "val": 1},
+{"pos": "ben", "val": 7},
+{"pos": "flex", "val": ["rb", "wr", "te"]}]

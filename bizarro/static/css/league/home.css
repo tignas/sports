@@ -1,0 +1,19 @@
+#video {
+  width: 600px;
+  border: 1px solid #070706;
+  float: left; }
+  #video iframe {
+    margin: auto; }
+
+#articles {
+  width: 200px;
+  height: 700px;
+  float: right;
+  border: 1px solid #070706;
+  padding: 10px; }
+  #articles h2 {
+    text-align: center;
+    margin-top: 5px; }
+  #articles ul {
+    border: 1px solid black;
+    list-style: square; }

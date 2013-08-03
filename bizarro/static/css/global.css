@@ -1,0 +1,183 @@
+@import url(http://fonts.googleapis.com/css?family=Karla|Habibi|Arimo|Questrial|Princess+Sofia);
+@import url(http://fonts.googleapis.com/css?family=Karla|Habibi|Arimo|Questrial|Princess+Sofia);
+#side_nav {
+  margin-bottom: 5px;
+  float: right; }
+  #side_nav ul {
+    float: left; }
+    #side_nav ul li {
+      font-size: 14px;
+      float: left;
+      margin-right: 25px; }
+      #side_nav ul li a {
+        font-family: Questrial, Helvetica, Arial;
+        color: #293d66; }
+      #side_nav ul li a.active {
+        color: #0c111d;
+        font-weight: bold; }
+
+body {
+  background-image: url("/static/images/turf.gif"); }
+
+#wrap {
+  width: 1100px;
+  margin: 0 auto; }
+
+#container {
+  float: left;
+  background-color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-left: -10px; }
+
+#content, #top, header, footer {
+  width: 1100px; }
+
+a {
+  text-decoration: none;
+  color: #bf432e; }
+  a:hover {
+    color: #7aa622; }
+  a:visited {
+    color: #bf432e; }
+
+p {
+  font-size: 14px;
+  font-family: serif; }
+
+#messages {
+  float: left; }
+
+#sports_nav {
+  float: left;
+  margin-top: 10px; }
+  #sports_nav ul {
+    float: left; }
+    #sports_nav ul li {
+      float: left;
+      margin-right: 25px; }
+      #sports_nav ul li a {
+        font-family: Questrial, Helvetica, Arial;
+        color: white; }
+
+#user_stuff {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  float: right;
+  font-size: 15px;
+  text-transform: lowercase; }
+  #user_stuff p {
+    font-family: Questrial, Helvetica, Arial; }
+    #user_stuff p a {
+      color: white; }
+
+header {
+  padding-top: 5px;
+  float: left;
+  border-bottom: 1px solid #5a7321; }
+  header #logo, header #nav {
+    margin-top: 5px;
+    line-height: 15px;
+    margin-bottom: 5px; }
+  header #logo p {
+    font-size: 25px;
+    float: left;
+    text-transform: lowerrcase;
+    margin-bottom: 10px;
+    font-weight: bold; }
+    header #logo p #bizarro {
+      color: #a63e2a;
+      font-family: Princess Sofia; }
+    header #logo p #sports {
+      font-family: Arimo;
+      color: #3b4b16; }
+  header #nav {
+    margin-top: 10px;
+    line-height: 10px;
+    font-family: Questrial, Helvetica, Arial;
+    font-size: 18px;
+    text-transform: lowercase;
+    float: right; }
+    header #nav ul li {
+      float: left;
+      margin-left: 75px; }
+      header #nav ul li a, header #nav ul li a:visited {
+        color: #1e260b; }
+      header #nav ul li a:hover {
+        color: #bf432e; }
+      header #nav ul li .active {
+        font-weight: bold;
+        border-bottom: 1px solid #1e260b; }
+
+#content {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  clear: left; }
+  #content h1 {
+    font-size: 24px;
+    font-family: Habibi, Garamond;
+    color: #1e260b;
+    font-weight: bold;
+    margin-bottom: 15px; }
+  #content h2 {
+    font-size: 18px;
+    font-family: Questrial, Helvetica, Arial;
+    color: #5c7522;
+    font-weight: bold;
+    margin-bottom: 12px; }
+  #content h3 {
+    font-family: Habibi, Garamond;
+    font-size: 14px;
+    text-transform: capitalize;
+    margin-bottom: 5px; }
+  #content p {
+    font-family: Habibi, Garamond; }
+    #content p a {
+      font-weight: bold;
+      color: #293d66; }
+    #content p a:hover {
+      color: #5a7321; }
+  #content table {
+    font-family: Questrial, Helvetica, Arial;
+    margin-bottom: 20px; }
+    #content table th {
+      font-size: 14px;
+      padding: 5px 10px;
+      border: 1px solid #1e260b;
+      font-weight: bold;
+      background-color: #e06d57;
+      color: #070706; }
+    #content table td {
+      font-size: 13px;
+      padding: 5px 10px;
+      border: 1px dotted #1e260b; }
+      #content table td a {
+        color: #293d66; }
+      #content table td a:hover {
+        color: #5a7321; }
+    #content table tr:nth-child(odd) {
+      background-color: #ede1d7; }
+
+#side_nav {
+  float: right;
+  clear: both; }
+  #side_nav ul li {
+    float: left; }
+
+footer {
+  float: left;
+  text-align: center;
+  margin-top: 5px;
+  font-size: 12px;
+  text-transform: lowercase;
+  font-family: Questrial, Helvetica, Arial; }
+  footer ul {
+    margin-left: 10px; }
+  footer ul li {
+    margin-right: 30px;
+    float: left; }
+    footer ul li a {
+      color: #ede1d7; }
+
+input[type=number] {
+  width: 50px; }

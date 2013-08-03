@@ -1,0 +1,72 @@
+{% extends "templates/fantasy/base.jinja2" %}
+{% block extra_head %}
+  <script src="/static/vendor/datatables/dataTables.js"></script>
+  <script src="/static/vendor/d3.min.js"></script>
+  <script src="/static/vendor/nvd3/nv.d3.min.js"></script>
+{% endblock %}
+{% block fantasy_content %}
+<div id="options">
+  {% include "templates/widgets/game_type_picker.jinja2" %}
+  {% include "templates/widgets/season_picker.jinja2" %}
+  {% include "templates/widgets/fantasy/scoring.jinja2" %}
+</div>
+
+<div>
+<table id="stat_table">
+    <thead>
+        <tr>
+        {% set headers = ['player', 'pos', 'team', 'gp'] %}
+        {% set b_headers = ['bust', 'avg', 'stud', 'std', 'mean', 'tot'] %}
+        {% for h in headers + weeks + b_headers %}
+            <th>{{h}}</th>
+        {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in players %}
+        <tr> 
+            <td>{{p['player'].person}}</td>
+            <td>{{p['player'].position_string()}}</td>
+            <td>{{p['player'].team.abbr}}</td>
+            <td>{{p['gp']}}</td>
+            {% for w in range(17) %}
+                {% if p['stats'][w] %}
+                    <td>{{p['stats'][w]['fantasy_points']}}</td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+            {% endfor %}
+            <td>{{p['bust']}}</td>
+            <td>{{p['avg']}}</td>
+            <td>{{p['stud']}}</td>
+            <td>{{p['std']}}</td>
+            <td>{{p['mean']}}</td>
+            <td>{{p['total_points']}}</td>
+        </tr>
+        {% endfor %}
+    <tbody>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+$(document).ready(function () {
+var initialize_table = function () { 
+  var stat_table = $('#stat_table').dataTable({ 
+      "bPaginate": false,
+      "bLengthChange": false,
+      "bInfo": false,
+      "bAutoWidth": false,
+      "aaSorting": [[26, "desc"]],
+      "sDom": 't',
+    });
+  return stat_table;
+};
+initialize_table();
+
+
+});
+</script>
+{% endblock %}
+
+
