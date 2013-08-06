@@ -1,6 +1,0 @@
-<select id="position" name="position">
-    <option value="">All</option>
-    {% for pos in positions %}
-    <option value="{{pos}}">{{pos}}</option>
-    {% endfor %}
-</select>

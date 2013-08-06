@@ -1,5 +1,0 @@
-{% extends "templates/players/base_player.jinja2" %}
-
-
-{% block player_content %}
-{% endblock %}

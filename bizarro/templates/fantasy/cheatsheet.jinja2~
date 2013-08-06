@@ -1,7 +1,0 @@
-{% extends "templates/plain.jinja2" %}
-{% block title %}Cheatsheet{% endblock %}
-{% block head %}
-    <link rel="stylesheet" href="/static/css/fantasy/cheatsheet.css" />
-{% endblock %}
-{% block content %}{% for p in players %}{{p}}<br/>{% endfor %}
-{% endblock %}

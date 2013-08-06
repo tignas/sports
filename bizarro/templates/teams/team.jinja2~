@@ -1,4 +1,0 @@
-{% extends "templates/teams/base.jinja2" %}
-{% block team_content %}
-{% endblock %}
-
