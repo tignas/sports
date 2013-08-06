@@ -5,6 +5,12 @@
 *.sqlite
 *.pyc
 *.py~
+*.jinja2~
+*.jinja2[cod]
+*.pt[cod]
+*.txt[cod]
+*.pt~
+*.txt~
 =======
 *.py[cod]
 
@@ -42,7 +48,6 @@ nosetests.xml
 .project
 .pydevproject
 
-.sqlite
 
 a.py
 test.py
