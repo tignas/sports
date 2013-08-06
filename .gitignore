@@ -1,4 +1,3 @@
-
 # Logs and databases #
 
 *.log
@@ -45,6 +44,9 @@ nosetests.xml
 
 .sqlite
 
+a.py
+test.py
+.jinja2~
 
 
 
