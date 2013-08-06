@@ -1,0 +1,22 @@
+{% for stat_type, model in models.iteritems() %}
+
+<table>
+  <caption>{{team}} - {{stat_type}}</caption>
+  <thead>
+    <th>Player</th>
+    {% for cat, abbr in model.abbr() %}
+    <th title="{{cat.name}}">{{abbr}}</th>
+    {% endfor %}
+  </thead>
+  <tbody>
+    {% for stat in stats[team][stat_type] %}
+    <tr>
+      <td><a href="{{stat.player.url()}}">{{stat.player.person}}</a></td>
+      {% for cat, abbr in model.abbr() %}
+      <td>{{stat[cat.name]}}</td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endfor %}

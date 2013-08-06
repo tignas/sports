@@ -26,12 +26,9 @@ from bizarro.api.sums import *
 class FantasyView(object):
 
     def __init__(self, request):
+        page = request.matched_route.name.split('_')[1]
         self.request = request
-        league_abbr = request.matchdict['league']
-        session = DBSession()
-        self.league = session.query(League)\
-                             .filter(League.abbr==league_abbr)\
-                             .one()
+        self.league = League.get(abbr=request.matchdict['league']).one()
         self.sport = request.matchdict['sport']
         self.data = {
             'league': self.league,
@@ -49,11 +46,8 @@ class FantasyView(object):
     @view_config(route_name='fantasy_players',
                  renderer='bizarro.templates:fantasy/players.jinja2')
     def players(self):
-        session = DBSession()
-        page = 'players'
-        request = self.request
-        game_type = request.GET.get('game_type', 'reg')
-        season_year = int(request.GET.get('season', 2012))
+        game_type = self.request.GET.get('game_type', 'reg')
+        season_year = int(self.request.GET.get('season', 2012))
         player_stats = {stat_type: f.stats(self.league.abbr, season_year, 
                                            game_type, stat_type)
                         for stat_type in ['offense', 'kicking', 'defense']}
@@ -63,20 +57,20 @@ class FantasyView(object):
                 if cat == 'offense':
                     for k, v in value.iteritems():
                         s = item + '_' + k
-                        if s in request.GET:
+                        if s in self.request.GET:
                             league_info['scoring'][cat][item][k] = float(request.GET[s])
                 else:
-                    if item in request.GET:
+                    if item in self.request.GET:
                         league_info['scoring'][cat][item] = float(request.GET[item])
         players = []
         for pos, val in league_info['roster'].iteritems():
-            if not pos == 'flex' and pos in request.GET:
+            if not pos == 'flex' and pos in self.request.GET:
                 league_info['roster'][pos] = int(request.GET[pos])
         for stat_type, p_list in player_stats.iteritems():
             players += f.calc_pts(p_list, league_info['scoring'], stat_type)
         a_info = f.calc_auction(players, league_info)
         players, alpha, extra_dollars, positions, baselines = a_info
-        teams = session.query(Team).filter(Team.league==self.league)
+        teams = Team.get(league=self.league).all()
         self.data.update({
             'players': players,
             'game_type': game_type,
@@ -300,7 +294,6 @@ class FantasyView(object):
         session = DBSession()
         user_proj = UserProjection(auth_id=self.request.user.id, 
                                    url=self.request.query_string)
-        print user_proj.url
         session.add(user_proj)
         transaction.commit()
         return Response('hello')

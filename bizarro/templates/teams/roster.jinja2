@@ -3,33 +3,33 @@
 {% block team_content %}
 <table>
 <thead>
-    <tr>
-        <th>Player</th>
-        <th>Position</th>
-        <th>Number</th>
-        <th>Height</th>
-        <th>Weight</th>
-        <th>Age</th>
-        <th>College</th>
-    </tr>
+  <tr>
+    <th>Player</th>
+    <th>Position</th>
+    <th>Number</th>
+    <th>Height</th>
+    <th>Weight</th>
+    <th>Age</th>
+    <th>College</th>
+  </tr>
 </thead>
 <tbody>
-    {% for player in players %}
-    <tr>
-    <td><a href="{{player.url()}}">{{player.person}}</a>
-    </td>
-    <td>{{player.position_string()}}</td>
-    <td>{{player.number[0]}}</td>
-    
-    <td>{{player.person.height_weight.feet_inches()}}</td>
-    
-    <td>{{player.person.height_weight.weight}}</td>
-    
-    <td></td>
-    <td>{{player.person.college[0]}}</td>
-    </tr>
-    
-    {% endfor %}
+  {% for player in team.roster %}
+  <tr>
+  <td><a href="{{player.url()}}">{{player.person}}</a>
+  </td>
+  <td>{{player.position_string()}}</td>
+  <td>{{player.number[0]}}</td>
+  
+  <td>{{player.person.height_weight.feet_inches()}}</td>
+  
+  <td>{{player.person.height_weight.weight}}</td>
+  
+  <td></td>
+  <td>{{player.person.college[0]}}</td>
+  </tr>
+  
+  {% endfor %}
 </tbody>
 </table>
 {% endblock %}

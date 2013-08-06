@@ -5,12 +5,20 @@
 {% block player_content %}
 <form>
   <input type="submit" />
-  {% include "templates/widgets/game_type_picker.jinja2" %}
+  {% include "templates/widgets/season_picker.jinja2" %}
 </form>
 
 <table>
   <caption>Projections</caption>
   <thead>
+    <tr>
+      <th colspan="2">
+      {% for cat, len in headers.iteritems() %}
+      {% if len > 1 %}
+        <th colspan="{{len}}">{{cat}}</th>
+      {% endif %}
+      {% endfor %}
+    </tr>
     <tr>
       <th>Source</th>
       <th>Updated</th>
@@ -23,11 +31,19 @@
       <td>{{proj.projection.source_name}}{% if proj.projection.writer %} {{proj.projection.writer}}{% endif %}</td>
       <td>{{proj.projection.updated or 'today'}}</td>
       {% for cat, abbr in abbrs %}
-      <td>{{proj[cat.name] or '-'}}</td>
+      <td>{{proj[cat.name] if proj[cat.name] != None}}</td>
       {% endfor %}
     </tr>
     {% endfor %}
   </thead>
+  <tfoot>
+    <tr>
+      <td colspan="2">Average</td>
+      {% for cat, abbr in abbrs %}
+      <td>{{averages[abbr]}}</td>
+      {% endfor %}
+    </tr>
+  </tfoot>
 </table>
 
 {% endblock %}

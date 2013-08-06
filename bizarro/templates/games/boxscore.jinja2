@@ -1,4 +1,4 @@
-{% extends "templates/games/base_game.jinja2" %}
+{% extends "templates/games/base.jinja2" %}
 {% block game_content %}
 <h3>{{game.venue[0]}}</h2>
 <table>
@@ -29,9 +29,7 @@
     </tbody>
 </table>
 
-{% if sport == "football" %}
-{% include "templates/games/football_game.jinja2" %}
-{% elif sport == "basketball"%}
-{% include "templates/games/basketball_game.jinja2" %}
-{% endif %}
+{% block stats %}
+{% endblock %}
+
 {% endblock %}

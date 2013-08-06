@@ -7,6 +7,14 @@ from meta import *
 from media import Source
 from teams import Team
 from stats import ExternalID, BasketballBoxScoreStat, Game, Season, PlayerStat, GamePlayer, FootballPuntingStat
+import re
+from sqlalchemy.orm import (
+    scoped_session,
+    sessionmaker,
+    )
+from zope.sqlalchemy import ZopeTransactionExtension
+
+DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 
 class Person(Base):
     id = Column(Integer, primary_key=True)
@@ -57,11 +65,11 @@ class LeaguePerson(AbstractConcreteBase, Base):
         
     @declared_attr
     def league(cls):
-        return relationship('League', lazy='joined')
+        return relationship('League', lazy='joined', uselist=False)
         
     @declared_attr
     def person(cls):
-        return relationship('Person', lazy='joined')
+        return relationship('Person', lazy='joined', uselist=False)
 
 class Official(LeaguePerson): 
     number = Column(Integer)
@@ -93,13 +101,6 @@ class Player(LeaguePerson):
         for position in self.positions:
             position_string += '%s/' % position.abbr
         return position_string[:-1]
-        
-    '''
-    
-    @hybrid_property
-    def current(self):
-        return DBSession.query(exists().where(and_(TeamPlayer.current==True, TeamPlayer.player_id==self.id))).scalar()
-    '''
         
     @classmethod
     def current_players(cls, league):
@@ -135,7 +136,8 @@ class Player(LeaguePerson):
         return url
         
     @classmethod
-    def stats(cls, sport, league, game_type, season, queries, q=None):
+    def stats(cls, sport, league, game_type, season, queries, q=None, 
+              team=None):
         stats = [DBSession.query(model.player_id, *query)\
                            .join(Game, Season)\
                            .filter(Game.game_type==game_type, 
@@ -154,6 +156,8 @@ class Player(LeaguePerson):
         p = DBSession.query(cls, *stats)\
                      .options(eagerload('positions'))\
                      .join(TeamPlayer, Team)
+        if team:
+            p = p.filter(Team.id==team.id)
         for s in stats:
             p = p.outerjoin(s)
         p = p.filter(cls.league==league).group_by(cls)
@@ -162,6 +166,32 @@ class Player(LeaguePerson):
         else:
             p = p.having(gp.c.gp > 0)
         return p
+    
+    @classmethod
+    def team_stats(cls, team, game_type, season_year):
+        models = PlayerStat.full_map()
+        stats = {}
+        for stat_type, model in models.iteritems():
+            sum_query = model.sum_query()
+            q = model.sum_q()
+            s = DBSession.query(model.player_id, *sum_query)\
+                               .join(Game, Season)\
+                               .filter(Game.game_type==game_type, 
+                                       Season.year==season_year,
+                                       model.team==team)\
+                               .group_by(model.player_id)\
+                               .subquery()
+            ss = DBSession.query(cls, s)\
+                         .filter(Player.teams.any(id=team.id))\
+                         .outerjoin(s)\
+                         .group_by(cls.id)\
+                         .having(s.c[q] > 0)\
+                         .all()
+            ss = [s._asdict() for s in ss]
+            key = lambda x: x[q]
+            ss = sorted(ss, key=key, reverse=True)
+            stats[stat_type] = ss
+        return models, stats
     
     @classmethod
     def stats_by_season(cls, game_stats):
@@ -185,6 +215,40 @@ class Player(LeaguePerson):
                 stats[stat_type].append(d)
         return stats
         
+    @classmethod
+    def get_player(league, full_name, team=None):
+        p_query = DBession.query(Player)\
+                        .join(Person, PersonName)\
+                        .filter(PersonName.full_name==full_name,
+                                Player.league==league)
+        try:
+            player = p_query.one()
+        except NoResultFound:
+            return None
+        except MultipleResultsFound:
+            if team:
+                player = p_query.filter(PersonName.full_name==full_name,
+                                         Player.teams.any(id=team.id))\
+                                .one()
+            else:
+                print player.all()
+                raise Exception('too many players yo')
+        return player
+        
+    @classmethod
+    def create_player(league, full_name=None):
+        person = Person()
+        DBSession.add(person)
+        DBSession.commit()
+        player = Player(person=person, league=league)
+        DBSession.add(player)
+        DBSession.commit()
+        if full_name:        
+            name = PersonName(full_name=full_name, person=person)
+            DBSession.add(name)
+            DBSession.commit()
+        return player
+        
     __mapper_args__ = {'polymorphic_identity': 'player', 'concrete': True}
    
 class TeamPersonnel(AbstractConcreteBase, DateMixin, Base):
@@ -194,15 +258,11 @@ class TeamPersonnel(AbstractConcreteBase, DateMixin, Base):
     @declared_attr
     def team_id(cls):
         return Column(Integer, ForeignKey('team.id'))
-    
-    @declared_attr
-    def team(cls):
-        return relationship('Team', uselist=False)
                                
 class TeamPlayer(TeamPersonnel):
     player_id = Column(Integer, ForeignKey('player.id'))
     
-    player = relationship('Player', uselist=False)    
+    player = relationship('Player', uselist=False)
     
     __mapper_args__ = {'polymorphic_identity': 'player', 'concrete': True}
 

@@ -36,10 +36,10 @@
           </p>
         </div>
         <div id="nav">
-          {% set links = ['fantasy', 'players', 'scores', 'teams', 'news'] %}
+          {% set links = ['fantasy', 'players', 'scores', 'teams'] %}
           <ul>
           {% for link in links %}
-            <li><a href="/{{sport}}/{{league.abbr}}/{{link}}/">{{link}}</a></li>
+            <li><a href="{{sport}}/{{league.abbr}}/{{link}}/">{{link}}</a></li>
           {% endfor %}
           </ul>
         </div>

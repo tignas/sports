@@ -23,6 +23,7 @@ def home(request):
         'page': page,
         'league': league,
         'scores': scores,
+        'sport': league.sport
     }
     return data
 

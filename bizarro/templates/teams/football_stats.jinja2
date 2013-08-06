@@ -1,0 +1,40 @@
+{% extends "templates/teams/base.jinja2" %}
+{% block team_content %}
+
+<div id="options">
+<form>
+    <input type="submit" />
+    {% include "templates/widgets/game_type_picker.jinja2" %}
+    {% include "templates/widgets/season_picker.jinja2" %}
+</form>
+</div>
+
+{% for stat_type, model in models.iteritems() %}
+<h1>{{stat_type}}</h1>
+<table>
+<thead>
+    <tr>
+        <th>player</th>
+        <th>pos</th>
+        {% for cat, abbr in model.abbr() %}
+        <th title="{{cat.name.replace('_', ' ')}}">{{abbr}}</th>
+        {% endfor %}
+    </tr>
+</thead>
+<tbody>
+    {% for p in stats[stat_type] %}
+    <tr>
+        <td><a href="{{p['Player'].url()}}">{{p['Player'].person}}</a></td>
+        <td>{{p['Player'].position_string()}}</td>
+        {% for cat, abbr in model.abbr() %}
+        <td>{{p[abbr]}}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+{% endfor %}
+
+{% endblock %}
+
+

@@ -1,3 +1,6 @@
+import numpy
+from collections import OrderedDict
+from itertools import groupby
 from meta import *
 from media import *
 from people import Player
@@ -55,6 +58,13 @@ class IndividualProjection(Base):
                         .join(Projection, Season)\
                         .filter(cls.player==player,
                                 Season.year==season)
+                                
+    @classmethod
+    def average(cls, projs):
+        projs = [p.as_dict() for p in projs]
+        return {abbr: int(round(numpy.mean([p.get(cat.name) or 0 
+                                        for p in projs])))
+                for cat, abbr in cls.abbr()}
     
 class TeamDefenseProjection(IndividualProjection):
     id = Column(Integer, ForeignKey('individual_projection.id'), 
@@ -129,7 +139,13 @@ class FootballOffenseProjection(IndividualProjection):
             (cls.fumbles_lost, 'fum_lost'),
             (cls.two_pt, '2pt'),
         ]
-
+        
+    @classmethod
+    def grouped_headers(cls):
+        headers = OrderedDict()
+        [headers.update({cat.split('_')[0]:headers.get(cat.split('_')[0], 0) + 1}) 
+            for full, cat in cls.abbr()]
+        return headers
     
 class FootballKickingProjection(IndividualProjection):
     id = Column(Integer, ForeignKey('individual_projection.id'), 

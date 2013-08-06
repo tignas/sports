@@ -1,3 +1,5 @@
+{% extends "templates/games/boxscore.jinja2" %}
+{% block stats %}
 {% set stat_abbrs = ['MIN', 'FGM-A', 'FTM-A', '3PTM-A', 'OREB', 'DREB', 'REB', 
                      'AST', 'STL', 'BLK', 'TO', 'PF', 'PTS', '+/-'] %}
                      
@@ -21,7 +23,7 @@
         </thead>
         <tbody>
             {% for stat in stats[team][player_type] %}
-            <tr class='player_type'>
+            <tr class='{{player_type}}'>
                 <td><a href="{{stat.player.url()}}">{{stat.player.person}}</a> - {{stat.player.position_string()}}</td>
                 <td>{{stat.minutes}}</td>
                 <td>{{stat.field_goals_made}}-{{stat.field_goals_attempted}}</td>
@@ -36,7 +38,7 @@
         {% endfor %}
         <tbody>
             {% for stat in stats[team]['dnp'] %}
-            <tr>
+            <tr class='{{dnp}}'>
                 <td><a href="{{stat.player.url()}}">{{stat.player.person}}</a> - {{stat.player.position_string()}}</td>
                 <td colspan="14">DNP - {{stat.dnp.reason}}</td>
             </tr>
@@ -63,7 +65,9 @@
     </table>
 {% endfor %}
 <ul>
-{% for official in officials %}
-    <li>{{official}}</li>
+{% for g in officials %}
+    <li>{{g.official}}</li>
 {% endfor %}
 </ul>
+
+{% endblock %}

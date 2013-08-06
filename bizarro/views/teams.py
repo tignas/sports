@@ -1,4 +1,5 @@
 import json
+import numpy
 from itertools import groupby
 from pyramid.view import view_config
 from sqlalchemy.orm import aliased, eagerload
@@ -11,105 +12,73 @@ from bizarro.models.play_by_play import *
 class TeamView(object):
     
     def __init__(self, request):
+        page = request.matched_route.name.split('_')[1]
         self.request = request
         self.sport = request.matchdict['sport']
-        league_abbr = request.matchdict['league']
-        team_abbr = request.matchdict['team_abbr']
-        session =  DBSession()
-        self.team = session.query(Team)\
-                           .join(LeagueTeam, League)\
-                           .filter(League.abbr==league_abbr,
-                                   Team.abbr==team_abbr)\
-                           .one() 
-        self.league = session.query(League)\
-                             .filter(League.abbr==league_abbr)\
-                             .one()
+        self.league = League.get(abbr=request.matchdict['league']).one()
+        self.t_query = Team.get_team(league=self.league,
+                                     team_abbr=request.matchdict['team_abbr'])
+        self.team = self.t_query.one()
         self.team_links = Team.full_links()
         self.data = {
             'sport': self.sport,
             'league': self.league,
-            'team': self.team,
             'team_links': self.team_links,
+            'team': self.team,
+            'page': page
         }
 
     @view_config(route_name='team_home', 
                  renderer='bizarro.templates:teams/team.jinja2')
     def team_home(self):
-        page = 'home'
-        self.data.update({
-            'page': page
-        })
         return self.data
     
     @view_config(route_name='team_roster',
                  renderer='bizarro.templates:teams/roster.jinja2')
     def roster(self):
-        page = 'roster'
-        session = DBSession()
-        players = session.query(Player)\
-                         .options(eagerload('positions'),
-                                  eagerload('number'),
-                                  eagerload('person.college'),
-                                  eagerload('person.height_weight'),
-                                  eagerload('league'))\
-                         .join(TeamPlayer)\
-                         .filter(TeamPlayer.team==self.team, 
-                                 TeamPlayer.current==True)
+        team = Team.get_roster(t_query=self.t_query).one()
         self.data.update({
-            'players':players
+            'team': team,
         })
         return self.data
 
     @view_config(route_name='team_schedule',
                  renderer='bizarro.templates:teams/schedule.jinja2')
-    @view_config(route_name='team_schedule',
-                 xhr=True,
-                 renderer='bizarro.templates:teams/schedule_table.jinja2')
-    def schedule(self): 
-        page = 'schedule'
-        session =  DBSession()
-        game_type = 'reg'
-        season = 2012
-        request = self.request
-        if request.GET.has_key('game_type'):
-            game_type = request.GET['game_type']
-        if request.GET.has_key('season'):
-            season = int(request.GET['season'])
-        games = session.query(Game)\
-                       .join(Season)\
-                       .options(eagerload('away_team'),
-                                eagerload('away_team.league'),
-                                eagerload('league'),
-                                eagerload('home_team'),
-                                eagerload('home_team.league'))\
-                       .filter(or_(Game.home_team==self.team, 
-                                   Game.away_team==self.team),
-                               Game.game_type==game_type,
-                               Season.year==season)\
-                       .order_by(Game.game_time)
-        game_types = Game.game_types()
+    def schedule(self):
+        game_type = self.request.GET.get('game_type', 'reg')
+        season_year = int(self.request.GET.get('season', 2012))
+        games = Game.team_schedule(team=self.team,
+                                   game_type=game_type, 
+                                   year=season_year)
         self.data.update({
-            'game_types': game_types,
-            'games': games,
-            'season': season,
             'game_type': game_type,
-            'page': page
+            'season_year': season_year,
+            'games': games,
         })
         return self.data
     
     @view_config(route_name='team_stats', 
-                 renderer='bizarro.templates:teams/stats.jinja2')
-    def stats(self):
-        session = DBSession()
-        page = 'stats'
-        players = session.query(Player)\
-                         .options(eagerload('person'),
-                                  eagerload('positions'),
-                                  eagerload('league'))\
-                         .join(TeamPlayer)\
-                         .filter(TeamPlayer.team==self.team, 
-                                 TeamPlayer.current==True)\
-                         .all()
+                 renderer='bizarro.templates:teams/football_stats.jinja2',
+                 match_param='sport=football')
+    def football_stats(self):        
+        game_type = self.request.GET.get('game_type', 'reg')
+        season_year = int(self.request.GET.get('season', 2012))
+        models, stats = Player.team_stats(team=self.team, 
+                                          game_type=game_type, 
+                                          season_year=season_year)
+        self.data.update({
+            'game_type': game_type,
+            'season_year': season_year,
+            'stats': stats,
+            'models': models
+        })
+        return self.data
+    
+    @view_config(route_name='team_stats', 
+                 renderer='bizarro.templates:teams/stats.jinja2',
+                 match_param='sport=basketball')
+    def basketball_stats(self):
+        self.team = Team.get_roster(t_query=self.t_query).one()
         stats = {}  
         Stat = aliased(BasketballBoxScoreStat)
         for player in players:
@@ -154,7 +123,7 @@ class TeamView(object):
             'seasons': seasons,
             'page': page
         })  
-        return self.data 
+        return self.data
     
     @view_config(route_name='team_shots', 
                  renderer='bizarro.templates:teams/shots.jinja2')
@@ -206,63 +175,3 @@ class TeamView(object):
             'json_shots': json_shots
         })
         return self.data
-    
-    @view_config(route_name='team_news', 
-                 renderer='bizarro.templates:teams/news.jinja2')
-    def news(self):
-        session = DBSession()
-        page = 'news'
-        self.data.update({
-            'page': page
-        })
-        return self.data
-    
-    @view_config(route_name='team_splits', 
-                 renderer='bizarro.templates:teams/splits.jinja2')
-    def splits(self):
-        session = DBSession()
-        page = 'splits'
-        self.data.update({
-            'page': page
-        })
-        return self.data
-
-    @view_config(route_name='team_depth_chart', 
-                 renderer='bizarro.templates:teams/depth_chart.jinja2')
-    def depth_chart(self):
-        session = DBSession()
-        page = 'depth_chart'
-        self.data.update({
-            'page': page
-        })
-        return self.data
-
-    @view_config(route_name='team_transactions', 
-                 renderer='bizarro.templates:teams/transactions.jinja2')
-    def transactions(self):
-        session = DBSession()
-        page = 'transactions'
-        self.data.update({
-            'page': page
-        })
-        return self.data
-    
-    @view_config(route_name='team_stadium', 
-                 renderer='bizarro.templates:teams/stadium.jinja2')
-    def stadium(self):
-        session = DBSession()
-        page = 'stadium'
-        self.data.update({
-            'page': page
-        })
-        return self.data
-    
-    @view_config(route_name='team_forum', 
-                 renderer='bizarro.templates:teams/forum.jinja2')
-    def forum(self):
-            session = DBSession()
-            page = 'forum'
-            self.data.update({
-                'page': page
-            })
-            return self.data

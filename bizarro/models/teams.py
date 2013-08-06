@@ -136,6 +136,10 @@ class Team(DateMixin, Base):
     team_names = relationship('TeamName')
     team_locations = relationship('TeamLocation')
     team_nicknames = relationship('TeamNickname')
+    players = relationship('Player', secondary='team_player')
+    roster = relationship('Player', secondary='team_player', 
+                          secondaryjoin='and_(TeamPlayer.player_id==Player.id,' 
+                                              'TeamPlayer.current==True)')
     
     @classmethod
     def links(self):
@@ -144,9 +148,12 @@ class Team(DateMixin, Base):
         
     @classmethod
     def full_links(self):
+        '''
         links = ['schedule', 'roster', 'news', 'stats', 'splits', 
                         'depth chart', 'rankings', 'transactions', 'media', 
                         'stadium', 'forum']
+        '''
+        links = ['roster', 'schedule', 'stats']
         return links
     
     def __repr__(self):
@@ -232,7 +239,20 @@ class Team(DateMixin, Base):
                        .outerjoin(hl, hl.c.home_team_id==Team.id)\
                        .outerjoin(aw, aw.c.away_team_id==Team.id)\
                        .outerjoin(al, al.c.away_team_id==Team.id)
-        
+                       
+    @classmethod
+    def get_team(cls, league, team_abbr):
+        return DBSession.query(cls)\
+                        .filter(Team.abbr==team_abbr,
+                                Team.league==league)
+    
+    @classmethod
+    def get_roster(cls, t_query):
+        return t_query.options(eagerload('roster'),
+                               eagerload('roster.number'),
+                               eagerload('roster.person.college'),
+                               eagerload('roster.person.height_weight'))
+                               
 class LeagueTeam(DateMixin, Base):
     team_id = Column(Integer, ForeignKey('team.id'), primary_key=True)
     league_id = Column(Integer, ForeignKey('league.id'), primary_key=True)

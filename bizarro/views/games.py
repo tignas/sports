@@ -13,105 +13,55 @@ class GameView(object):
     def __init__(self, request):
         self.request = request
         self.sport = request.matchdict['sport']
-        self.league = request.matchdict['league']    
-        self.game_id = request.matchdict['game_id']        
-        session = DBSession()
-        self.game = session.query(Game)\
-                      .options(eagerload('away_team'),
-                               eagerload('home_team'),
-                               eagerload('home_scores'),
-                               eagerload('away_scores'))\
-                      .get(self.game_id)
+        self.league = League.get(abbr=request.matchdict['league']).one()    
+        self.game_id = request.matchdict['game_id'] 
+        self.game = Game.get_game(game_id=self.game_id)
         self.data = {
             'sport': self.sport,
             'league': self.league,
             'game': self.game
         }
-        
+    
     @view_config(route_name='game', 
-                 renderer='bizarro.templates:games/boxscore.jinja2')
+                 renderer='bizarro.templates:games/football_boxscore.jinja2',
+                 match_param='sport=football')
     @view_config(route_name='game_boxscore', 
-                 renderer='bizarro.templates:games/boxscore.jinja2')
-    def boxscore(self):
-        session = DBSession()
-        sport = self.sport
-        game = self.game
-        if sport == 'football':
-            team_stats = session.query(FootballTeamStat)\
-                                .filter(FootballTeamStat.game==game)
-            stats = session.query(PlayerStat)\
-                           .options(eagerload('player'),
-                                    eagerload('team'))\
-                           .with_polymorphic('*')\
-                           .filter(PlayerStat.game_id==game.id)\
-                           .all()
-            key = lambda x: x.team
-            stats = groupby(sorted(list(stats), key=key), key=key)
-            stats = {team:list(stats) for team, stats in stats}
-            game_stats = {}
-            for team, stat_list in stats.iteritems():
-                game_stats[team] = {}
-                key = lambda x: x.stat_type
-                stat_list = sorted(stat_list, key=key)
-                for stat_type, these_stats in groupby(stat_list, key=key):
-                    if stat_type == 'return':
-                        game_stats[team]['kick_return'] = []
-                        game_stats[team]['punt_return'] = []
-                        for stat in list(these_stats):
-                            return_type = '%s_return' % stat.return_type
-                            game_stats[team][return_type].append(stat)
-                    else:
-                        game_stats[team][stat_type] = list(these_stats)
-            stat_players = game_stats
-        elif sport == 'basketball':
-            team_stats = session.query(BasketballTeamStat)\
-                                .filter(BasketballTeamStat.game_id==game.id)\
-                                .all()
-            stats = session.query(GamePlayer, BasketballBoxScoreStat)\
-                           .options(eagerload('player'),
-                                    eagerload('player.positions'),
-                                    eagerload('team'),
-                                    eagerload('team.league'))\
-                           .join(BasketballBoxScoreStat, 
-                                       and_(BasketballBoxScoreStat.game_id==GamePlayer.game_id,
-                                            BasketballBoxScoreStat.player_id==GamePlayer.player_id))\
-                           .filter(GamePlayer.game==game)\
-                           .all()
-            dnps = session.query(GamePlayer)\
-                           .options(eagerload('player'),
-                                    eagerload('player.positions'),
-                                    eagerload('team'),
-                                    eagerload('team.league'))\
-                          .join(GamePlayerDNP)\
-                          .filter(GamePlayer.game==game)\
-                          .all()
-            key = lambda x: x[0].team
-            stats = groupby(sorted(list(stats), key=key), key=key)
-            stats = {team:list(stats) for team, stats in stats}
-            key = lambda x: x.team
-            dnps = groupby(sorted(list(dnps), key=key), key=key)
-            dnps = {team:list(players) for team, players in dnps}
-            stat_players = {}
-            for team, players in stats.iteritems():
-                bench = []
-                starters = []
-                for player, stat in players:
-                    if player.starter:
-                        starters.append(stat)
-                    else:
-                        bench.append(stat)
-                stat_players[team] = {}
-                stat_players[team]['bench'] = bench
-                stat_players[team]['starter'] = starters
-            for team, players in dnps.iteritems():
-                stat_players[team]['dnp'] = players
-        officials = session.query(Person)\
-                           .join(Official, GameOfficial)\
-                           .filter(GameOfficial.game_id==game.id)
+                 renderer='bizarro.templates:games/football_boxscore.jinja2',
+                 match_param='sport=football')
+    def football_boxscore(self):
+        page = 'boxscore'
+        team_stats = FootballTeamStat.get(game=self.game).all()
+        stats = PlayerStat.get_game(game=self.game)
+        stats = PlayerStat.sorted_game_stats(stats=stats)      
+        headers = FootballTeamStat.headers()
+        models = PlayerStat.full_map()
         self.data.update({
+            'page': page,
             'team_stats': team_stats,
-            'stats': stat_players,
-            'officials': officials
+            'stats': stats,
+            'headers': headers,
+            'models': models
+        })
+        return self.data
+    
+    @view_config(route_name='game', 
+                 renderer='bizarro.templates:games/basketball_boxscore.jinja2',
+                 match_param='sport=basketball')
+    @view_config(route_name='game_boxscore', 
+                 renderer='bizarro.templates:games/basketball_boxscore.jinja2',
+                 match_param='sport=basketball')
+    def basketball_boxscore(self):
+        page = 'boxscore'
+        team_stats = BasketballTeamStat.get(game=self.game).all()
+        players = GamePlayer.get_game(game=self.game)
+        players = Game.sorted_stats(players=players)
+        stats = PlayerStat.get_game(game=self.game)
+        stats = {stat.player:stat for stat in stats}
+        self.data.update({
+            'page': page,
+            'team_stats': team_stats,
+            'stats': stats,
+            'players': players
         })
         return self.data
     

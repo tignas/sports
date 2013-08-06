@@ -15,9 +15,9 @@ class PlayerView(object):
     
     def __init__(self, request):
         self.request = request
-        page = request.matched_route.name.split('_')[1]
+        page = request.matched_route.name.split('_')[-1]
         self.sport = request.matchdict['sport']
-        self.league = request.matchdict['league']
+        self.league = League.get(abbr=request.matchdict['league']).one()
         self.player_id = request.matchdict['player_id']
         self.player = DBSession.query(Player).get(self.player_id)
         self.data = {
@@ -28,7 +28,8 @@ class PlayerView(object):
             'page': page
         }
         
-    @view_config(route_name='player', renderer='bizarro.templates:players/player.jinja2')
+    @view_config(route_name='player', 
+                 renderer='bizarro.templates:players/player.jinja2')
     def player_home(self):
         return self.data
     
@@ -60,10 +61,16 @@ class PlayerView(object):
         else:
             model = FootballOffenseProjection
         projs = model.projections(player=self.player, season=season).all()
+        averages = model.average(projs)
         abbrs = model.abbr()
+        headers = model.grouped_headers()
+        if self.request.user:
+            print self.request.user
         self.data.update({
             'projs': projs,
-            'abbrs': abbrs
+            'averages': averages,
+            'abbrs': abbrs,
+            'headers': headers,
         })
         return self.data
                         

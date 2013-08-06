@@ -1,11 +1,12 @@
 import time
 import datetime
+from collections import OrderedDict
+from itertools import groupby, ifilter, ifilterfalse
 from meta import *
 from media import Network
 from sqlalchemy import Index
 from sqlalchemy.orm import column_property, eagerload, aliased
 from sqlalchemy import select, func
-from collections import OrderedDict
         
 class ExternalID(AbstractConcreteBase, Base):
     id = Column(Integer, primary_key=True)
@@ -18,6 +19,10 @@ class ExternalID(AbstractConcreteBase, Base):
     @declared_attr
     def league_id(cls):
         return Column(Integer, ForeignKey('league.id'))
+        
+    @declared_attr
+    def league(cls):
+        return relationship('League', uselist=False)
         
 class Season(Base):
     id = Column(Integer, primary_key=True)
@@ -92,6 +97,7 @@ class Game(Base):
                                 cascade='all,delete')
     season = relationship('Season', uselist=False)
     venue = relationship('Venue', uselist=False)
+    game_players = relationship('GamePlayer')
     players = relationship('Player', secondary='game_player', 
                             cascade='all,delete')
     officials = relationship('Official', secondary='game_official', 
@@ -112,6 +118,16 @@ class Game(Base):
             'post': 'postseason',
         }
         return game_types_dict
+        
+    @classmethod
+    def get_game(cls, game_id):
+        return DBSession.query(cls)\
+                        .options(eagerload('away_team'),
+                                 eagerload('home_team'),
+                                 eagerload('home_scores'),
+                                 eagerload('away_scores'),
+                                 eagerload('officials'),)\
+                        .get(game_id)
         
     @classmethod
     def get_date(cls, league, date):
@@ -180,11 +196,40 @@ class Game(Base):
     def url(self):
         return '/%s/%s/games/%d/' % (self.league.sport_name, 
                                      self.league.abbr, self.id)
+                                     
+    @classmethod
+    def sorted_stats(cls, players):
+        key = lambda x: x.team
+        stats = groupby(sorted(list(players), key=key), key=key)
+        stats = {team: list(players) for team, players in stats}
+        stats = {team: {
+                    'starter': [p for p in players if p.starter],
+                    'bench': [p for p in players 
+                                if not p.starter and not p.status == 'dnp'], 
+                    'dnp': [p for p in players if p.status == 'dnp'],
+                 } for team, players in stats.iteritems()}
+        return stats
         
+    @classmethod
+    def team_schedule(cls, team, game_type, year):
+        return DBSession.query(cls)\
+                        .options(eagerload('away_team'),
+                                eagerload('home_team'),
+                                eagerload('home_scores'),
+                                eagerload('away_scores'),)\
+                        .filter(or_(cls.home_team==team, 
+                                   cls.away_team==team),
+                               cls.game_type==game_type,
+                               cls.season.has(year=year))\
+                        .order_by(Game.game_time)
+
 class GameOfficial(Base):
     game_id = Column(Integer, ForeignKey('game.id'), primary_key=True)
     official_id = Column(Integer, ForeignKey('official.id'), primary_key=True)
     official_type = Column(String)
+    
+    official = relationship('Official', uselist=False)
+    game = relationship('Game', uselist=False)
     
 class GameExternalID(ExternalID):
     game_id = Column(Integer, ForeignKey('game.id'))
@@ -210,6 +255,13 @@ class GamePlayer(Base):
     game = relationship('Game', uselist=False)
     player = relationship('Player', uselist=False)
     team = relationship('Team', uselist=False)
+    stats = relationship('PlayerStat', 
+                    primaryjoin='and_('
+                                'GamePlayer.player_id==PlayerStat.player_id,'
+                                'GamePlayer.team_id==PlayerStat.team_id,'
+                                'GamePlayer.game_id==PlayerStat.game_id)',
+                    foreign_keys=[game_id, team_id, player_id])
+    
     
     @classmethod
     def sum_query(cls):
@@ -218,6 +270,23 @@ class GamePlayer(Base):
         ]
         return sum_query
     
+    @classmethod
+    def dnps(cls, game):
+        return DBSession.query(cls)\
+                        .options(eagerload('player'),
+                                 eagerload('player.positions'),
+                                 eagerload('team'),
+                                 eagerload('team.league'))\
+                       .join(GamePlayerDNP)\
+                       .filter(cls.game==game)
+                       
+    @classmethod
+    def get_game(cls, game):
+        return DBSession.query(GamePlayer)\
+                        .options(eagerload('player'),
+                                 eagerload('team'))\
+                        .filter(GamePlayer.game==game)
+    
     def __repr__(self):
         return '%s %s' % (self.player, self.game)
 
@@ -225,9 +294,10 @@ class GamePlayerDNP(Base):
     id = Column(Integer, ForeignKey('game_player.id'), primary_key=True)
     reason = Column(String)
     
-    game_player = relationship('GamePlayer', 
+    game_player = relationship('GamePlayer', uselist=False, lazy='joined',
                                 backref=backref('dnp', lazy='joined', 
                                                 uselist=False))
+
     
 class PlayerStat(Base):
     id = Column(Integer, primary_key=True)
@@ -262,6 +332,20 @@ class PlayerStat(Base):
             return map_[sport]
             
     @classmethod
+    def full_map(cls):
+        return OrderedDict([
+                ('passing', FootballPassingStat),
+                ('rushing', FootballRushingStat),
+                ('receiving', FootballReceivingStat),
+                ('fumble', FootballFumbleStat),
+                ('return', FootballReturnStat),
+                ('kicking', FootballKickingStat),
+                ('punting', FootballPuntingStat),
+                ('interception', FootballInterceptionStat),
+                ('defensive', FootballDefensiveStat),
+            ])
+            
+    @classmethod
     def queries(cls, sport, stat_type):
         q = []
         if sport == 'basketball':
@@ -279,6 +363,36 @@ class PlayerStat(Base):
                                  cls.stat_type!='offense',
                                  Game.game_type==game_type)
         return stats
+        
+    @classmethod
+    def get_game(cls, game):
+        return DBSession.query(cls)\
+                        .options(eagerload('player'),
+                                 eagerload('team'))\
+                        .with_polymorphic('*')\
+                        .filter(cls.game_id==game.id)\
+                        .all()
+    
+    @classmethod
+    def sorted_game_stats(cls, stats):
+        key = lambda x: x.team
+        stats = groupby(sorted(list(stats), key=key), key=key)
+        stats = {team:list(stats) for team, stats in stats}
+        game_stats = {}
+        for team, stat_list in stats.iteritems():
+            game_stats[team] = {}
+            key = lambda x: x.stat_type
+            stat_list = sorted(stat_list, key=key)
+            for stat_type, these_stats in groupby(stat_list, key=key):
+                if stat_type == 'return':
+                    game_stats[team]['kick_return'] = []
+                    game_stats[team]['punt_return'] = []
+                    for stat in list(these_stats):
+                        return_type = '%s_return' % stat.return_type
+                        game_stats[team][return_type].append(stat)
+                else:
+                    game_stats[team][stat_type] = list(these_stats)
+        return game_stats 
     
     @classmethod
     def player_sum(cls, sport, league, game_type, player, season):
@@ -288,7 +402,15 @@ class PlayerStat(Base):
                                 Game.game_type==game_type, 
                                 Season.year==season)\
                         .one()
-
+                        
+    @classmethod
+    def team_season(cls, team, season_year):
+        return DBSession.query(cls)\
+                        .with_polymorphic('*')\
+                        .join(Game, Season)\
+                        .filter(Season.year==season_year,
+                                cls.team==team)
+                                
 class FootballPassingStat(PlayerStat):
     id = Column(Integer, ForeignKey('player_stat.id'), primary_key=True)
     attempts = Column(Integer)
@@ -316,6 +438,10 @@ class FootballPassingStat(PlayerStat):
     @classmethod
     def sum_query(cls):
         return [func.sum(k).label(v) for k, v in cls.abbr()]
+    
+    @classmethod
+    def sum_q(cls):
+        return 'yd'
             
     @classmethod
     def full_cats(cls):
@@ -348,10 +474,6 @@ class FootballPassingStat(PlayerStat):
             p_list.append(p)
         players = sorted(p_list, key=lambda x: x['stats'][-1], reverse=True)
         return players
-
-    @classmethod
-    def sum_q(cls):
-        return 'yd'                
 
 class FootballRushingStat(PlayerStat):
     id = Column(Integer, ForeignKey('player_stat.id'), primary_key=True)
@@ -389,7 +511,9 @@ class FootballReceivingStat(PlayerStat):
     touchdowns = Column(Integer)
     longest = Column(Integer)
     targets = Column(Integer)
-    
+
+    __mapper_args__ = {'polymorphic_identity': 'receiving'}
+
     @classmethod
     def abbr(cls):
         return [
@@ -406,9 +530,7 @@ class FootballReceivingStat(PlayerStat):
         s_q = [func.sum(k).label(v) for k, v in s_q]
         s_q.append(func.max(cls.longest).label('long'))
         return s_q
-            
-    __mapper_args__ = {'polymorphic_identity': 'receiving'}
-    
+
     @classmethod
     def sum_q(cls):
         return 'yd'
@@ -428,10 +550,14 @@ class FootballFumbleStat(PlayerStat):
             (cls.recovered, 'rec'),
             (cls.lost, 'lost')
         ]
-                
+
     @classmethod
     def sum_query(cls):
         return [func.sum(k).label(v) for k, v in cls.abbr()]
+        
+    @classmethod
+    def sum_q(cls):
+        return 'lost'
 
 class FootballDefensiveStat(PlayerStat):
     id = Column(Integer, ForeignKey('player_stat.id'), primary_key=True)
@@ -461,6 +587,10 @@ class FootballDefensiveStat(PlayerStat):
     def sum_query(cls):
         return [func.sum(k).label(v) for k, v in cls.abbr()]
     
+    @classmethod
+    def sum_q(cls):
+        return 'tkl'
+    
 class FootballReturnStat(PlayerStat):
     id = Column(Integer, ForeignKey('player_stat.id'), primary_key=True)
     total = Column(Integer)
@@ -473,14 +603,20 @@ class FootballReturnStat(PlayerStat):
     
     @classmethod
     def abbr(cls):
-        return {'total': 'tot',
-                'yards': 'yd',
-                'longest': 'long',
-                'touchdowns': 'td'}
+        return [
+            (cls.total, 'tot'),
+            (cls.yards, 'yd'),
+            (cls.touchdowns, 'td'),
+            (cls.longest, 'long'),
+        ]
                 
     @classmethod
     def sum_query(cls):
-        return [func.sum(k).label(v) for k, v in cls.abbr()]           
+        return [func.sum(k).label(v) for k, v in cls.abbr()]   
+        
+    @classmethod
+    def sum_q(cls): 
+        return 'tot'       
 
 class FootballKickingStat(PlayerStat):
     id = Column(Integer, ForeignKey('player_stat.id'), primary_key=True)
@@ -502,11 +638,14 @@ class FootballKickingStat(PlayerStat):
         ]
                 
     @classmethod
-    def sum_query(cls, stat_type):
+    def sum_query(cls):
         s_q = [func.sum(k).label(v) for k, v in cls.abbr()]
         s_q.append(func.max(cls.longest).label('long'))
-        q = 'xpa'
-        return q, s_q
+        return s_q
+        
+    @classmethod
+    def sum_q(cls):
+        return 'xpa'
         
     @classmethod
     def full_cats(cls):
@@ -548,11 +687,14 @@ class FootballPuntingStat(PlayerStat):
         ]
                 
     @classmethod
-    def sum_query(cls, stat_type):
+    def sum_query(cls):
         s_q = [func.sum(k).label(v) for k, v in cls.abbr()]
         s_q.append(func.max(cls.longest).label('long'))
-        q = 'tot'
-        return q, s_q
+        return s_q
+        
+    @classmethod
+    def sum_q(cls):
+        return 'tot'
     
     @classmethod
     def full_cats(cls):
@@ -591,6 +733,10 @@ class FootballInterceptionStat(PlayerStat):
     @classmethod
     def sum_query(cls):
         return [func.sum(k).label(v) for k, v in cls.abbr()]
+        
+    @classmethod
+    def sum_q(cls):
+        return 'tot'
         
 class FootballOffensiveStat(PlayerStat):
     id = Column(Integer, ForeignKey('player_stat.id'), primary_key=True)
@@ -789,6 +935,18 @@ class FootballTeamStat(Base):
             func.count(cls.interceptions).label('interceptions'),
         ]
         return sum_query
+        
+    @classmethod
+    def headers(cls):
+       return ['passing_first_downs', 'rushing_first_downs', 
+               'penalty_first_downs', 'third_down_attempts', 
+               'third_down_conversions', 'fourth_down_attempts', 
+               'fourth_down_conversions', 'plays', 'yards', 'drives', 
+               'passing_yards', 'passing_attempts', 'passing_completions', 
+               'interceptions', 'sack_total', 'sack_yards', 'rushing_yards', 
+               'rushing_attempts', 'red_zone_attempts', 'red_zone_conversions', 
+               'penalty_total', 'penalty_yards','fumbles_lost', 
+               'defensive_special_teams_tds']
     
 class BasketballMixin(object):    
     minutes = Column(Integer)     
@@ -877,8 +1035,11 @@ class BasketballMixin(object):
         '''
 
 class BasketballBoxScoreStat(BasketballMixin, PlayerStat):
-    id = Column(Integer, ForeignKey('player_stat.id'), primary_key=True) 
+
+    id = Column(Integer, ForeignKey('player_stat.id'), primary_key=True)
     
+    player_stat = relationship('PlayerStat', 
+                            backref=backref('basketball_stat', uselist=False))
     __mapper_args__ = {'polymorphic_identity': 'box_score'}
     
     @classmethod
@@ -992,7 +1153,8 @@ class BasketballTeamStat(Base):
     fast_break_points = Column(Integer)
     points_off_turnover = Column(Integer)
     
-    team = relationship('Team')
+    team = relationship('Team', uselist=False)
+    game = relationship('Game', uselist=False)
     
 
     

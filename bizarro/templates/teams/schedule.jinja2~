@@ -1,34 +1,43 @@
 {% extends "templates/teams/base.jinja2" %}
 {% block team_content %}
 
+<div id="options">
+<form>
+<input type="submit" />
 {% include "templates/widgets/game_type_picker.jinja2" %}
 {% include "templates/widgets/season_picker.jinja2" %}
+</form>
+</div>
 
 <div id="games">
-{% include "templates/teams/schedule_table.jinja2" %}
+<table>
+    <thead>
+        <tr>
+            {% if league == 'nfl' %}
+            <th>Week</th>
+            {% endif %}
+            <th>Date</th>
+            <th>Opp</th>
+            <th>Result</th>
+            <th>Score</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for game in games|sort(attribute='game_time', reverse=True) %}
+        <tr class='game_row'>
+            <td>{{game.game_time.strftime('%m/%d/%y')}}
+            <td>
+                {% if game.away_team == team %}
+                @<a href="{{game.home_team.url()}}">{{game.home_team.abbr}}</a>
+                {% else %}
+                <a href="{{game.away_team.url()}}">{{game.away_team.abbr}}</a>
+                {% endif %}
+            </td>
+            <td>{% if game.winner() == team %}W{% else %}L{% endif %}</td>
+            <td><a href='{{game.url()}}'>{{game.home_score}}-{{game.away_score}}</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
 </div>
-{% endblock %}
-{% block javascript %}
-<script>
-$(document).ready(function () {
-var season = {{season}}
-var game_type = "{{game_type}}"
-var data = {
-    'season': season,
-    'game_type': game_type
-}
-$('#season').on('change', function () {
-    data['season'] = $(this).val();
-    $.get('', data, function(response) {
-        $('#games').html(response);
-    });
-});
-$('#game_type').on('change', function () {
-    data['game_type'] = $(this).val();
-    $.get('', data, function(response) {
-        $('#games').html(response);
-    });
-});
-});
-</script>
 {% endblock %}
