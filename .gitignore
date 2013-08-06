@@ -47,7 +47,7 @@ nosetests.xml
 a.py
 test.py
 .jinja2~
-
+*.jinja2[cod]
 
 
 
