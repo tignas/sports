@@ -9,7 +9,6 @@ if __name__ == '__main__':
         a, command = sys.argv
     else:
         command = None
-    
     if command == 'import_roster':
         from import_scripts.players import *
         import_roster(league)
@@ -52,5 +51,11 @@ if __name__ == '__main__':
     elif command == 'assign_weeks':
         from import_scripts.games import assign_game_weeks
         assign_game_weeks()
+    elif command == 'import_odds':
+        from import_scripts.odds import import_odds
+        import_odds(league)
+    elif command == 'update_seasons':
+        from import_scripts.create_scripts import update_seasons
+        update_seasons(league)
     else:
         raise Exception('unknown command')

@@ -24,8 +24,5 @@ def save(obj):
     session.add(obj)
     session.commit()
 
-a = session.query(GamePlayerDNP).join(GamePlayer).filter(GamePlayer.status!='dnp')
-
-for b in a:
-    b.game_player.status = 'dnp'
-session.commit()
+a = session.query(League).filter_by(abbr='nfl').one()
+print a

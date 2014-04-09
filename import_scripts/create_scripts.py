@@ -1,5 +1,8 @@
-from bizarro.connect_db import *
-from bizarro.models.teams import Sport
+from dateutil import parser
+from sqlalchemy.orm.exc import NoResultFound
+from connect_db import *
+from bizarro.models.teams import Sport, League
+from bizarro.models.stats import Season
 
 def create_sports():
     session = create_session()    
@@ -495,14 +498,116 @@ def create_league(league):
                           'league_id': league.id})
             season, created = get_or_create(session, Season, **dates)
 
-
-
-
-
-
-
-
-
+def update_seasons(league_abbr):
+    session = create_session(True)
+    league = session.query(League).filter_by(abbr=league_abbr).one()
+    if league_abbr == 'nfl':
+        seasons = {
+            '2004': {
+                'preseason_start': '08/12/04',
+                'preseason_end': '09/03/04',
+                'regular_start': '09/09/04', 
+                'regular_end': '01/02/05',
+                'postseason_start': '01/08/05',
+                'postseason_end': '02/06/05',
+            },
+            '2005': {
+                'preseason_start': '08/11/05',
+                'preseason_end': '09/02/05',
+                'regular_start': '09/08/05',
+                'regular_end': '01/01/06',
+                'postseason_start': '01/07/06',
+                'postseason_end': '02/05/06',
+            },
+            '2006': {
+                'preseason_start': '08/10/06',
+                'preseason_end': '09/01/06',
+                'regular_start': '09/07/06',
+                'regular_end': '12/31/06',
+                'postseason_start': '01/06/07',
+                'postseason_end': '02/04/07',
+            },
+            '2007': {
+                'preseason_start': '08/09/07',
+                'preseason_end': '08/31/07',
+                'regular_start': '09/06/07',
+                'regular_end': '12/30/07',
+                'postseason_start': '01/05/08',
+                'postseason_end': '02/03/08',
+            },
+            '2008': {
+                'preseason_start': '08/03/08',
+                'preseason_end': '08/29/08',
+                'regular_start': '09/04/08',
+                'regular_end': '12/28/08',
+                'postseason_start': '01/03/09',
+                'postseason_end': '02/01/09',
+            },
+            '2009': {
+                'preseason_start': '08/09/09',
+                'preseason_end': '09/04/09',
+                'regular_start': '09/10/09',
+                'regular_end': '01/03/10',
+                'postseason_start': '01/09/10',
+                'postseason_end': '02/07/10',
+            },
+            '2010': {
+                'preseason_start': '08/08/10',
+                'preseason_end': '09/02/10',
+                'regular_start': '09/09/10',
+                'regular_end': '01/02/11',
+                'postseason_start': '01/08/11',
+                'postseason_end': '02/06/11',
+            },
+            '2011': {
+                'preseason_start': '08/07/11',
+                'preseason_end': '09/02/11',
+                'regular_start': '09/08/11',
+                'regular_end': '01/01/12',
+                'postseason_start': '01/07/12',
+                'postseason_end': '02/05/12',
+            },
+            '2012': {
+                'preseason_start': '08/05/12',
+                'preseason_end': '08/30/12',
+                'regular_start': '09/05/12',
+                'regular_end': '12/30/12',
+                'postseason_start': '01/05/13',
+                'postseason_end': '02/03/13',
+            },
+            '2013': {
+                'preseason_start': '08/04/13',
+                'preseason_end': '08/29/13',
+                'regular_start': '09/05/13',
+                'regular_end': '12/29/13',
+                'postseason_start': '01/04/14',
+                'postseason_end': '02/02/14',
+            },
+            '2014': {
+                'preseason_start': '08/03/14',
+                'preseason_end': '08/30/14',
+                'regular_start': '09/04/14',
+                'regular_end': '12/28/14',
+                'postseason_start': '01/03/15',
+                'postseason_end': '02/01/15',
+            }
+        }
+        for year, dates in seasons.items():
+            for date_type, date in dates.items():
+                if date:
+                    date = parser.parse(date).date()
+                dates[date_type] = date
+            try:
+                season = session.query(Season)\
+                                .filter_by(league_id=league.id,
+                                            year=year).one()
+            except NoResultFound:
+                season = Season(league_id=league.id, year=year)
+                session.add(season)
+                session.commit()
+            season.update(dates)
+            session.add(season)
+        session.commit()
     
     
     

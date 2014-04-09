@@ -8,7 +8,8 @@ class CSVRenderer(object):
 
     def __call__(self, value, system):
         fout = StringIO.StringIO()
-        writer = csv.writer(fout, delimiter=';', quoting=csv.QUOTE_ALL)
+        writer = csv.writer(fout, delimiter=';', 
+                            quoting=csv.QUOTE_ALL)
 
         writer.writerow(value['header'])
         writer.writerows(value['rows'])
