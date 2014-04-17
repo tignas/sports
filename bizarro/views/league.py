@@ -98,9 +98,11 @@ class LeagueView(object):
                  match_param="league=nba")
     def schedule(self):
         season = int(self.request.GET.get('season', 2012))
-        game_type = self.request.GET.get('game_type', 'reg')
+        game_type = self.request.GET.get('game_type', 'post')
         games = Game.get_season(league=self.league, game_type=game_type,    
                                 year=season)
+        for game in games:
+            print game
         if self.league.abbr == 'nfl':
             key = lambda x: x.week()
         elif self.league.abbr == 'nba':

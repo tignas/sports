@@ -1,10 +1,10 @@
+from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
+from sqlalchemy import or_
+from pprint import pprint
 from bizarro.models.teams import *
 from bizarro.models.people import *
 from bizarro.models.stats import *
-from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
-from sqlalchemy import or_
 from connect_db import *
-from pprint import pprint
 
 def get_team(session, league, team_identifier, full_description=None):
     #Try team_abbr
@@ -69,6 +69,70 @@ def create_player(session, league_id, full_name=None):
     if full_name:        
         name = PersonName(full_name=full_name, person_id=person.id)
         name = save(session, name)
+    return player
+    
+
+def create_full_player(session, full_name, external_id, height, weight, 
+                        college, league, team, source, position_abbr, 
+                        number, sport):
+    player_external_id, created = get_or_create(session, PlayerExternalID, 
+                                                source_name=source.name,
+                                                league_id=league.id,
+                                                external_id=external_id)
+    player = player_external_id.player
+    if not player:
+        person = Person()       
+        person = save(session, person)
+        player = Player(person_id=person.id, league_id=league.id)
+        player = save(session, player)
+        player_external_id.player = player
+        save(session, player_external_id)
+    else:
+        person = player.person
+    name, created = get_or_create(session, PersonName, full_name=full_name, 
+                                  person_id=person.id)
+    try:
+        position = session.query(Position).filter_by(abbr=position_abbr, 
+                                                 sport_name=sport).one()
+    except NoResultFound:
+        pprint(position_abbr)
+        raise Exception('no position found')
+    if not position in player.positions:
+        player.positions.append(position)
+        save(session, player)
+    '''
+    team_player, created = get_or_create(session, TeamPlayer, team_id=team.id, 
+                                         player_id=player.id)
+    '''
+    team_players = session.query(TeamPlayer)\
+                          .filter(TeamPlayer.player==player, 
+                                  TeamPlayer.team==team)\
+                          .all()
+    if team_players:
+        for num, p in enumerate(team_players):
+            if not num == 0:
+                session.delete(team_players[num])
+        team_players[0].current=True
+    else:
+        team_player = TeamPlayer(team=team, player=player, current=True)
+    session.commit()
+    height_weight, created = get_or_create(session, HeightWeight, 
+                                           person_id=person.id)
+    if height > 0 and not height_weight.height:
+        height_weight.height = height
+        save(session, height_weight)
+    if weight > 0 and not height_weight.weight:
+        height_weight.weight = weight
+        save(session, height_weight)
+    if college:
+        college, created = get_or_create(session, College, name=college)
+        person_college = get_or_create(session, CollegePerson, 
+                                       person_id=person.id, 
+                                       college_name=college.name)
+    if not number == '--':
+        number = int(number)
+        team_player_number = get_or_create(session, PlayerNumber, 
+                                           player_id=player.id, number=number)
     return player
         
     

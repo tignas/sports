@@ -1038,8 +1038,11 @@ class BasketballBoxScoreStat(BasketballMixin, PlayerStat):
 
     id = Column(Integer, ForeignKey('player_stat.id'), primary_key=True)
     
+    '''
     player_stat = relationship('PlayerStat', 
                             backref=backref('basketball_stat', uselist=False))
+    '''
+    
     __mapper_args__ = {'polymorphic_identity': 'box_score'}
     
     @classmethod

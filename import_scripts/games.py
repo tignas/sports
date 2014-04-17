@@ -8,6 +8,8 @@ from sqlalchemy import desc
 from connect_db import *
 from bizarro.models.teams import *
 from bizarro.models.stats import *
+from nfl.games import game_ids as nfl_game_ids
+from nfl.games import nfl_boxscore
 
 session = create_session(True)
 
@@ -18,31 +20,10 @@ def boxscore_game_id(game_id):
                                .one()
     nba_boxscore(game_external_id.external_id)
 
-def game_ids(league):
-    league = session.query(League).filter_by(abbr=league).one()
-    source_name = 'espn'
+def game_ids(league_abbr):
+    league = session.query(League).filter(League.abbr==league_abbr).one()
     if league.abbr == 'nfl':
-        seasons = session.query(Season)\
-                         .filter(Season.league_id==league.id) 
-        for season in seasons:
-            print season.year
-            base_url = 'http://espn.go.com/nfl/schedule/_/year/%d/'
-            base_url %= season.year
-            base_url += 'seasontype/%d'
-            for season_type in range(1,4):
-                url = base_url
-                url %= season_type
-                result = urllib2.urlopen(url)
-                body = BeautifulSoup(result)
-                search = r'boxscore'
-                boxscores = body.findAll('a', attrs={'href':re.compile(search)})
-                for boxscore in boxscores:
-                    external_id = boxscore['href'].partition('=')[2]
-                    game_external_id, created = get_or_create(session, 
-                                                    GameExternalID,
-                                                    external_id=external_id,
-                                                    league_id=league.id,
-                                                    source_name=source_name)
+        return nfl_game_ids(league)
     elif league.abbr == 'nba':
         source_name = 'espn'
         end_date = datetime.date(year=2013, month=4, day=01)
@@ -65,7 +46,8 @@ def game_ids(league):
                                                       GameExternalID,
                                                       external_id=external_id,
                                                       league_id=league.id,
-                                                      source_name=source_name)
+                                                      source_name=source_name,
+                                                      boxscore=False)
 
 def import_boxscores(league):
     session = create_session(True)
@@ -100,10 +82,10 @@ def import_boxscores(league):
             '220210031', '400436572'
         ]
     elif league.abbr == 'nfl':
-        bad_game_ids = []
+        bad_game_ids = ['280815010']
         all_star_games = []
     external_game_ids = session.query(GameExternalID)\
-                               .filter(GameExternalID.boxscore==False,
+                               .filter(GameExternalID.boxscore==None,
                                        GameExternalID.league_id==league.id)\
                                .filter(not_(GameExternalID.external_id\
                                                           .in_(bad_game_ids)))\
@@ -123,6 +105,7 @@ def import_boxscores(league):
         save(session, external_game_id)        
 
 def assign_game_type(league):
+    """For all games assign pre, reg, or post game types."""
     league = session.query(League).filter_by(abbr=league).one()
     seasons = session.query(Season)\
                      .filter(Season.league_id==league.id,
@@ -155,6 +138,7 @@ def assign_game_type(league):
         session.commit()
 
 def assign_game_weeks():
+    """For all seasons assign the game week for each game."""
     league = session.query(League).filter_by(abbr='nfl').one()
     seasons = session.query(Season).filter_by(league_id=league.id)
     day = datetime.timedelta(days=1)
@@ -170,7 +154,11 @@ def assign_game_weeks():
             start_date += day*7
             
 def flatten_stats(league):
-    players = session.query(GamePlayer).join(Game).filter(Game.league_id==1).order_by(GamePlayer.id).count()
+    players = session.query(GamePlayer)\
+                     .join(Game)\
+                     .filter(Game.league_id==1)\
+                     .order_by(GamePlayer.id)\
+                     .count()
     for num, gp in enumerate(players):
         print num
         stats = session.query(PlayerStat)\

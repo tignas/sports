@@ -258,6 +258,10 @@ class TeamPersonnel(AbstractConcreteBase, DateMixin, Base):
     @declared_attr
     def team_id(cls):
         return Column(Integer, ForeignKey('team.id'))
+    
+    @declared_attr
+    def team(cls):
+        return relationship('Team', uselist=False)
                                
 class TeamPlayer(TeamPersonnel):
     player_id = Column(Integer, ForeignKey('player.id'))
@@ -265,6 +269,9 @@ class TeamPlayer(TeamPersonnel):
     player = relationship('Player', uselist=False)
     
     __mapper_args__ = {'polymorphic_identity': 'player', 'concrete': True}
+    
+    def __repr__(self):
+        return '%s %s' % (self.team, self.player)
 
 class TeamCoach(TeamPersonnel):
     coach_id = Column(Integer, ForeignKey('coach.id'))

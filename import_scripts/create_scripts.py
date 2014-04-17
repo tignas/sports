@@ -5,6 +5,7 @@ from bizarro.models.teams import Sport, League
 from bizarro.models.stats import Season
 
 def create_sports():
+    """Create sports in the sports list if the sport does not already exist."""
     session = create_session()    
     sports = [
         'basketball',
@@ -36,6 +37,7 @@ def create_sports():
     session.commit()
 
 def get_location(location_name):
+    """Searches a location name and returns json information."""
     url = 'http://maps.googleapis.com/maps/api/geocode/json?%s&sensor=false' 
     url %= urllib.urlencode({'address': location_name})
     location = json.load(urllib2.urlopen(url))
@@ -74,7 +76,8 @@ def get_location(location_name):
         location = location_query
     return location
 
-def get_address(address):     
+def get_address(address):
+    """Takes an address and returns json with relevant information."""
     location = get_location(address)
     url = 'http://maps.googleapis.com/maps/api/geocode/json?%s&sensor=false'
     url %= urllib.urlencode({'address': address})
@@ -102,25 +105,22 @@ def get_address(address):
 def create_league(league):
     if league == 'nfl':
         #League
-        full_name ='national football league'
-        sport = 'football'
-        abbr = 'nfl'
-        website ='http://www.nfl.com/'
-        start_date = datetime.date(month=9, year=1920, day=17)
-        founded_location_id = get_address('princeton, nj').id
-        address_id = get_location('345 park avenue, new york ny').id
-        league, created = get_or_create(session, League,full_name=full_name, 
-                            abbr=abbr, website=website,
-                            start_date=start_date,
-                            founded_location_id=founded_location_id, 
-                            address_id=address_id,
-                            sport_name=sport)
+        league_info = {
+            'full_name': 'national football league',
+            'sport': 'football',
+            'abbr': 'nfl',
+            'website': 'http://www.nfl.com',
+            'start_date': datetime.date(month=9, year=1920, day=17),
+            'founded_location_id': get_address('princeton, nj').id,
+            'address_id': get_location('345 park avenue, new york ny').id
+        }
+        league, created = get_or_create(session, League, **league_info)
         #Conferences
         afc, created = get_or_create(session, Conference, 
                         name='american football conference', abbr='afc', 
                         start_date=datetime.date(year=1970, month=1, day=1),
                         league_id=league.id)
-        nfc,created = get_or_create(session, Conference, 
+        nfc, created = get_or_create(session, Conference, 
                         name='national football conference', abbr='nfc',
                         start_date=datetime.date(year=1970, month=1, day=1),
                         league_id=league.id)
@@ -248,86 +248,86 @@ def create_league(league):
                                 sport_name=sport)
         
         seasons = {
-        '2004': {
-        'preseason_start': '08/12/04',
-        'preseason_end': '09/03/04',
-        'regular_start': '09/09/04', 
-        'regular_end': '01/02/05',
-        'postseason_start': '01/08/05',
-        'postseason_end': '02/06/05',
-        },
-        '2005': {
-        'preseason_start': '08/11/05',
-        'preseason_end': '09/02/05',
-        'regular_start': '09/08/05',
-        'regular_end': '01/01/06',
-        'postseason_start': '01/07/06',
-        'postseason_end': '02/05/06',
-        },
-        '2006': {
-        'preseason_start': '08/10/06',
-        'preseason_end': '09/01/06',
-        'regular_start': '09/07/06',
-        'regular_end': '12/31/06',
-        'postseason_start': '01/06/07',
-        'postseason_end': '02/04/07',
-        },
-        '2007': {
-        'preseason_start': '08/09/07',
-        'preseason_end': '08/31/07',
-        'regular_start': '09/06/07',
-        'regular_end': '12/30/07',
-        'postseason_start': '01/05/08',
-        'postseason_end': '02/03/08',
-        },
-        '2008': {
-        'preseason_start': '08/03/08',
-        'preseason_end': '08/29/08',
-        'regular_start': '09/04/08',
-        'regular_end': '12/28/08',
-        'postseason_start': '01/03/09',
-        'postseason_end': '02/01/09',
-        },
-        '2009': {
-        'preseason_start': '08/09/09',
-        'preseason_end': '09/04/09',
-        'regular_start': '09/10/09',
-        'regular_end': '01/03/10',
-        'postseason_start': '01/09/10',
-        'postseason_end': '02/07/10',
-        },
-        '2010': {
-        'preseason_start': '08/08/10',
-        'preseason_end': '09/02/10',
-        'regular_start': '09/09/10',
-        'regular_end': '01/02/11',
-        'postseason_start': '01/08/11',
-        'postseason_end': '02/06/11',
-        },
-        '2011': {
-        'preseason_start': '08/07/11',
-        'preseason_end': '09/02/11',
-        'regular_start': '09/08/11',
-        'regular_end': '01/01/12',
-        'postseason_start': '01/07/12',
-        'postseason_end': '02/05/12',
-        },
-        '2012': {
-        'preseason_start': '08/05/12',
-        'preseason_end': '08/30/12',
-        'regular_start': '09/05/12',
-        'regular_end': '12/30/12',
-        'postseason_start': '01/05/13',
-        'postseason_end': '02/03/13',
-        },
-        '2013': {
-        'preseason_start': '08/04/13',
-        'preseason_end': '08/29/13',
-        'regular_start': '09/05/13',
-        'regular_end': '12/29/13',
-        'postseason_start': None,
-        'postseason_end': None,
-        },
+            '2004': {
+                'preseason_start': '08/12/04',
+                'preseason_end': '09/03/04',
+                'regular_start': '09/09/04', 
+                'regular_end': '01/02/05',
+                'postseason_start': '01/08/05',
+                'postseason_end': '02/06/05',
+            },
+            '2005': {
+                'preseason_start': '08/11/05',
+                'preseason_end': '09/02/05',
+                'regular_start': '09/08/05',
+                'regular_end': '01/01/06',
+                'postseason_start': '01/07/06',
+                'postseason_end': '02/05/06',
+            },
+            '2006': {
+                'preseason_start': '08/10/06',
+                'preseason_end': '09/01/06',
+                'regular_start': '09/07/06',
+                'regular_end': '12/31/06',
+                'postseason_start': '01/06/07',
+                'postseason_end': '02/04/07',
+            },
+            '2007': {
+                'preseason_start': '08/09/07',
+                'preseason_end': '08/31/07',
+                'regular_start': '09/06/07',
+                'regular_end': '12/30/07',
+                'postseason_start': '01/05/08',
+                'postseason_end': '02/03/08',
+            },
+            '2008': {
+                'preseason_start': '08/03/08',
+                'preseason_end': '08/29/08',
+                'regular_start': '09/04/08',
+                'regular_end': '12/28/08',
+                'postseason_start': '01/03/09',
+                'postseason_end': '02/01/09',
+            },
+            '2009': {
+                'preseason_start': '08/09/09',
+                'preseason_end': '09/04/09',
+                'regular_start': '09/10/09',
+                'regular_end': '01/03/10',
+                'postseason_start': '01/09/10',
+                'postseason_end': '02/07/10',
+            },
+            '2010': {
+                'preseason_start': '08/08/10',
+                'preseason_end': '09/02/10',
+                'regular_start': '09/09/10',
+                'regular_end': '01/02/11',
+                'postseason_start': '01/08/11',
+                'postseason_end': '02/06/11',
+            },
+            '2011': {
+                'preseason_start': '08/07/11',
+                'preseason_end': '09/02/11',
+                'regular_start': '09/08/11',
+                'regular_end': '01/01/12',
+                'postseason_start': '01/07/12',
+                'postseason_end': '02/05/12',
+            },
+            '2012': {
+                'preseason_start': '08/05/12',
+                'preseason_end': '08/30/12',
+                'regular_start': '09/05/12',
+                'regular_end': '12/30/12',
+                'postseason_start': '01/05/13',
+                'postseason_end': '02/03/13',
+            },
+            '2013': {
+                'preseason_start': '08/04/13',
+                'preseason_end': '08/29/13',
+                'regular_start': '09/05/13',
+                'regular_end': '12/29/13',
+                'postseason_start': None,
+                'postseason_end': None,
+            },
         }
         for year, dates in seasons.items():
             for date_type, date in dates.items():
@@ -340,17 +340,17 @@ def create_league(league):
         session.commit()
     elif league == 'nba':
         #League
-        full_name ='national basketball association'
-        abbr = 'nba'
-        sport = 'basketball'
-        website ='http://www.nba.com/'
-        start_date = datetime.date(month=6, year=1946, day=6)
-        founded_location = get_location('manhattan, ny')
-        address_id = get_location('645 Fifth Avenue New York, NY 10022').id
-        league, created = get_or_create(session, League, full_name=full_name, 
-                            abbr=abbr, website=website, start_date=start_date,
-                            founded_location_id=founded_location.id, 
-                            address_id=address_id, sport_name=sport)
+        address = '645 Fifth Avenue New York, NY 10022'
+        league_info = {
+            'full_name': 'national basketball association',
+            'abbr': 'nba',
+            'sport': 'basketball',
+            'website': 'http://www.nba.com/',
+            'start_date':  datetime.date(month=6, year=1946, day=6),
+            'founded_location': get_location('manhattan, ny'),
+            'address_id': get_location(address).id
+        }
+        league, created = get_or_create(session, League, **league_info)
         #Conferences
         east, created = get_or_create(session, Conference, 
                         name='eastern conference', abbr='east',
@@ -451,43 +451,110 @@ def create_league(league):
                                 abbr=abbr, name=name, 
                                 sport_name=sport)        
         season_dates = {
-        2012: {'regular_start':'2012-10-30', 'regular_end':'2013-04-17',
-               'preseason_start':'2012-10-05', 'preseason_end':'2012-10-26', 
-               'postseason_start':'2013-04-20', 'postseason_end':None},
-        2011: {'regular_start':'2011-12-25', 'regular_end':'2012-04-26',
-               'preseason_start':'2011-12-16', 'preseason_end':'2011-12-22', 
-               'postseason_start':'2012-04-28', 'postseason_end':'2012-06-21'},
-        2010: {'regular_start':'2010-10-26', 'regular_end':'2011-04-13',
-               'preseason_start':'2010-10-03', 'preseason_end':'2010-10-22', 
-               'postseason_start':'2011-04-16', 'postseason_end':'2011-06-12'},
-        2009: {'regular_start':'2009-10-27', 'regular_end':'2010-04-14',
-               'preseason_start':'2009-10-01', 'preseason_end':'2009-10-23', 
-               'postseason_start':'2010-04-17', 'postseason_end':'2010-06-17'},
-        2008: {'regular_start':'2008-10-28', 'regular_end':'2009-04-16',
-               'preseason_start':'2008-10-05', 'preseason_end':'2008-10-24', 
-               'postseason_start':'2009-04-08', 'postseason_end':'2009-06-14'},
-        2007: {'regular_start':'2007-10-30', 'regular_end':'2008-04-16',
-               'preseason_start':'2007-10-06', 'preseason_end':'2007-10-26',
-               'postseason_start':'2008-04-19', 'postseason_end':'2008-06-17'},
-        2006: {'regular_start':'2006-10-31', 'regular_end':'2007-04-18',
-               'preseason_start':'2006-10-10', 'preseason_end':'2006-10-27',
-               'postseason_start':'2007-04-21', 'postseason_end':'2007-06-14'},
-        2005: {'regular_start':'2005-11-01', 'regular_end':'2006-04-19',
-               'preseason_start':'2005-10-11', 'preseason_end':'2005-10-28',
-               'postseason_start':'2006-04-22', 'postseason_end':'2006-06-20'},
-        2004: {'regular_start':'2004-11-02', 'regular_end':'2005-04-20',
-               'preseason_start':'2004-10-10', 'preseason_end':'2004-10-29',
-               'postseason_start':'2005-04-23', 'postseason_end':'2005-06-23'},
-        2003: {'regular_start':'2003-10-28', 'regular_end':'2004-04-14',
-               'preseason_start':'2003-10-06', 'preseason_end':'2003-10-24',
-               'postseason_start':'2004-04-17', 'postseason_end':'2004-06-15'},
-        2002: {'regular_start':'2002-10-29', 'regular_end':'2003-04-16',
-               'preseason_start':'2002-10-06', 'preseason_end':'2002-10-25',
-               'postseason_start':'2003-04-03', 'postseason_end':'2003-06-15'},
-        2001: {'regular_start':'2001-10-31', 'regular_end':'2002-04-17',
-               'preseason_start':None, 'preseason_end':None,
-               'postseason_start':'2002-04-20', 
-               'postseason_end':'2002-06-12'},        
+            2013: {
+                'regular_start': '2013-10-29', 
+                'regular_end': '2014-04-16',
+                'preseason_start': '2012-10-05', 
+                'preseason_end': '2012-10-26', 
+                'postseason_start': '2014-04-19', 
+                'postseason_end': None,
+            },
+            2012: {
+                'regular_start': '2012-10-30', 
+                'regular_end': '2013-04-17',
+                'preseason_start': '2012-10-05', 
+                'preseason_end': '2012-10-26', 
+                'postseason_start': '2013-04-20', 
+                'postseason_end': '2013-06-20',
+            },
+            2011: {
+                'regular_start': '2011-12-25', 
+                'regular_end': '2012-04-26',
+                'preseason_start': '2011-12-16', 
+                'preseason_end': '2011-12-22', 
+                'postseason_start': '2012-04-28', 
+                'postseason_end': '2012-06-21'
+            },
+            2010: {
+                'regular_start': '2010-10-26', 
+                'regular_end': '2011-04-13',
+                'preseason_start': '2010-10-03', 
+                'preseason_end': '2010-10-22', 
+                'postseason_start': '2011-04-16', 
+                'postseason_end': '2011-06-12'
+            },
+            2009: {
+                'regular_start': '2009-10-27', 
+                'regular_end': '2010-04-14',
+                'preseason_start': '2009-10-01', 
+                'preseason_end': '2009-10-23', 
+                'postseason_start': '2010-04-17', 
+                'postseason_end': '2010-06-17'
+            },
+            2008: {
+                'regular_start': '2008-10-28', 
+                'regular_end': '2009-04-16',
+                'preseason_start': '2008-10-05', 
+                'preseason_end': '2008-10-24', 
+                'postseason_start': '2009-04-08', 
+                'postseason_end': '2009-06-14'
+            },
+            2007: {
+                'regular_start': '2007-10-30', 
+                'regular_end': '2008-04-16',
+                'preseason_start': '2007-10-06', 
+                'preseason_end': '2007-10-26',
+                'postseason_start': '2008-04-19', 
+                'postseason_end': '2008-06-17'
+            },
+            2006: {
+                'regular_start': '2006-10-31', 
+                'regular_end': '2007-04-18',
+                'preseason_start': '2006-10-10', 
+                'preseason_end': '2006-10-27',
+                'postseason_start': '2007-04-21', 
+                'postseason_end': '2007-06-14'
+            },
+            2005: {
+                'regular_start': '2005-11-01', 
+                'regular_end': '2006-04-19',
+                'preseason_start': '2005-10-11', 
+                'preseason_end': '2005-10-28',
+                'postseason_start': '2006-04-22', 
+                'postseason_end': '2006-06-20'
+            },
+            2004: {
+                'regular_start': '2004-11-02', 
+                'regular_end': '2005-04-20',
+                'preseason_start': '2004-10-10', 
+                'preseason_end': '2004-10-29',
+                'postseason_start': '2005-04-23', 
+                'postseason_end': '2005-06-23'
+            },
+            2003: {
+                'regular_start': '2003-10-28', 
+                'regular_end': '2004-04-14',
+                'preseason_start': '2003-10-06', 
+                'preseason_end': '2003-10-24',
+                'postseason_start': '2004-04-17', 
+                'postseason_end': '2004-06-15'
+            },
+            2002: {
+                'regular_start': '2002-10-29', 
+                'regular_end': '2003-04-16',
+                'preseason_start': '2002-10-06', 
+                'preseason_end': '2002-10-25',
+                'postseason_start': '2003-04-03', 
+                'postseason_end': '2003-06-15'
+            },
+            2001: {
+                'regular_start': '2001-10-31', 
+                'regular_end': '2002-04-17',
+                'preseason_start':None, 
+                'preseason_end':None,
+                'postseason_start': '2002-04-20', 
+                'postseason_end': '2002-06-12'
+            },        
         }
         for year, dates in season_dates.items():
             if dates[date]:
@@ -499,11 +566,12 @@ def create_league(league):
             season, created = get_or_create(session, Season, **dates)
 
 def update_seasons(league_abbr):
+    """Updates season dates."""
     session = create_session(True)
     league = session.query(League).filter_by(abbr=league_abbr).one()
     if league_abbr == 'nfl':
         seasons = {
-            '2004': {
+            2004: {
                 'preseason_start': '08/12/04',
                 'preseason_end': '09/03/04',
                 'regular_start': '09/09/04', 
@@ -511,7 +579,7 @@ def update_seasons(league_abbr):
                 'postseason_start': '01/08/05',
                 'postseason_end': '02/06/05',
             },
-            '2005': {
+            2005: {
                 'preseason_start': '08/11/05',
                 'preseason_end': '09/02/05',
                 'regular_start': '09/08/05',
@@ -519,7 +587,7 @@ def update_seasons(league_abbr):
                 'postseason_start': '01/07/06',
                 'postseason_end': '02/05/06',
             },
-            '2006': {
+            2006: {
                 'preseason_start': '08/10/06',
                 'preseason_end': '09/01/06',
                 'regular_start': '09/07/06',
@@ -527,7 +595,7 @@ def update_seasons(league_abbr):
                 'postseason_start': '01/06/07',
                 'postseason_end': '02/04/07',
             },
-            '2007': {
+            2007: {
                 'preseason_start': '08/09/07',
                 'preseason_end': '08/31/07',
                 'regular_start': '09/06/07',
@@ -535,7 +603,7 @@ def update_seasons(league_abbr):
                 'postseason_start': '01/05/08',
                 'postseason_end': '02/03/08',
             },
-            '2008': {
+            2008: {
                 'preseason_start': '08/03/08',
                 'preseason_end': '08/29/08',
                 'regular_start': '09/04/08',
@@ -543,7 +611,7 @@ def update_seasons(league_abbr):
                 'postseason_start': '01/03/09',
                 'postseason_end': '02/01/09',
             },
-            '2009': {
+            2009: {
                 'preseason_start': '08/09/09',
                 'preseason_end': '09/04/09',
                 'regular_start': '09/10/09',
@@ -551,7 +619,7 @@ def update_seasons(league_abbr):
                 'postseason_start': '01/09/10',
                 'postseason_end': '02/07/10',
             },
-            '2010': {
+            2010: {
                 'preseason_start': '08/08/10',
                 'preseason_end': '09/02/10',
                 'regular_start': '09/09/10',
@@ -559,7 +627,7 @@ def update_seasons(league_abbr):
                 'postseason_start': '01/08/11',
                 'postseason_end': '02/06/11',
             },
-            '2011': {
+            2011: {
                 'preseason_start': '08/07/11',
                 'preseason_end': '09/02/11',
                 'regular_start': '09/08/11',
@@ -567,7 +635,7 @@ def update_seasons(league_abbr):
                 'postseason_start': '01/07/12',
                 'postseason_end': '02/05/12',
             },
-            '2012': {
+            2012: {
                 'preseason_start': '08/05/12',
                 'preseason_end': '08/30/12',
                 'regular_start': '09/05/12',
@@ -575,7 +643,7 @@ def update_seasons(league_abbr):
                 'postseason_start': '01/05/13',
                 'postseason_end': '02/03/13',
             },
-            '2013': {
+            2013: {
                 'preseason_start': '08/04/13',
                 'preseason_end': '08/29/13',
                 'regular_start': '09/05/13',
@@ -583,7 +651,7 @@ def update_seasons(league_abbr):
                 'postseason_start': '01/04/14',
                 'postseason_end': '02/02/14',
             },
-            '2014': {
+            2014: {
                 'preseason_start': '08/03/14',
                 'preseason_end': '08/30/14',
                 'regular_start': '09/04/14',
@@ -592,21 +660,127 @@ def update_seasons(league_abbr):
                 'postseason_end': '02/01/15',
             }
         }
-        for year, dates in seasons.items():
-            for date_type, date in dates.items():
-                if date:
-                    date = parser.parse(date).date()
-                dates[date_type] = date
-            try:
-                season = session.query(Season)\
-                                .filter_by(league_id=league.id,
-                                            year=year).one()
-            except NoResultFound:
-                season = Season(league_id=league.id, year=year)
-                session.add(season)
-                session.commit()
-            season.update(dates)
+    elif league_abbr == 'nba':
+        seasons = {
+            2013: {
+                'regular_start': '2013-10-29', 
+                'regular_end': '2014-04-16',
+                'preseason_start': '2012-10-05', 
+                'preseason_end': '2012-10-26', 
+                'postseason_start': '2014-04-19', 
+                'postseason_end': None,
+            },
+            2012: {
+                'regular_start': '2012-10-30', 
+                'regular_end': '2013-04-17',
+                'preseason_start': '2012-10-05', 
+                'preseason_end': '2012-10-26', 
+                'postseason_start': '2013-04-20', 
+                'postseason_end': '2013-06-20',
+            },
+            2011: {
+                'regular_start': '2011-12-25', 
+                'regular_end': '2012-04-26',
+                'preseason_start': '2011-12-16', 
+                'preseason_end': '2011-12-22', 
+                'postseason_start': '2012-04-28', 
+                'postseason_end': '2012-06-21'
+            },
+            2010: {
+                'regular_start': '2010-10-26', 
+                'regular_end': '2011-04-13',
+                'preseason_start': '2010-10-03', 
+                'preseason_end': '2010-10-22', 
+                'postseason_start': '2011-04-16', 
+                'postseason_end': '2011-06-12'
+            },
+            2009: {
+                'regular_start': '2009-10-27', 
+                'regular_end': '2010-04-14',
+                'preseason_start': '2009-10-01', 
+                'preseason_end': '2009-10-23', 
+                'postseason_start': '2010-04-17', 
+                'postseason_end': '2010-06-17'
+            },
+            2008: {
+                'regular_start': '2008-10-28', 
+                'regular_end': '2009-04-16',
+                'preseason_start': '2008-10-05', 
+                'preseason_end': '2008-10-24', 
+                'postseason_start': '2009-04-08', 
+                'postseason_end': '2009-06-14'
+            },
+            2007: {
+                'regular_start': '2007-10-30', 
+                'regular_end': '2008-04-16',
+                'preseason_start': '2007-10-06', 
+                'preseason_end': '2007-10-26',
+                'postseason_start': '2008-04-19', 
+                'postseason_end': '2008-06-17'
+            },
+            2006: {
+                'regular_start': '2006-10-31', 
+                'regular_end': '2007-04-18',
+                'preseason_start': '2006-10-10', 
+                'preseason_end': '2006-10-27',
+                'postseason_start': '2007-04-21', 
+                'postseason_end': '2007-06-14'
+            },
+            2005: {
+                'regular_start': '2005-11-01', 
+                'regular_end': '2006-04-19',
+                'preseason_start': '2005-10-11', 
+                'preseason_end': '2005-10-28',
+                'postseason_start': '2006-04-22', 
+                'postseason_end': '2006-06-20'
+            },
+            2004: {
+                'regular_start': '2004-11-02', 
+                'regular_end': '2005-04-20',
+                'preseason_start': '2004-10-10', 
+                'preseason_end': '2004-10-29',
+                'postseason_start': '2005-04-23', 
+                'postseason_end': '2005-06-23'
+            },
+            2003: {
+                'regular_start': '2003-10-28', 
+                'regular_end': '2004-04-14',
+                'preseason_start': '2003-10-06', 
+                'preseason_end': '2003-10-24',
+                'postseason_start': '2004-04-17', 
+                'postseason_end': '2004-06-15'
+            },
+            2002: {
+                'regular_start': '2002-10-29', 
+                'regular_end': '2003-04-16',
+                'preseason_start': '2002-10-06', 
+                'preseason_end': '2002-10-25',
+                'postseason_start': '2003-04-03', 
+                'postseason_end': '2003-06-15'
+            },
+            2001: {
+                'regular_start': '2001-10-31', 
+                'regular_end': '2002-04-17',
+                'preseason_start':None, 
+                'preseason_end':None,
+                'postseason_start': '2002-04-20', 
+                'postseason_end': '2002-06-12'
+            },        
+        }
+    for year, dates in seasons.iteritems():
+        print year
+        try:
+            season = session.query(Season)\
+                            .filter_by(league_id=league.id,
+                                        year=year).one()
+        except NoResultFound:
+            season = Season(league_id=league.id, year=year)
             session.add(season)
+        for attr, date in dates.iteritems():
+            if date:
+                date = parser.parse(date).date()
+                season.__setattr__(attr, date)
+        session.add(season)
         session.commit()
     
     

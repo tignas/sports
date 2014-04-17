@@ -6,10 +6,9 @@ from sqlalchemy.orm.exc import NoResultFound
 from connect_db import *
 from bizarro.models.teams import *
 from bizarro.models.people import *
-from helpers import get_or_create_player
+from helpers import get_or_create_player, create_full_player
+from nfl.players import import_roster as nfl_roster
 
-session = create_session()
-        
 def team_players(team, next_url=None):
     city = team.city.replace(' ', '_')
     team_name = team.name.replace(' ', '_')
@@ -55,103 +54,22 @@ def team_players(team, next_url=None):
         next_url = 'http://en.wikipedia.org/%s' % next_page.parent['href']
         team_players(team, next_url)
 
-def create_player(session, full_name, external_id, height, weight, college, 
-                  league, team, source, position_abbr, number, sport):
-    player_external_id, created = get_or_create(session, PlayerExternalID, 
-                                                source_name=source.name,
-                                                league_id=league.id,
-                                                external_id=external_id)
-    player = player_external_id.player
-    if not player:
-        person = Person()       
-        person = save(session, person)
-        player = Player(person_id=person.id, league_id=league.id)
-        player = save(session, player)
-        player_external_id.player = player
-        save(session, player_external_id)
-    else:
-        person = player.person
-    name, created = get_or_create(session, PersonName, full_name=full_name, 
-                                  person_id=person.id)
-    try:
-        position = session.query(Position).filter_by(abbr=position_abbr, 
-                                                 sport_name=sport).one()
-    except NoResultFound:
-        pprint(position_abbr)
-        raise Exception('no position found')
-    if not position in player.positions:
-        player.positions.append(position)
-        save(session, player)
-    team_player, created = get_or_create(session, TeamPlayer, team_id=team.id, 
-                                         player_id=player.id, current=True)
-    height_weight, created = get_or_create(session, HeightWeight, 
-                                           person_id=person.id)
-    if height > 0 and not height_weight.height:
-        height_weight.height = height
-        save(session, height_weight)
-    if weight > 0 and not height_weight.weight:
-        height_weight.weight = weight
-        save(session, height_weight)
-    if college:
-        college, created = get_or_create(session, College, name=college)
-        person_college = get_or_create(session, CollegePerson, 
-                                       person_id=person.id, 
-                                       college_name=college.name)
-    if not number == '--':
-        number = int(number)
-        team_player_number = get_or_create(session, PlayerNumber, 
-                                           player_id=player.id, number=number)
-    return player
-                                           
-def import_roster(league):
-    league = session.query(League).filter_by(abbr=league).one()
+def import_roster(league_abbr):
+    session = create_session()
+    league = session.query(League).filter_by(abbr=league_abbr).one()
     teams = session.query(Team)\
                    .join(LeagueTeam)\
-                   .filter(LeagueTeam.league_id==league.id)\
-                   .all()
+                   .filter(LeagueTeam.league_id==league.id)
+    '''
     for team in teams:
         players = session.query(TeamPlayer)\
                          .filter_by(team_id=team.id)\
                          .update({'current':False})
         session.commit()
+    '''
     if league.abbr == 'nfl':
-        source, created = get_or_create(session, Source, name='espn')
-        sport = 'football'
-        for team in teams:
-            session.commit()
-            print team.abbr
-            url = 'http://espn.go.com/nfl/team/roster/_/name/%s/'
-            url %= team.abbr
-            result = urllib2.urlopen(url)
-            body = BeautifulSoup(result)
-            player_search = r'evenrow|oddrow player'
-            players= body.findAll('tr', 
-                                  attrs={'class':re.compile(player_search)})
-            if not players:
-                raise Exception('no players for this team')
-            for player_row in players: 
-                info = player_row.findAll('td')
-                number = info[0].text              
-                full_name = info[1].text           
-                external_id = info[1].a['href'].partition('id/')[2].\
-                                            partition('/')[0]
-                position = info[2].text.lower()
-                height = info[4].text.partition('-')
-                try:
-                    feet = int(height[0])
-                    inches = int(height[2])                    
-                    height = feet*12 + inches
-                except ValueError:
-                    height = None
-                try:
-                    weight = int(info[5].text)
-                except ValueError:
-                    weight = None
-                college = info[7].text.replace(';', '').strip()
-                player = create_player(session, full_name, external_id, height, 
-                                       weight, college, league, team, source, 
-                                       position, number, sport)
-    elif league == 'nba':
+        nfl_roster(league, teams)
+    elif league.abbr == 'nba':
         league = session.query(League).filter_by(abbr=league).one()
         sport = 'basketball'
         teams = session.query(Team)\
