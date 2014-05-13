@@ -97,7 +97,7 @@ class LeagueView(object):
                  renderer='bizarro.templates:league/basketball/schedule.jinja2',
                  match_param="league=nba")
     def schedule(self):
-        season = int(self.request.GET.get('season', 2012))
+        season_year = int(self.request.GET.get('season', 2012))
         game_type = self.request.GET.get('game_type', 'post')
         games = Game.get_season(league=self.league, game_type=game_type,    
                                 year=season)
@@ -110,7 +110,7 @@ class LeagueView(object):
         games = groupby(sorted(list(games), key=key), key=key)
         self.data.update({
             'games': games,
-            'season_year': season,
+            'season_year': season_year,
             'game_type': game_type
         })
         return self.data
@@ -119,8 +119,10 @@ class LeagueView(object):
                  renderer='bizarro.templates:league/players.jinja2')
     def players(self):
         players = Player.current_players(league=self.league)
+        season_year = int(self.request.GET.get('season', 2013))
         self.data.update({
             'players': players,
+            'season_year': season_year
         })
         return self.data
         

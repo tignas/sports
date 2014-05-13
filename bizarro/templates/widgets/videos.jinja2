@@ -1,5 +1,6 @@
-<div id="videos">
-    {% for video in videos %}
-    <iframe width="560" height="315" src="{{video.url}}" frameborder="0" allowfullscreen></iframe>
-    {% endfor %}
-</div>
+<section id="videos">
+  <h2>Videos</h2>
+  {% for video in videos %}
+  <iframe width="560" height="315" src="{{video.url}}" frameborder="0" allowfullscreen></iframe>
+  {% endfor %}
+</section>
