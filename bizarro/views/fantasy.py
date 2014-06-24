@@ -47,7 +47,7 @@ class FantasyView(object):
                  renderer='bizarro.templates:fantasy/players.jinja2')
     def players(self):
         game_type = self.request.GET.get('game_type', 'reg')
-        season_year = int(self.request.GET.get('season', 2012))
+        season_year = int(self.request.GET.get('season', 2013))
         player_stats = {stat_type: f.stats(self.league.abbr, season_year, 
                                            game_type, stat_type)
                         for stat_type in ['offense', 'kicking', 'defense']}
@@ -58,14 +58,14 @@ class FantasyView(object):
                     for k, v in value.iteritems():
                         s = item + '_' + k
                         if s in self.request.GET:
-                            league_info['scoring'][cat][item][k] = float(request.GET[s])
+                            league_info['scoring'][cat][item][k] = float(self.request.GET[s])
                 else:
                     if item in self.request.GET:
-                        league_info['scoring'][cat][item] = float(request.GET[item])
+                        league_info['scoring'][cat][item] = float(self.request.GET[item])
         players = []
         for pos, val in league_info['roster'].iteritems():
             if not pos == 'flex' and pos in self.request.GET:
-                league_info['roster'][pos] = int(request.GET[pos])
+                league_info['roster'][pos] = int(self.request.GET[pos])
         for stat_type, p_list in player_stats.iteritems():
             players += f.calc_pts(p_list, league_info['scoring'], stat_type)
         a_info = f.calc_auction(players, league_info)
@@ -267,10 +267,10 @@ class FantasyView(object):
                                     self.league.abbr)
         self.data.update(p_info)
         #Projection Sources
+        season_year = 2014
         projs = session.query(Projection)\
-                         .join(Season)\
-                         .filter(Season.year==self.data['season_year'],
-                                 Projection.league==self.league)
+                       .join(Season)\
+                       .filter(Season.year==season_year)
         key = lambda x: x.source_name
         projs = groupby(sorted(projs, key=key), key=key)
         projs = {s_name: list(p_list) for s_name, p_list in projs}
@@ -316,7 +316,7 @@ class FantasyView(object):
                  renderer='json')
     def projections_json(self):
         session = DBSession()
-        season_year = 2013
+        season_year = 2014
         projections = session.query(Projection)\
                              .options(eagerload('projections'))\
                              .join(Season)\

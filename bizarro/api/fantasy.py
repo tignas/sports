@@ -13,7 +13,7 @@ from connect_db import create_session
 
 def req_vars(request, league_info):
     session = create_session()
-    season_year = int(request.GET.get('season', 2013))
+    season_year = int(request.GET.get('season', 2014))
     proj_ids = request.params.getall('proj')
     if proj_ids:
         proj_ids = [int(p_id) for p_id in proj_ids]
@@ -404,13 +404,18 @@ def proj_players(proj_ids, season_year, league_abbr):
     session = create_session()
     players = []
     models = [FootballOffenseProjection, FootballKickingProjection]
+    season = session.query(Season)\
+                    .filter(Season.year==season_year,
+                            Season.league_id==1)\
+                    .one()
     for model in models:
         Stat, avg_query = average_request(model)
         p_query = session.query(Player,  Stat.projection_type.label('p_type'),
                                 *avg_query)\
-                          .join(Stat, Projection, League, Season)\
+                          .join(Stat, Projection, League)\
+                          .outerjoin(Season)\
                           .filter(Projection.id.in_(proj_ids),
-                                  Season.year==season_year,
+                                  Projection.season==season,
                                   League.abbr==league_abbr)\
                           .group_by(Stat.player_id)\
                           .all()
@@ -420,7 +425,7 @@ def proj_players(proj_ids, season_year, league_abbr):
                             *avg_query)\
                       .join(Stat, Projection, League, Season)\
                       .filter(Projection.id.in_(proj_ids),
-                              Season.year==season_year,
+                              Projection.season==season,
                               League.abbr==league_abbr)\
                        .group_by(Stat.team_id)\
                        .all()

@@ -272,10 +272,16 @@ def process_cbs(body, pos, proj):
                 player = p_query.one()
             except MultipleResultsFound:
                 p_team = p_info[1].split(';')[1].lower()
-                player = p_query.join(TeamPlayer, Team)\
-                                 .filter(Team.abbr==p_team)\
-                                 .one()
+                try:
+                    player = p_query.join(TeamPlayer, Team)\
+                                     .filter(Team.abbr==p_team)\
+                                     .one()
+                except NoResultFound:
+                    print p_team
+                    print p_name
+                    raise Exception('no team')
             except NoResultFound:
+                print pprint(p_name)
                 print p_name
                 raise Exception('no player')
         passing = ['passing_attempts', 'passing_completions', 
@@ -527,7 +533,7 @@ def process_kffl(body, pos, proj):
 def import_projections(source_name):
     league = session.query(League).get(1)
     season = session.query(Season)\
-                    .filter_by(year=2013, league_id=league.id)\
+                    .filter_by(year=2014, league_id=league.id)\
                     .one()
     if not source_name == 'cbs':
         projection = {
@@ -563,7 +569,7 @@ def import_projections(source_name):
             data = json.loads(result.read())
             process_pff(data, pos, fantasy_proj)
     elif source_name == 'cbs':
-        writer_names = ['Nathan Zegura', 'Jamey Eisenberg', 'Dave Richard']
+        writer_names = ['Jamey Eisenberg', 'Dave Richard']
         for writer_name in writer_names:
             print writer_name
             writer = session.query(Writer)\

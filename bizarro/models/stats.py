@@ -426,14 +426,14 @@ class FootballPassingStat(PlayerStat):
     @classmethod
     def abbr(cls):
         return [
-                (cls.attempts,  'att'),
-                (cls.completions, 'comp'),
-                (cls.yards, 'yd'),
-                (cls.touchdowns, 'td'),
-                (cls.interceptions, 'int'),
-                (cls.sacks,'sk'),
-                (cls.sack_yards, 'sk_yd')
-            ]
+            (cls.attempts,  'att'),
+            (cls.completions, 'comp'),
+            (cls.yards, 'yd'),
+            (cls.touchdowns, 'td'),
+            (cls.interceptions, 'int'),
+            (cls.sacks,'sk'),
+            (cls.sack_yards, 'sk_yd')
+        ]
             
     @classmethod
     def sum_query(cls):

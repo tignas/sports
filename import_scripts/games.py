@@ -136,34 +136,21 @@ def assign_game_type(league):
                     .update({'game_type': 'post', 'season_id': season.id}, 
                              synchronize_session=False)
         session.commit()
-
-def assign_game_weeks():
-    """For all seasons assign the game week for each game."""
-    league = session.query(League).filter_by(abbr='nfl').one()
-    seasons = session.query(Season).filter_by(league_id=league.id)
-    day = datetime.timedelta(days=1)
-    for season in seasons:
-        start_date = season.regular_start
-        for week in range(1, 18):
-            games = session.query(Game)\
-                           .filter(Game.game_time.between(start_date, 
-                                                          start_date+day*7))
-            for game in games:
-                football_game, created = get_or_create(session, FootballGame, 
-                                                    game_id=game.id, week=week)
-            start_date += day*7
             
-def flatten_stats(league):
+def flatten_stats(season):
     players = session.query(GamePlayer)\
                      .join(Game)\
-                     .filter(Game.league_id==1)\
-                     .order_by(GamePlayer.id)\
-                     .count()
+                     .outerjoin(Season)\
+                     .filter(Game.league_id==1,
+                             Season.year==season)\
+                     .order_by(GamePlayer.id)
+    total = players.count()
     for num, gp in enumerate(players):
-        print num
+        print "%d/%d" % (num, total)
         stats = session.query(PlayerStat)\
                        .with_polymorphic('*')\
-                       .filter_by(game_id=gp.game_id, team_id=gp.team_id, 
+                       .filter_by(game_id=gp.game_id, 
+                                  team_id=gp.team_id, 
                                   player_id=gp.player_id)
         offensive_stat = {
             'player_id': gp.player_id,
@@ -183,8 +170,15 @@ def flatten_stats(league):
                     prefix = stat.pop('return_type') + '_' + prefix
                 for key, v in stat.items():
                     offensive_stat[prefix + key] = v
-        session.add(FootballOffensiveStat(**offensive_stat))
-    session.commit()
+        results = session.query(FootballOffensiveStat).filter_by(**offensive_stat)
+        if results.count() > 1:
+            for result in results[1:]:
+                session.delete(result)
+        if results.count() and not is_:
+            session.delete(results[0])
+        elif results and is_:
+            session.add(FootballOffensiveStat(**offensive_stat))
+            session.commit()
     
 def assign_defensive_stats():
     games = session.query(Game)\

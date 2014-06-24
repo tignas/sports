@@ -18,7 +18,6 @@ def home(request):
     league = DBSession.query(League).get(1)
     today = datetime.datetime.now().date()
     scores = Game.get_date(league=league, date=today)
-    feed_sources = ['espn', 'si', 'cbs']
     data = {
         'page': page,
         'league': league,
@@ -44,10 +43,9 @@ class LeagueView(object):
     @view_config(route_name='league_home',
                  renderer='bizarro.templates:league/home.jinja2')
     def league_home(self):
-        session = DBSession()
         tweets = []
         videos = Video.get(league=self.league, video_type='youtube').limit(10)
-        articles = session.query(Article)\
+        articles = DBSession.query(Article)\
                           .options(eagerload('source'))\
                           .order_by(desc(Article.updated))\
                           .limit(10)
@@ -97,10 +95,10 @@ class LeagueView(object):
                  renderer='bizarro.templates:league/basketball/schedule.jinja2',
                  match_param="league=nba")
     def schedule(self):
-        season_year = int(self.request.GET.get('season', 2012))
+        season_year = int(self.request.GET.get('season', 2013))
         game_type = self.request.GET.get('game_type', 'post')
         games = Game.get_season(league=self.league, game_type=game_type,    
-                                year=season)
+                                year=season_year)
         for game in games:
             print game
         if self.league.abbr == 'nfl':
@@ -205,7 +203,7 @@ class StatView(object):
         self.sport = request.matchdict['sport']
         league_abbr = request.matchdict['league']
         self.league = League.get(abbr=league_abbr).one()
-        self.season = int(request.GET.get('season', 2012))
+        self.season = int(request.GET.get('season', 2013))
         self.game_type = request.GET.get('game_type', 'reg')
         self.data = {
             'sport': self.sport,
@@ -256,7 +254,6 @@ class StatView(object):
         q_info = {
             'game_type': self.game_type,
             'season': self.season,
-            'sport': self.sport,
             'league': self.league,
             'queries': queries,
             'q': q

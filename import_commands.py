@@ -28,7 +28,7 @@ if __name__ == '__main__':
         from import_scripts.shot_cord import import_shots
         import_shots()
     elif command == 'import_projections':
-        from import_scripts.fantasy import import_projections
+        from import_scripts.nfl.fantasy import import_projections
         import_projections(league)
     elif command == 'import_kickers':
         from import_scripts.fantasy import import_kickers

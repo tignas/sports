@@ -62,7 +62,6 @@ def nfl_boxscore(external_id):
                     .filter_by(league_id=league.id, 
                                year=year)\
                     .one()
-                    
     #Teams
     line_scores = body.find('div', attrs={'class':'line-score-container'})\
                       .findAll('tr')
@@ -78,7 +77,6 @@ def nfl_boxscore(external_id):
     except NoResultFound:
         if away_team_abbr == 'jax':
             away_team_abbr = 'jac'
-            
     #Retrieve game
     game = {
         'game_time': game_time,
@@ -321,7 +319,8 @@ def nfl_boxscore(external_id):
                         team_player = session.add(TeamPlayer(team_id=team.id, player_id=player.id))
                     game_player = GamePlayer(game=game, 
                                              team=team,
-                                             player=player)
+                                             player=player,
+                                             status='played')
                     session.add(game_player)
                     session.commit()
                 if invalid:
@@ -562,7 +561,7 @@ def kicking_stat(session, header, stats, game, player, team):
         kicking_stat, created = get_or_create(session, FootballKickingStat,
                                             game_id=game.id,
                                             player_id=player.id,
-                                    team_id=team.id,
+                                            team_id=team.id,
                                             fg_made=fg_made, 
                                             fg_attempts=fg_attempts,
                                             longest=longest, xp_made=xp_made,

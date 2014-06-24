@@ -23,6 +23,5 @@ def delete(obj):
 def save(obj):
     session.add(obj)
     session.commit()
-    
-a = session.query(Team).filter(Team.abbr=='jac').all()
-print a
+
+

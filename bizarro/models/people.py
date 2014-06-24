@@ -136,7 +136,7 @@ class Player(LeaguePerson):
         return url
         
     @classmethod
-    def stats(cls, sport, league, game_type, season, queries, q=None, 
+    def stats(cls, league, game_type, season, queries, q=None, 
               team=None):
         stats = [DBSession.query(model.player_id, *query)\
                            .join(Game, Season)\
@@ -166,7 +166,41 @@ class Player(LeaguePerson):
         else:
             p = p.having(gp.c.gp > 0)
         return p
-    
+    """    
+    @classmethod
+    def stats(cls, league, game_type, season, queries, q=None, 
+              team=None):
+        stats = [DBSession.query(model.player_id, *query)\
+                           .join(Game, Season)\
+                           .filter(Game.game_type==game_type, 
+                                   Season.year==season)\
+                           .group_by(model.player_id)\
+                           .subquery()
+                    for model, query in queries]
+        gp = DBSession.query(GamePlayer.player_id)\
+                           .join(Game, Season)\
+                           .filter(Game.game_type==game_type, 
+                                   Season.year==season,
+                                   GamePlayer.status!='dnp')\
+                           .group_by(GamePlayer.player_id)\
+                           .subquery()
+        stats.append(gp)
+        p = DBSession.query(cls, *stats)\
+                     .options(eagerload('positions'))\
+                     .join(TeamPlayer, Team)
+        '''
+        if team:
+            p = p.filter(Team.id==team.id)
+        for s in stats:
+            p = p.outerjoin(s)
+        p = p.filter(cls.league==league).group_by(cls)
+        if q:
+            p = p.having(or_(stats[0].c[q] > 0, stats[0].c[q] > 1))
+        else:
+            p = p.having(gp.c.gp > 0)
+        '''
+        return p
+    """
     @classmethod
     def team_stats(cls, team, game_type, season_year):
         models = PlayerStat.full_map()
@@ -294,6 +328,9 @@ class PlayerNumber(DateMixin, Base):
 class PlayerPosition(Base):
     player_id = Column(Integer, ForeignKey('player.id'), primary_key=True)
     position_id = Column(Integer, ForeignKey('position.id'), primary_key=True)
+    
+    player = relationship('Player')
+    position = relationship('Position')
    
 class Position(DateMixin, Base):
     id = Column(Integer, primary_key=True)
