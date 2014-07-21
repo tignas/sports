@@ -23,5 +23,4 @@ def delete(obj):
 def save(obj):
     session.add(obj)
     session.commit()
-
-
+    

@@ -287,6 +287,9 @@ def calc_proj_pts(players, scoring):
                         if p[cat_name]:
                             score += p[cat_name] * val
         elif p_type == 'kicking':
+            for k, v in p.iteritems():
+                if not p[k]:
+                    p[k] = 0
             score += p['xp_make'] * scoring['kicking']['xp_made']
             score += p['xp_miss'] * scoring['kicking']['xp_miss']
             fg_made = p['b_40_50_make'] + p['u_40_make']
@@ -410,11 +413,11 @@ def proj_players(proj_ids, season_year, league_abbr):
                     .one()
     for model in models:
         Stat, avg_query = average_request(model)
-        p_query = session.query(Player,  Stat.projection_type.label('p_type'),
+        p_query = session.query(Player, Stat.projection_type.label('p_type'),
                                 *avg_query)\
                           .join(Stat, Projection, League)\
                           .outerjoin(Season)\
-                          .filter(Projection.id.in_(proj_ids),
+                          .filter(#Projection.id.in_(proj_ids),
                                   Projection.season==season,
                                   League.abbr==league_abbr)\
                           .group_by(Stat.player_id)\
@@ -424,7 +427,7 @@ def proj_players(proj_ids, season_year, league_abbr):
     t_query = session.query(Team, Stat.projection_type.label('p_type'),
                             *avg_query)\
                       .join(Stat, Projection, League, Season)\
-                      .filter(Projection.id.in_(proj_ids),
+                      .filter(#sProjection.id.in_(proj_ids),
                               Projection.season==season,
                               League.abbr==league_abbr)\
                        .group_by(Stat.team_id)\
